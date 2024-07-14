@@ -8,7 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import cartaManagement.Carta;
+import cartaManagement.CartaGradeo;
 import funcionesAuxiliares.Utilidades;
 
 public class SelectManager {
@@ -66,9 +66,9 @@ public class SelectManager {
 	 *         ese ID
 	 * @throws SQLException si ocurre algún error al ejecutar la consulta SQL
 	 */
-	public static Carta cartaDatos(String identificador) {
+	public static CartaGradeo cartaDatos(String identificador) {
 
-		Carta carta = null;
+		CartaGradeo carta = null;
 
 		try (Connection conn = ConectManager.conexion();
 				PreparedStatement statement = conn.prepareStatement(SENTENCIA_BUSQUEDA_INDIVIDUAL)) {
@@ -88,37 +88,37 @@ public class SelectManager {
 		return carta;
 	}
 
-    /**
-     * Comprueba si un identificador de carta existe en la base de datos.
-     *
-     * @param identificador El identificador de la carta a comprobar.
-     * @return true si el identificador existe, false en caso contrario.
-     */
-    public static boolean comprobarIdentificadorCarta(String identificador) {
-    	
-        if (identificador == null || identificador.trim().isEmpty()) {
-            return false; // Si el identificador es nulo o está vacío, se considera que no existe
-        }
+	/**
+	 * Comprueba si un identificador de carta existe en la base de datos.
+	 *
+	 * @param identificador El identificador de la carta a comprobar.
+	 * @return true si el identificador existe, false en caso contrario.
+	 */
+	public static boolean comprobarIdentificadorCarta(String identificador) {
+
+		if (identificador == null || identificador.trim().isEmpty()) {
+			return false; // Si el identificador es nulo o está vacío, se considera que no existe
+		}
 
 		try (Connection conn = ConectManager.conexion();
 				PreparedStatement preparedStatement = conn.prepareStatement(SENTENCIA_CONTAR_CARTAS_POR_ID)) {
 
-            preparedStatement.setString(1, identificador.trim());
+			preparedStatement.setString(1, identificador.trim());
 
-            try (ResultSet rs = preparedStatement.executeQuery()) {
-            	            	
-                return rs.next(); // Si hay una fila, el identificador existe
-            }
-        } catch (SQLException e) {
-            Utilidades.manejarExcepcion(e);
-            // Manejar error de sintaxis SQL de manera específica
-        } catch (Exception e) {
-            Utilidades.manejarExcepcion(e);
-            // Manejar otros errores genéricos
-        }
+			try (ResultSet rs = preparedStatement.executeQuery()) {
 
-        return false;
-    }
+				return rs.next(); // Si hay una fila, el identificador existe
+			}
+		} catch (SQLException e) {
+			Utilidades.manejarExcepcion(e);
+			// Manejar error de sintaxis SQL de manera específica
+		} catch (Exception e) {
+			Utilidades.manejarExcepcion(e);
+			// Manejar otros errores genéricos
+		}
+
+		return false;
+	}
 
 	/**
 	 * Obtiene la dirección de la portada de un cómic.
@@ -156,21 +156,21 @@ public class SelectManager {
 	 * @return una lista de cómics que coinciden con los criterios de búsqueda
 	 * @throws SQLException si ocurre un error al acceder a la base de datos
 	 */
-	public static List<Carta> busquedaParametro(Carta carta, String busquedaGeneral) {
+	public static List<CartaGradeo> busquedaParametro(CartaGradeo carta, String busquedaGeneral) {
 
-		List<Carta> listComic = new ArrayList<>();
+		List<CartaGradeo> listComic = new ArrayList<>();
 		if (CartaManagerDAO.countRows() > 0) {
 			if (!busquedaGeneral.isEmpty()) {
 
 				listComic = SelectManager.libreriaSeleccionado(busquedaGeneral);
 
-				if (listComic.isEmpty() && Carta.validarCarta(carta)) {
+				if (listComic.isEmpty() && CartaGradeo.validarCarta(carta)) {
 					return DBUtilidades.filtroBBDD(carta, busquedaGeneral);
 				}
 
 				return listComic;
 			} else {
-				if (Carta.validarCarta(carta)) {
+				if (CartaGradeo.validarCarta(carta)) {
 					return DBUtilidades.filtroBBDD(carta, busquedaGeneral);
 				}
 			}
@@ -205,19 +205,14 @@ public class SelectManager {
 	 * @return una lista de cómics que coinciden con los criterios de búsqueda
 	 * @throws SQLException
 	 */
-	public static List<Carta> libreriaSeleccionado(String datoSeleccionado) {
-		String sentenciaSQL = "SELECT * FROM albumbbdd WHERE "
-		        + "numCarta = '" + datoSeleccionado + "' OR "
-		        + "coleccionCarta LIKE '%" + datoSeleccionado + "%' OR "
-		        + "rarezaCarta LIKE '%" + datoSeleccionado + "%' OR "
-		        + "esFoilCarta = '" + datoSeleccionado + "' OR "
-		        + "editorialCarta = '" + datoSeleccionado + "' OR "
-		        + "gradeoCarta LIKE '%" + datoSeleccionado + "%' OR "
-		        + "estadoCarta LIKE '%" + datoSeleccionado + "%' OR "
-		        + "precioCarta = '" + datoSeleccionado + "' OR "
-		        + "urlReferenciaCarta LIKE '%" + datoSeleccionado + "%' OR "
-		        + "direccionImagenCarta LIKE '%" + datoSeleccionado + "%' "
-		        + "ORDER BY nomCarta ASC, numCarta ASC, esFoilCarta ASC";
+	public static List<CartaGradeo> libreriaSeleccionado(String datoSeleccionado) {
+		String sentenciaSQL = "SELECT * FROM albumbbdd WHERE " + "numCarta = '" + datoSeleccionado + "' OR "
+				+ "coleccionCarta LIKE '%" + datoSeleccionado + "%' OR " + "gradeoCarta LIKE '%" + datoSeleccionado
+				+ "%' OR " + "urlReferenciaCarta LIKE '%" + datoSeleccionado + "%' OR " + "direccionImagenCarta LIKE '%"
+				+ datoSeleccionado + "%' OR " + "codCarta = '" + datoSeleccionado + "' OR " + "anioCarta = '"
+				+ datoSeleccionado + "' OR " + "edicionCarta = '" + datoSeleccionado + "' OR " + "empresaCarta = '"
+				+ datoSeleccionado + "' OR " + "estadoCarta LIKE '%" + datoSeleccionado + "%' OR " + "precioCarta = '"
+				+ datoSeleccionado + "' " + "ORDER BY nomCarta ASC, numCarta ASC";
 
 		return verLibreria(sentenciaSQL, false);
 	}
@@ -229,9 +224,9 @@ public class SelectManager {
 	 * @param sentenciaSQL La sentencia SQL para obtener los cómics de la librería.
 	 * @return Una lista de objetos Comic que representan los cómics de la librería.
 	 */
-	public static List<Carta> verLibreria(String sentenciaSQL, boolean esActualizacion) {
+	public static List<CartaGradeo> verLibreria(String sentenciaSQL, boolean esActualizacion) {
 		ListasCartasDAO.listaCartas.clear(); // Limpiar la lista existente de cómics
-		List<Carta> listaCartas = new ArrayList<>();
+		List<CartaGradeo> listaCartas = new ArrayList<>();
 
 		try (Connection conn = ConectManager.conexion();
 				PreparedStatement stmt = conn.prepareStatement(sentenciaSQL, ResultSet.TYPE_FORWARD_ONLY,
@@ -240,7 +235,7 @@ public class SelectManager {
 
 			if (esActualizacion) {
 				while (rs.next()) {
-					Carta carta = DBUtilidades.obtenerCartaDesdeResultSet(rs);
+					CartaGradeo carta = DBUtilidades.obtenerCartaDesdeResultSet(rs);
 					if (!carta.getUrlReferenciaCarta().isEmpty()) {
 						listaCartas.add(carta);
 					}

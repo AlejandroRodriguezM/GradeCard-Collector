@@ -9,7 +9,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -18,19 +17,18 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import alarmas.AlarmaList;
-import cartaManagement.Carta;
+import cartaManagement.CartaGradeo;
 import ficherosFunciones.FuncionesFicheros;
 import funcionesAuxiliares.Utilidades;
 import funcionesAuxiliares.Ventanas;
 import javafx.scene.control.Label;
-import javafx.stage.Stage;
 
 public class DatabaseManagerDAO {
 
 	public static AtomicInteger contadorCambios = new AtomicInteger(0);
 
 	private static final String DB_FOLDER = System.getProperty("user.home") + File.separator + "AppData"
-			+ File.separator + "Roaming" + File.separator + "album" + File.separator;
+			+ File.separator + "Roaming" + File.separator + "gradeado" + File.separator;
 
 	/**
 	 * Permite introducir un nuevo cómic en la base de datos.
@@ -40,7 +38,7 @@ public class DatabaseManagerDAO {
 	 * @throws IOException  si ocurre un error al manejar el archivo de imagen
 	 * @throws SQLException si ocurre un error al ejecutar la consulta SQL
 	 */
-	public static void subirCarta(Carta datos, boolean esImportar) {
+	public static void subirCarta(CartaGradeo datos, boolean esImportar) {
 		try (Connection conn = ConectManager.conexion();
 				PreparedStatement statement = conn.prepareStatement(InsertManager.INSERT_SENTENCIA)) {
 
@@ -67,11 +65,14 @@ public class DatabaseManagerDAO {
 			try (Statement statement = connection.createStatement()) {
 				String createTableSQL = "CREATE TABLE IF NOT EXISTS albumbbdd ("
 						+ "idCarta INTEGER PRIMARY KEY AUTOINCREMENT, " + "nomCarta TEXT NOT NULL, "
-						+ "numCarta TEXT NOT NULL, " + "editorialCarta TEXT NOT NULL, "
-						+ "coleccionCarta TEXT NOT NULL, " + "rarezaCarta TEXT NOT NULL, "
-						+ "precioCartaNormal TEXT NOT NULL, " + "precioCartaFoil TEXT NOT NULL, "
-						+ "urlReferenciaCarta TEXT NOT NULL, " + "direccionImagenCarta TEXT NOT NULL, "
-						+ "normasCarta TEXT NOT NULL)";
+						+ "codCarta TEXT NOT NULL, " // Nueva columna para 'codCarta'
+						+ "numCarta TEXT NOT NULL, " + "anioCarta TEXT NOT NULL, " // Nueva columna para 'anioCarta'
+						+ "coleccionCarta TEXT NOT NULL, " + "edicionCarta TEXT NOT NULL, " // Nueva columna para
+																							// 'edicionCarta'
+						+ "empresaCarta TEXT NOT NULL, " // Nueva columna para 'empresaCarta'
+						+ "gradeoCarta TEXT NOT NULL, " // Nueva columna para 'gradeoCarta'
+						+ "urlReferenciaCarta TEXT NOT NULL, " + "direccionImagenCarta TEXT NOT NULL)";
+
 				statement.executeUpdate(createTableSQL);
 			}
 		} catch (SQLException e) {
@@ -117,9 +118,9 @@ public class DatabaseManagerDAO {
 			if (tables.next()) {
 				// La tabla existe, ahora verifiquemos las columnas
 				ResultSet columns = metaData.getColumns(nombreDatabase, null, "albumbbdd", null);
-				Set<String> expectedColumns = Set.of("idCarta", "nomCarta", "numCarta", "editorialCarta",
-						"coleccionCarta", "rarezaCarta", "precioCartaNormal", "precioCartaFoil", "urlReferenciaCarta",
-						"direccionImagenCarta", "normasCarta");
+				Set<String> expectedColumns = Set.of("idCarta", "nomCarta", "codCarta", "numCarta", "anioCarta",
+						"coleccionCarta", "edicionCarta", "empresaCarta", "gradeoCarta", "urlReferenciaCarta",
+						"direccionImagenCarta");
 
 				Set<String> actualColumns = new HashSet<>();
 

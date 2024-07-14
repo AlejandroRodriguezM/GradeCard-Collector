@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-import cartaManagement.Carta;
+import cartaManagement.CartaGradeo;
 
 public class CartaManagerDAO {
 
@@ -20,7 +20,7 @@ public class CartaManagerDAO {
 	 * @throws IOException  si ocurre un error al manejar el archivo de imagen
 	 * @throws SQLException si ocurre un error al ejecutar la consulta SQL
 	 */
-	public static void insertarDatos(Carta datos, boolean esImportar) {
+	public static void insertarDatos(CartaGradeo datos, boolean esImportar) {
 		InsertManager.insertarDatos(datos, esImportar);
 	}
 
@@ -54,7 +54,7 @@ public class CartaManagerDAO {
 	 * @param operacion La operación a realizar: "Vender", "En venta" o "Eliminar".
 	 * @throws SQLException Si ocurre un error en la consulta SQL.
 	 */
-	public static void actualizarCartaBBDD(Carta carta, String operacion) throws SQLException {
+	public static void actualizarCartaBBDD(CartaGradeo carta, String operacion) throws SQLException {
 		UpdateManager.actualizarCartaBBDD(carta, operacion);
 	}
 
@@ -66,7 +66,7 @@ public class CartaManagerDAO {
 		return SelectManager.countRows();
 	}
 
-	public static Carta cartaDatos(String idCarta) {
+	public static CartaGradeo cartaDatos(String idCarta) {
 		return SelectManager.cartaDatos(idCarta);
 	}
 
@@ -94,7 +94,7 @@ public class CartaManagerDAO {
 	 * @return una lista de cómics que coinciden con los criterios de búsqueda
 	 * @throws SQLException si ocurre un error al acceder a la base de datos
 	 */
-	public static List<Carta> busquedaParametro(Carta carta, String busquedaGeneral) {
+	public static List<CartaGradeo> busquedaParametro(CartaGradeo carta, String busquedaGeneral) {
 		return SelectManager.busquedaParametro(carta, busquedaGeneral);
 	}
 
@@ -109,7 +109,7 @@ public class CartaManagerDAO {
 	 * @return una lista de cómics que coinciden con los criterios de búsqueda
 	 * @throws SQLException
 	 */
-	public static List<Carta> libreriaSeleccionado(String datoSeleccionado) {
+	public static List<CartaGradeo> libreriaSeleccionado(String datoSeleccionado) {
 		return SelectManager.libreriaSeleccionado(datoSeleccionado);
 	}
 
@@ -121,7 +121,7 @@ public class CartaManagerDAO {
 	 * @return Una lista de objetos Comic que representan los cómics de la librería.
 	 * @throws SQLException Si ocurre algún error al ejecutar la consulta SQL.
 	 */
-	public static List<Carta> verLibreria(String sentenciaSQL) {
+	public static List<CartaGradeo> verLibreria(String sentenciaSQL) {
 		return SelectManager.verLibreria(sentenciaSQL,false);
 	}
 

@@ -8,7 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ResourceBundle;
 
-import cartaManagement.Carta;
+import cartaManagement.CartaGradeo;
 import dbmanager.ConectManager;
 import funcionesAuxiliares.Utilidades;
 import funcionesInterfaz.FuncionesManejoFront;
@@ -36,7 +36,7 @@ public class ImagenAmpliadaController implements Initializable {
 	 */
 	private Stage stage;
 
-	public static Carta cartaInfo;
+	public static CartaGradeo cartaInfo;
 
 	@FXML
 	private ImageView imagenAmpliada;

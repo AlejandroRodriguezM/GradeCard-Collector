@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
 
-import cartaManagement.Carta;
+import cartaManagement.CartaGradeo;
 import funcionesAuxiliares.Utilidades;
 import funcionesManagment.AccionReferencias;
 
@@ -19,22 +19,23 @@ public class DBUtilidades {
 		COMPLETA, ELIMINAR
 	}
 
-	public static void setParameters(PreparedStatement ps, Carta datos, boolean includeID) throws SQLException {
-		ps.setString(1, datos.getNomCarta());
-		ps.setString(2, datos.getNumCarta());
-		ps.setString(3, datos.getEditorialCarta());
-		ps.setString(4, datos.getColeccionCarta());
-		ps.setString(5, datos.getRarezaCarta());
-		ps.setString(6, datos.getPrecioCartaNormal());
-		ps.setString(7, datos.getPrecioCartaFoil());
-		ps.setString(8, datos.getUrlReferenciaCarta());
-		ps.setString(9, datos.getDireccionImagenCarta());
-		ps.setString(10, datos.getNormasCarta());
+	public static void setParameters(PreparedStatement ps, CartaGradeo datos, boolean includeID) throws SQLException {
+	    ps.setString(1, datos.getNomCarta());
+	    ps.setString(2, datos.getCodCarta());
+	    ps.setString(3, datos.getNumCarta());
+	    ps.setString(4, datos.getAnioCarta());
+	    ps.setString(5, datos.getColeccionCarta());
+	    ps.setString(6, datos.getEdicionCarta());
+	    ps.setString(7, datos.getEmpresaCarta());
+	    ps.setString(8, datos.getGradeoCarta());
+	    ps.setString(9, datos.getUrlReferenciaCarta());
+	    ps.setString(10, datos.getDireccionImagenCarta());
 
-		if (includeID) {
-			ps.setString(11, datos.getIdCarta()); // Assuming getIdCarta() returns an integer
-		}
+	    if (includeID) {
+	        ps.setString(11, datos.getIdCarta());
+	    }
 	}
+
 
 //	############################################
 //	###########SELECT FUNCTIONS#################
@@ -50,22 +51,26 @@ public class DBUtilidades {
 		}
 	}
 
-	public static String datosConcatenados(Carta carta) {
-		String connector = " WHERE ";
+	public static String datosConcatenados(CartaGradeo carta) {
+	    String connector = " WHERE ";
 
-		StringBuilder sql = new StringBuilder(SelectManager.SENTENCIA_BUSQUEDA_COMPLETA);
+	    StringBuilder sql = new StringBuilder(SelectManager.SENTENCIA_BUSQUEDA_COMPLETA);
 
-		connector = agregarCondicion(sql, connector, "idCarta", carta.getIdCarta());
-		connector = agregarCondicion(sql, connector, "nomCarta", carta.getNomCarta());
-		connector = agregarCondicion(sql, connector, "numCarta", carta.getNumCarta());
-		connector = agregarCondicion(sql, connector, "editorialCarta", carta.getEditorialCarta());
-		connector = agregarCondicionLike(sql, connector, "coleccionCarta", carta.getColeccionCarta());
-		connector = agregarCondicionLike(sql, connector, "rarezaCarta", carta.getRarezaCarta());
-		if (connector.trim().equalsIgnoreCase("WHERE")) {
-			return "";
-		}
+	    connector = agregarCondicion(sql, connector, "idCarta", carta.getIdCarta());
+	    connector = agregarCondicion(sql, connector, "nomCarta", carta.getNomCarta());
+	    connector = agregarCondicion(sql, connector, "codCarta", carta.getCodCarta());
+	    connector = agregarCondicion(sql, connector, "numCarta", carta.getNumCarta());
+	    connector = agregarCondicion(sql, connector, "anioCarta", carta.getAnioCarta());
+	    connector = agregarCondicion(sql, connector, "coleccionCarta", carta.getColeccionCarta());
+	    connector = agregarCondicion(sql, connector, "edicionCarta", carta.getEdicionCarta());
+	    connector = agregarCondicion(sql, connector, "empresaCarta", carta.getEmpresaCarta());
+	    connector = agregarCondicionLike(sql, connector, "gradeoCarta", carta.getGradeoCarta());
 
-		return (connector.length() > 0) ? sql.toString() : "";
+	    if (connector.trim().equalsIgnoreCase("WHERE")) {
+	        return "";
+	    }
+
+	    return (connector.length() > 0) ? sql.toString() : "";
 	}
 
 	public static String agregarCondicion(StringBuilder sql, String connector, String columna, String valor) {
@@ -84,37 +89,31 @@ public class DBUtilidades {
 		return connector;
 	}
 
-	/**
-	 * Función que construye una consulta SQL para buscar un identificador en la
-	 * tabla utilizando diferentes criterios de búsqueda.
-	 *
-	 * @param tipoBusqueda    Tipo de búsqueda (nomComic, nomVariante, firma,
-	 *                        nomGuionista, nomDibujante).
-	 * @param busquedaGeneral Término de búsqueda.
-	 * @return Consulta SQL generada.
-	 */
 	public static String datosGenerales(String tipoBusqueda, String busquedaGeneral) {
-		String connector = " WHERE ";
-		StringBuilder sql = new StringBuilder();
-		sql.append("SELECT * FROM albumbbdd");
+	    String connector = " WHERE ";
+	    StringBuilder sql = new StringBuilder();
+	    sql.append("SELECT * FROM albumbbdd");
 
-		switch (tipoBusqueda.toLowerCase()) {
-		case "nomCarta":
-			sql.append(connector).append("nomCarta LIKE '%" + busquedaGeneral + "%';");
-			break;
-		case "coleccionCarta":
-			sql.append(connector).append("coleccionCarta LIKE '%" + busquedaGeneral + "%';");
-			break;
-		case "editorialCarta":
-			sql.append(connector).append("editorialCarta LIKE '%" + busquedaGeneral + "%';");
-			break;
-		default:
-			// Tipo de búsqueda no válido, puedes manejarlo según tus necesidades
-			break;
-		}
+	    switch (tipoBusqueda.toLowerCase()) {
+	    case "nomCarta":
+	        sql.append(connector).append("nomCarta LIKE '%" + busquedaGeneral + "%';");
+	        break;
+	    case "coleccionCarta":
+	        sql.append(connector).append("coleccionCarta LIKE '%" + busquedaGeneral + "%';");
+	        break;
+	    case "editorialCarta":
+	        sql.append(connector).append("empresaCarta LIKE '%" + busquedaGeneral + "%';");
+	        break;
+	    case "codCarta":
+	        sql.append(connector).append("codCarta LIKE '%" + busquedaGeneral + "%';");
+	        break;
+	    default:
+	        break;
+	    }
 
-		return sql.toString();
+	    return sql.toString();
 	}
+
 
 	/**
 	 * Funcion que permite hacer una busqueda general mediante 1 sola palabra, hace
@@ -124,10 +123,10 @@ public class DBUtilidades {
 	 * @return
 	 * @throws SQLException
 	 */
-	public static List<Carta> verBusquedaGeneral(String busquedaGeneral) {
+	public static List<CartaGradeo> verBusquedaGeneral(String busquedaGeneral) {
 		String sql1 = datosGenerales("nomCarta", busquedaGeneral);
 		String sql2 = datosGenerales("coleccionCarta", busquedaGeneral);
-		String sql3 = datosGenerales("editorialCarta", busquedaGeneral);
+		String sql3 = datosGenerales("edicionCarta", busquedaGeneral);
 		try (Connection conn = ConectManager.conexion();
 				PreparedStatement ps1 = conn.prepareStatement(sql1);
 				PreparedStatement ps2 = conn.prepareStatement(sql2);
@@ -174,7 +173,7 @@ public class DBUtilidades {
 	 * @param datos Objeto Comic con los datos para filtrar.
 	 * @return Lista de cómics filtrados.
 	 */
-	public static List<Carta> filtroBBDD(Carta datos, String busquedaGeneral) {
+	public static List<CartaGradeo> filtroBBDD(CartaGradeo datos, String busquedaGeneral) {
 
 		// Reiniciar la lista de cómics antes de realizar el filtrado
 		ListasCartasDAO.listaCartas.clear();
@@ -238,34 +237,37 @@ public class DBUtilidades {
 	 * @throws SQLException Si se produce un error al acceder a los datos del
 	 *                      ResultSet.
 	 */
-	public static Carta obtenerCartaDesdeResultSet(ResultSet rs) {
-		try {
-			String id = rs.getString("idCarta");
-			String nombre = rs.getString("nomCarta");
-			String numCarta = rs.getString("numCarta");
-			String editorialCarta = rs.getString("editorialCarta");
-			String coleccionCarta = rs.getString("coleccionCarta");
-			String rarezaCarta = rs.getString("rarezaCarta");
-			String precioCartaNormal = rs.getString("precioCartaNormal");
-			String precioCartaFoil = rs.getString("precioCartaFoil");
-			String urlReferenciaCarta = rs.getString("urlReferenciaCarta");
-			String direccionImagenCarta = rs.getString("direccionImagenCarta");
-			String normasCarta = rs.getString("normasCarta");
+	public static CartaGradeo obtenerCartaDesdeResultSet(ResultSet rs) {
+	    try {
+	        String id = rs.getString("idCarta");
+	        String nombre = rs.getString("nomCarta");
+	        String codCarta = rs.getString("codCarta");
+	        String numCarta = rs.getString("numCarta");
+	        String anioCarta = rs.getString("anioCarta");
+	        String coleccionCarta = rs.getString("coleccionCarta");
+	        String edicionCarta = rs.getString("edicionCarta");
+	        String empresaCarta = rs.getString("empresaCarta");
+	        String gradeoCarta = rs.getString("gradeoCarta");
+	        String urlReferenciaCarta = rs.getString("urlReferenciaCarta");
+	        String direccionImagenCarta = rs.getString("direccionImagenCarta");
 
-			// Verificaciones y asignaciones predeterminadas
-//			precioCartaNormal = (Double.parseDouble(precioCartaNormal) <= 0) ? "0.0" : precioCartaNormal;
-//			precioCartaFoil = (Double.parseDouble(precioCartaFoil) <= 0) ? "0.0" : precioCartaFoil;
-
-			return new Carta.CartaBuilder(id, nombre).numCarta(numCarta).editorialCarta(editorialCarta)
-					.coleccionCarta(coleccionCarta).rarezaCarta(rarezaCarta).precioCartaNormal(precioCartaNormal)
-					.precioCartaFoil(precioCartaFoil).urlReferenciaCarta(urlReferenciaCarta)
-					.direccionImagenCarta(direccionImagenCarta).normasCarta(normasCarta).build();
-		} catch (SQLException e) {
-			// Manejar la excepción según tus necesidades
-			Utilidades.manejarExcepcion(e);
-			return null; // O lanza una excepción personalizada, según el caso
-		}
+	        return new CartaGradeo.CartaGradeoBuilder(id, nombre)
+	                .codCarta(codCarta)
+	                .numCarta(numCarta)
+	                .anioCarta(anioCarta)
+	                .coleccionCarta(coleccionCarta)
+	                .edicionCarta(edicionCarta)
+	                .empresaCarta(empresaCarta)
+	                .gradeoCarta(gradeoCarta)
+	                .urlReferenciaCarta(urlReferenciaCarta)
+	                .direccionImagenCarta(direccionImagenCarta)
+	                .build();
+	    } catch (SQLException e) {
+	        Utilidades.manejarExcepcion(e);
+	        return null;
+	    }
 	}
+
 
 	public static AccionReferencias getReferenciaVentana() {
 		return referenciaVentana;

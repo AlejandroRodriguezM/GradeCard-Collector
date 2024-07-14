@@ -21,7 +21,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import alarmas.AlarmaList;
-import cartaManagement.Carta;
+import cartaManagement.CartaGradeo;
 import dbmanager.CartaManagerDAO;
 import dbmanager.ConectManager;
 import dbmanager.DBUtilidades;
@@ -115,31 +115,31 @@ public class MenuPrincipalController implements Initializable {
 	private TextField busquedaGeneral;
 
 	@FXML
-	private TableColumn<Carta, String> columnaColeccion;
+	private TableColumn<CartaGradeo, String> columnaColeccion;
 
 	@FXML
-	private TableColumn<Carta, String> columnaEditorial;
+	private TableColumn<CartaGradeo, String> columnaEditorial;
 
 	@FXML
-	private TableColumn<Carta, String> columnaId;
+	private TableColumn<CartaGradeo, String> columnaId;
 
 	@FXML
-	private TableColumn<Carta, String> columnaNombre;
+	private TableColumn<CartaGradeo, String> columnaNombre;
 
 	@FXML
-	private TableColumn<Carta, String> columnaNumero;
+	private TableColumn<CartaGradeo, String> columnaNumero;
 
 	@FXML
-	private TableColumn<Carta, String> columnaPrecioFoil;
+	private TableColumn<CartaGradeo, String> columnaPrecioFoil;
 
 	@FXML
-	private TableColumn<Carta, String> columnaPrecioNormal;
+	private TableColumn<CartaGradeo, String> columnaPrecioNormal;
 
 	@FXML
-	private TableColumn<Carta, String> columnaRareza;
+	private TableColumn<CartaGradeo, String> columnaRareza;
 
 	@FXML
-	private TableColumn<Carta, String> columnaReferencia;
+	private TableColumn<CartaGradeo, String> columnaReferencia;
 
 	@FXML
 	private ComboBox<String> comboboxColeccionCarta;
@@ -223,7 +223,7 @@ public class MenuPrincipalController implements Initializable {
 	private VBox rootVBox;
 
 	@FXML
-	private TableView<Carta> tablaBBDD;
+	private TableView<CartaGradeo> tablaBBDD;
 
 	@FXML
 	private VBox vboxContenido;
@@ -231,7 +231,7 @@ public class MenuPrincipalController implements Initializable {
 	@FXML
 	private VBox vboxImage;
 
-	public Carta cartaCache;
+	public CartaGradeo cartaCache;
 
 	/**
 	 * Instancia de la clase Ventanas para la navegación.
@@ -639,7 +639,7 @@ public class MenuPrincipalController implements Initializable {
 				controls.add(comboBox.getSelectionModel().getSelectedItem());
 			}
 
-			Carta comic = AccionControlUI.camposCarta(controls, false);
+			CartaGradeo comic = AccionControlUI.camposCarta(controls, false);
 
 			AccionSeleccionar.verBasedeDatos(esCompleto, false, comic);
 		}
@@ -679,7 +679,7 @@ public class MenuPrincipalController implements Initializable {
 		ListasCartasDAO.reiniciarListaCartas();
 		FuncionesTableView.nombreColumnas();
 		FuncionesTableView.actualizarBusquedaRaw();
-		List<Carta> listaCartas;
+		List<CartaGradeo> listaCartas;
 
 		String sentenciaSQL = DBUtilidades.construirSentenciaSQL(tipoBusqueda);
 
@@ -721,7 +721,7 @@ public class MenuPrincipalController implements Initializable {
 	 * @throws SQLException
 	 */
 	@FXML
-	void exportCSV(ActionEvent event) throws SQLException {
+	void exportCSV(ActionEvent event) {
 		enviarReferencias();
 		String mensaje = "";
 		if (!ListasCartasDAO.listaNombre.isEmpty()) {
@@ -729,7 +729,7 @@ public class MenuPrincipalController implements Initializable {
 			limpiarComboBox();
 			String sentenciaSQL = DBUtilidades.construirSentenciaSQL(DBUtilidades.TipoBusqueda.COMPLETA);
 
-			List<Carta> listaCartas = SelectManager.verLibreria(sentenciaSQL, false);
+			List<CartaGradeo> listaCartas = SelectManager.verLibreria(sentenciaSQL, false);
 
 			cargaExportExcel(listaCartas, DBUtilidades.TipoBusqueda.COMPLETA.toString());
 		} else {
@@ -827,7 +827,7 @@ public class MenuPrincipalController implements Initializable {
 						AlarmaList.iniciarAnimacionCarga(referenciaVentana.getProgresoCarga());
 						String sentenciaSQL = DBUtilidades.construirSentenciaSQL(DBUtilidades.TipoBusqueda.COMPLETA);
 
-						List<Carta> listaCartas = SelectManager.verLibreria(sentenciaSQL, false);
+						List<CartaGradeo> listaCartas = SelectManager.verLibreria(sentenciaSQL, false);
 						FuncionesExcel excelFuntions = new FuncionesExcel();
 						// Configuración de la tarea para crear el archivo Excel
 
@@ -932,7 +932,7 @@ public class MenuPrincipalController implements Initializable {
 	 * @param fichero     El archivo Excel de destino.
 	 * @param listaCartas La lista de cómics a exportar.
 	 */
-	private void cargaExportExcel(List<Carta> listaCartas, String tipoBusqueda) {
+	private void cargaExportExcel(List<CartaGradeo> listaCartas, String tipoBusqueda) {
 		enviarReferencias();
 		FuncionesExcel excelFuntions = new FuncionesExcel();
 		String mensajeErrorExportar = "ERROR. No se ha podido exportar correctamente.";
@@ -1256,14 +1256,14 @@ public class MenuPrincipalController implements Initializable {
 	/**
 	 * @return the cartaCache
 	 */
-	public Carta getCartaCache() {
+	public CartaGradeo getCartaCache() {
 		return cartaCache;
 	}
 
 	/**
 	 * @param cartaCache the cartaCache to set
 	 */
-	public void setCartaCache(Carta cartaCache) {
+	public void setCartaCache(CartaGradeo cartaCache) {
 		this.cartaCache = cartaCache;
 	}
 

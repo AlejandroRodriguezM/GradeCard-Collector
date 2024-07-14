@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 
 import Controladores.VentanaAccionController;
 import alarmas.AlarmaList;
-import cartaManagement.Carta;
+import cartaManagement.CartaGradeo;
 import dbmanager.CartaManagerDAO;
 import dbmanager.ListasCartasDAO;
 import funcionesAuxiliares.Utilidades;
@@ -61,7 +61,7 @@ public class AccionControlUI {
 	}
 
 	public static boolean rellenarCampos(String idCarta) {
-		Carta cartaTempTemp = Carta.obtenerCarta(idCarta);
+		CartaGradeo cartaTempTemp = CartaGradeo.obtenerCarta(idCarta);
 		if (cartaTempTemp != null) {
 			rellenarDatos(cartaTempTemp);
 			return true;
@@ -197,7 +197,7 @@ public class AccionControlUI {
 	 * 
 	 * @param cartaTempTemp El objeto Carta que contiene los datos a establecer.
 	 */
-	public void setAtributosDesdeTabla(Carta cartaTemp) {
+	public void setAtributosDesdeTabla(CartaGradeo cartaTemp) {
 
 		referenciaVentana.getNombreCartaTextField().setText(cartaTemp.getNomCarta());
 
@@ -225,7 +225,7 @@ public class AccionControlUI {
 		Utilidades.cargarImagenAsync(cartaTemp.getDireccionImagenCarta(), referenciaVentana.getImagenCarta());
 	}
 
-	private static void rellenarDatos(Carta cartaTemp) {
+	private static void rellenarDatos(CartaGradeo cartaTemp) {
 
 		referenciaVentana.getNumeroCartaCombobox().getSelectionModel().clearSelection();
 		referenciaVentana.getNombreCartaTextField().setText(cartaTemp.getNomCarta());
@@ -251,7 +251,7 @@ public class AccionControlUI {
 	 * 
 	 * @param cartaTemp El objeto Carta a actualizar.
 	 */
-	public void actualizarCamposUnicos(Carta cartaTemp) {
+	public void actualizarCamposUnicos(CartaGradeo cartaTemp) {
 
 		// Get and process the text for NormasCarta
 		String normasTexto = referenciaVentana.getNormasCartaTextArea().getText().trim();
@@ -338,7 +338,7 @@ public class AccionControlUI {
 		return true; // Devolver true si todos los campos son válidos
 	}
 
-	public static boolean comprobarListaValidacion(Carta c) {
+	public static boolean comprobarListaValidacion(CartaGradeo c) {
 		String numCartaStr = c.getNumCarta();
 		String precioCartaNormalStr = c.getPrecioCartaNormal();
 		String precioCartaFoilStr = c.getPrecioCartaFoil();
@@ -610,8 +610,8 @@ public class AccionControlUI {
 		});
 	}
 
-	public static Carta camposCarta(List<String> camposCarta, boolean esAccion) {
-		Carta cartaTemp = new Carta();
+	public static CartaGradeo camposCarta(List<String> camposCarta, boolean esAccion) {
+		CartaGradeo cartaTemp = new CartaGradeo();
 
 		// Asignar los valores a las variables correspondientes
 		String nomCarta = camposCarta.get(0);
@@ -695,11 +695,11 @@ public class AccionControlUI {
 		return false;
 	}
 
-	public static Carta cartaModificado() {
+	public static CartaGradeo cartaModificado() {
 
 		String id_cartaTemp = referenciaVentana.getIdCartaTratarTextField().getText();
 
-		Carta cartaTempTemp = CartaManagerDAO.cartaDatos(id_cartaTemp);
+		CartaGradeo cartaTempTemp = CartaManagerDAO.cartaDatos(id_cartaTemp);
 
 		List<String> controls = new ArrayList<>();
 
@@ -713,13 +713,13 @@ public class AccionControlUI {
 			controls.add(selectedItem != null ? selectedItem.toString() : "");
 		}
 
-		Carta datos = camposCarta(controls, true);
+		CartaGradeo datos = camposCarta(controls, true);
 
 		int numCarta = Integer.parseInt(datos.getNumCarta());
 		double precioCartaNormal = Double.parseDouble(datos.getPrecioCartaNormal());
 		double precioCartaFoil = Double.parseDouble(datos.getPrecioCartaFoil());
 
-		Carta cartaTempModificado = new Carta();
+		CartaGradeo cartaTempModificado = new CartaGradeo();
 		cartaTempModificado.setIdCarta(cartaTempTemp.getIdCarta());
 		cartaTempModificado
 				.setNomCarta(Utilidades.defaultIfNullOrEmpty(datos.getNomCarta(), cartaTempTemp.getNomCarta()));

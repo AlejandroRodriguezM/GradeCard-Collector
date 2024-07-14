@@ -20,7 +20,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import javax.imageio.ImageIO;
 
 import alarmas.AlarmaList;
-import cartaManagement.Carta;
+import cartaManagement.CartaGradeo;
 import dbmanager.CartaManagerDAO;
 import dbmanager.ConectManager;
 import dbmanager.DBUtilidades;
@@ -507,7 +507,7 @@ public class OpcionesAvanzadasController implements Initializable {
 					}
 
 					for (String idCarta : listaID) {
-						Carta comicNuevo = CartaManagerDAO.cartaDatos(idCarta);
+						CartaGradeo comicNuevo = CartaManagerDAO.cartaDatos(idCarta);
 
 						String nombre_portada = Utilidades.obtenerNombrePortada(false,
 								comicNuevo.getDireccionImagenCarta());

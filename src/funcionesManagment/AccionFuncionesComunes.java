@@ -24,6 +24,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import Controladores.CargaCartasController;
 import alarmas.AlarmaList;
 import cartaManagement.Carta;
+import cartaManagement.CartaGradeo;
 import dbmanager.CartaManagerDAO;
 import dbmanager.DatabaseManagerDAO;
 import dbmanager.ListasCartasDAO;
@@ -94,7 +95,7 @@ public class AccionFuncionesComunes {
 	 *                       una inserción (false).
 	 * @throws Exception
 	 */
-	public void procesarCarta(Carta comic, boolean esModificacion) {
+	public void procesarCarta(CartaGradeo comic, boolean esModificacion) {
 		getReferenciaVentana().getProntInfoTextArea().setOpacity(1);
 
 		if (!accionRellenoDatos.camposCartaSonValidos()) {

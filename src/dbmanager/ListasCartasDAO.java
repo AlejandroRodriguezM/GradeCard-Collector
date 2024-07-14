@@ -12,7 +12,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -22,7 +21,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import cartaManagement.Carta;
+import cartaManagement.CartaGradeo;
 import ficherosFunciones.FuncionesFicheros;
 import funcionesAuxiliares.Utilidades;
 import javafx.collections.FXCollections;
@@ -53,17 +52,17 @@ public class ListasCartasDAO {
 	private static final String SOURCE_PATH = DOCUMENTS_PATH + File.separator + "album_cartas" + File.separator
 			+ Utilidades.nombreDB() + File.separator + "portadas" + File.separator;
 
-	public static List<Carta> listaTemporalCartas = new ArrayList<>();
+	public static List<CartaGradeo> listaTemporalCartas = new ArrayList<>();
 
 	/**
 	 * Lista de cómics.
 	 */
-	public static List<Carta> listaCartas = new ArrayList<>();
+	public static List<CartaGradeo> listaCartas = new ArrayList<>();
 
 	/**
 	 * Lista de cómics con verificación.
 	 */
-	public static List<Carta> listaCartasCheck = new ArrayList<>();
+	public static List<CartaGradeo> listaCartasCheck = new ArrayList<>();
 
 	public static List<String> listaID = new ArrayList<>();
 
@@ -80,12 +79,12 @@ public class ListasCartasDAO {
 	/**
 	 * Lista de formatos.
 	 */
-	public static List<String> listaRareza = new ArrayList<>();
+	public static List<String> listagradeo = new ArrayList<>();
 
 	/**
 	 * Lista de editoriales.
 	 */
-	public static List<String> listaEditorial = new ArrayList<>();
+	public static List<String> listaEdicion = new ArrayList<>();
 
 	/**
 	 * Lista de procedencias.
@@ -135,14 +134,14 @@ public class ListasCartasDAO {
 	/**
 	 * Lista de cómics limpios.
 	 */
-	public static List<Carta> listaLimpia = new ArrayList<>();
+	public static List<CartaGradeo> listaLimpia = new ArrayList<>();
 
 	/**
 	 * Lista de sugerencias de autocompletado de entrada limpia.
 	 */
 	public static List<String> listaLimpiaAutoCompletado = new ArrayList<>();
 
-	public static ObservableList<Carta> cartasImportados = FXCollections.observableArrayList();
+	public static ObservableList<CartaGradeo> cartasImportados = FXCollections.observableArrayList();
 	/**
 	 * Lista ordenada que contiene todas las listas anteriores.
 	 */
@@ -152,11 +151,11 @@ public class ListasCartasDAO {
 	/**
 	 * Lista de listas de elementos.
 	 */
-	public static List<List<String>> itemsList = Arrays.asList(listaNombre, listaNumeroCarta, listaEditorial,
-			listaColeccion, listaRareza, nombrePrecioNormalList, nombrePrecioFoilList);
+	public static List<List<String>> itemsList = Arrays.asList(listaNombre, listaNumeroCarta, listaEdicion,
+			listaColeccion, listagradeo, nombrePrecioNormalList, nombrePrecioFoilList);
 
 	public static void eliminarUltimaCartaImportada() {
-		ObservableList<Carta> cartasImportados = ListasCartasDAO.cartasImportados;
+		ObservableList<CartaGradeo> cartasImportados = ListasCartasDAO.cartasImportados;
 		if (!cartasImportados.isEmpty()) {
 			cartasImportados.remove(cartasImportados.size() - 1);
 		}
@@ -169,7 +168,7 @@ public class ListasCartasDAO {
 		}
 
 		// Buscar en comicsImportados
-		for (Carta carta : cartasImportados) {
+		for (CartaGradeo carta : cartasImportados) {
 			if (id.equalsIgnoreCase(carta.getIdCarta())) {
 				return true; // Si encuentra un comic con el mismo id, devuelve true
 			}
@@ -178,8 +177,8 @@ public class ListasCartasDAO {
 		return false; // Si no encuentra ningún comic con el mismo id, devuelve false
 	}
 
-	public static Carta devolverCartaLista(String id) {
-		for (Carta carta : cartasImportados) {
+	public static CartaGradeo devolverCartaLista(String id) {
+		for (CartaGradeo carta : cartasImportados) {
 
 			if (carta.getIdCarta().equalsIgnoreCase(id)) {
 				return carta;
@@ -197,9 +196,9 @@ public class ListasCartasDAO {
 		listaID = DBUtilidades.obtenerValoresColumna("idCarta");
 		listaNombre = DBUtilidades.obtenerValoresColumna("nomCarta");
 		listaNumeroCarta = DBUtilidades.obtenerValoresColumna("numCarta");
-		listaEditorial = DBUtilidades.obtenerValoresColumna("editorialCarta");
+		listaEdicion = DBUtilidades.obtenerValoresColumna("edicionCarta");
 		listaColeccion = DBUtilidades.obtenerValoresColumna("coleccionCarta");
-		listaRareza = DBUtilidades.obtenerValoresColumna("rarezaCarta");
+		listagradeo = DBUtilidades.obtenerValoresColumna("gradeoCarta");
 		listaReferencia = DBUtilidades.obtenerValoresColumna("urlReferenciaCarta");
 		listaPreciosNormal = DBUtilidades.obtenerValoresColumna("precioCartaNormal");
 		listaPreciosFoil = DBUtilidades.obtenerValoresColumna("precioCartaFoil");
@@ -211,7 +210,7 @@ public class ListasCartasDAO {
 		Collections.sort(numerosCarta);
 		listaNumeroCarta = numerosCarta.stream().map(String::valueOf).collect(Collectors.toList());
 
-		itemsList = Arrays.asList(listaNombre, listaNumeroCarta, listaEditorial, listaColeccion, listaRareza,
+		itemsList = Arrays.asList(listaNombre, listaNumeroCarta, listaEdicion, listaColeccion, listagradeo,
 				listaPreciosNormal, listaPreciosFoil);
 
 	}
@@ -226,9 +225,9 @@ public class ListasCartasDAO {
 			while (rs.next()) {
 				List<String> nombreCartaSet = new ArrayList<>(); // Cambia el tipo aquí
 				List<Integer> numeroCartaSet = new ArrayList<>(); // Cambia el tipo aquí
-				List<String> nombreEditorialSet = new ArrayList<>(); // Cambia el tipo aquí
+				List<String> nombreEdicionSet = new ArrayList<>(); // Cambia el tipo aquí
 				List<String> nombreColeccionSet = new ArrayList<>(); // Cambia el tipo aquí
-				List<String> rarezaCartaSet = new ArrayList<>(); // Cambia el tipo aquí
+				List<String> gradeoCartaSet = new ArrayList<>(); // Cambia el tipo aquí
 
 				do {
 					String nomCarta = rs.getString("nomCarta").trim();
@@ -237,34 +236,34 @@ public class ListasCartasDAO {
 					String numCarta = rs.getString("numCarta"); // Convertir a entero
 					numeroCartaSet.add(Integer.parseInt(numCarta));
 
-					String nomEditorial = rs.getString("editorialCarta").trim();
-					nombreEditorialSet.add(nomEditorial);
+					String nomEdicion = rs.getString("edicionCarta").trim();
+					nombreEdicionSet.add(nomEdicion);
 
 					String nomColeccion = rs.getString("coleccionCarta").trim();
 					nombreColeccionSet.add(nomColeccion);
 
-					String rarezaCarta = rs.getString("rarezaCarta").trim();
-					rarezaCartaSet.add(rarezaCarta);
+					String gradeoCarta = rs.getString("gradeoCarta").trim();
+					gradeoCartaSet.add(gradeoCarta);
 
 				} while (rs.next());
 
 				procesarDatosAutocompletado(nombreColeccionSet);
-				procesarDatosAutocompletado(nombreEditorialSet);
+				procesarDatosAutocompletado(nombreEdicionSet);
 
 				// Eliminar elementos repetidos
 				nombreCartaSet = listaArregladaAutoComplete(nombreCartaSet);
 				numeroCartaSet = listaArregladaAutoComplete(numeroCartaSet);
 				nombreColeccionSet = listaArregladaAutoComplete(nombreColeccionSet);
-				rarezaCartaSet = listaArregladaAutoComplete(rarezaCartaSet);
-				nombreEditorialSet = listaArregladaAutoComplete(nombreEditorialSet);
+				gradeoCartaSet = listaArregladaAutoComplete(gradeoCartaSet);
+				nombreEdicionSet = listaArregladaAutoComplete(nombreEdicionSet);
 
 				Collections.sort(numeroCartaSet, Comparable::compareTo);
 
 				listaOrdenada.add(nombreCartaSet);
 				listaOrdenada.add(numeroCartaSet.stream().map(String::valueOf).toList());
-				listaOrdenada.add(nombreEditorialSet);
+				listaOrdenada.add(nombreEdicionSet);
 				listaOrdenada.add(nombreColeccionSet);
-				listaOrdenada.add(rarezaCartaSet);
+				listaOrdenada.add(gradeoCartaSet);
 
 				ListasCartasDAO.listaOrdenada = listaOrdenada;
 			}
@@ -334,8 +333,8 @@ public class ListasCartasDAO {
 	public static void limpiarListasPrincipales() {
 		listaNombre.clear();
 		listaNumeroCarta.clear();
-		listaEditorial.clear();
-		listaRareza.clear();
+		listaEdicion.clear();
+		listagradeo.clear();
 		listaColeccion.clear();
 	}
 
@@ -352,8 +351,8 @@ public class ListasCartasDAO {
 		listaID.clear();
 		listaNombre.clear();
 		listaNumeroCarta.clear();
-		listaRareza.clear();
-		listaEditorial.clear();
+		listagradeo.clear();
+		listaEdicion.clear();
 		listaColeccion.clear();
 		nombreCartaList.clear();
 		numeroCartaList.clear();
@@ -375,7 +374,7 @@ public class ListasCartasDAO {
 	 * @param listaCarta Lista de cómics a comprobar.
 	 * @return true si la lista está vacía, false si contiene elementos.
 	 */
-	public boolean checkList(List<Carta> listaCarta) {
+	public boolean checkList(List<CartaGradeo> listaCarta) {
 		if (listaCarta.isEmpty()) {
 			return true; // La lista está vacía
 		}
@@ -448,19 +447,19 @@ public class ListasCartasDAO {
 	 * @param listaCartas
 	 * @return
 	 */
-	public static List<Carta> listaArreglada(List<Carta> listaCartas) {
+	public static List<CartaGradeo> listaArreglada(List<CartaGradeo> listaCartas) {
 
 		// Forma número 1 (Uso de Maps).
-		Map<String, Carta> mapCartas = new HashMap<>(listaCartas.size());
+		Map<String, CartaGradeo> mapCartas = new HashMap<>(listaCartas.size());
 
 		// Aquí está la magia
-		for (Carta c : listaCartas) {
+		for (CartaGradeo c : listaCartas) {
 			mapCartas.put(c.getIdCarta(), c);
 		}
 
 		// Agrego cada elemento del map a una nueva lista y muestro cada elemento.
 
-		for (Entry<String, Carta> c : mapCartas.entrySet()) {
+		for (Entry<String, CartaGradeo> c : mapCartas.entrySet()) {
 
 			listaLimpia.add(c.getValue());
 
@@ -498,8 +497,8 @@ public class ListasCartasDAO {
 	 * @param idCarta La ID del cómic que se está buscando.
 	 * @return El cómic encontrado por la ID, o null si no se encuentra ninguno.
 	 */
-	public static Carta buscarCartaPorID(List<Carta> cartas, String idCarta) {
-		for (Carta c : cartas) {
+	public static CartaGradeo buscarCartaPorID(List<CartaGradeo> cartas, String idCarta) {
+		for (CartaGradeo c : cartas) {
 			if (c.getIdCarta().equals(idCarta)) {
 				return c; // Devuelve el cómic si encuentra la coincidencia por ID
 			}
@@ -514,8 +513,8 @@ public class ListasCartasDAO {
 	 * @param idCarta La ID del cómic que se está buscando.
 	 * @return El cómic encontrado por la ID, o null si no se encuentra ninguno.
 	 */
-	public static boolean verificarCartaPorID(List<Carta> cartas, String idCarta) {
-		for (Carta c : cartas) {
+	public static boolean verificarCartaPorID(List<CartaGradeo> cartas, String idCarta) {
+		for (CartaGradeo c : cartas) {
 			if (c.getIdCarta().equals(idCarta)) {
 				return true; // Devuelve el cómic si encuentra la coincidencia por ID
 			}
@@ -536,8 +535,8 @@ public class ListasCartasDAO {
 		System.out.println("Tamaño de listaID: " + listaID.size());
 		System.out.println("Tamaño de listaNombre: " + listaNombre.size());
 		System.out.println("Tamaño de listaNumeroCarta: " + listaNumeroCarta.size());
-		System.out.println("Tamaño de listaRareza: " + listaRareza.size());
-		System.out.println("Tamaño de listaEditorial: " + listaEditorial.size());
+		System.out.println("Tamaño de listaRareza: " + listagradeo.size());
+		System.out.println("Tamaño de listaEditorial: " + listaEdicion.size());
 		System.out.println("Tamaño de listaColeccion: " + listaColeccion.size());
 		System.out.println("Tamaño de nombreCartaList: " + nombreCartaList.size());
 		System.out.println("Tamaño de numeroCartaList: " + numeroCartaList.size());

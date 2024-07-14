@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import alarmas.AlarmaList;
-import cartaManagement.Carta;
+import cartaManagement.CartaGradeo;
 import dbmanager.CartaManagerDAO;
 import dbmanager.DBUtilidades;
 import dbmanager.DBUtilidades.TipoBusqueda;
@@ -38,7 +38,7 @@ public class AccionSeleccionar {
 		FuncionesTableView.nombreColumnas();
 		Utilidades.comprobacionListaCartas();
 		getReferenciaVentana().getImagenCarta().setOpacity(1);
-		Carta newSelection = getReferenciaVentana().getTablaBBDD().getSelectionModel().getSelectedItem();
+		CartaGradeo newSelection = getReferenciaVentana().getTablaBBDD().getSelectionModel().getSelectedItem();
 		Scene scene = getReferenciaVentana().getTablaBBDD().getScene();
 		@SuppressWarnings("unchecked")
 		final List<Node>[] elementos = new ArrayList[1];
@@ -87,7 +87,7 @@ public class AccionSeleccionar {
 
 	public static void mostrarCarta(String idCarta, boolean esPrincipal) {
 
-		Carta comicTemp = null;
+		CartaGradeo comicTemp = null;
 		AlarmaList.detenerAnimacion();
 		String mensaje = "";
 
@@ -127,7 +127,7 @@ public class AccionSeleccionar {
 
 	}
 
-	public static void verBasedeDatos(boolean completo, boolean esAccion, Carta comic) {
+	public static void verBasedeDatos(boolean completo, boolean esAccion, CartaGradeo comic) {
 
 		ListasCartasDAO.reiniciarListaCartas();
 		getReferenciaVentana().getTablaBBDD().refresh();
@@ -145,13 +145,13 @@ public class AccionSeleccionar {
 
 				String sentenciaSQL = DBUtilidades.construirSentenciaSQL(TipoBusqueda.COMPLETA);
 
-				List<Carta> listaCartas = CartaManagerDAO.verLibreria(sentenciaSQL);
+				List<CartaGradeo> listaCartas = CartaManagerDAO.verLibreria(sentenciaSQL);
 
 				FuncionesTableView.tablaBBDD(listaCartas);
 
 			} else {
 
-				List<Carta> listaParametro = listaPorParametro(comic, esAccion);
+				List<CartaGradeo> listaParametro = listaPorParametro(comic, esAccion);
 
 				FuncionesTableView.tablaBBDD(listaParametro);
 
@@ -173,14 +173,14 @@ public class AccionSeleccionar {
 	 * 
 	 * @throws SQLException
 	 */
-	public static List<Carta> listaPorParametro(Carta datos, boolean esAccion) {
+	public static List<CartaGradeo> listaPorParametro(CartaGradeo datos, boolean esAccion) {
 		String busquedaGeneralTextField = "";
 
 		if (!esAccion) {
 			busquedaGeneralTextField = getReferenciaVentana().getBusquedaGeneralTextField().getText();
 		}
 
-		List<Carta> listCarta = FXCollections
+		List<CartaGradeo> listCarta = FXCollections
 				.observableArrayList(SelectManager.busquedaParametro(datos, busquedaGeneralTextField));
 
 		if (!listCarta.isEmpty()) {

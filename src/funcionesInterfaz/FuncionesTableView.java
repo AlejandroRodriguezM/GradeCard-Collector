@@ -10,6 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import cartaManagement.Carta;
+import cartaManagement.CartaGradeo;
 import dbmanager.ListasCartasDAO;
 import dbmanager.SelectManager;
 import funcionesAuxiliares.Utilidades;
@@ -269,7 +270,7 @@ public class FuncionesTableView {
 	 *
 	 * @param listaCarta
 	 */
-	public static void tablaBBDD(List<Carta> listaCarta) {
+	public static void tablaBBDD(List<CartaGradeo> listaCarta) {
 		getReferenciaVentana();
 		getReferenciaVentana().getTablaBBDD().getColumns().setAll(AccionReferencias.getListaColumnasTabla());
 		getReferenciaVentana().getTablaBBDD().getItems().setAll(listaCarta);

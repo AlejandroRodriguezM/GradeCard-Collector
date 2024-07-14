@@ -43,8 +43,8 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import Controladores.CargaCartasController;
-import cartaManagement.Carta;
-import cartaManagement.CartaFichero;
+import cartaManagement.CartaGradeo;
+import cartaManagement.CartaGradeoFichero;
 import dbmanager.CartaManagerDAO;
 import dbmanager.DBUtilidades.TipoBusqueda;
 import dbmanager.InsertManager;
@@ -71,11 +71,11 @@ public class FuncionesExcel {
 	private static final String DOCUMENTS_PATH = USER_HOME_DIRECTORY + File.separator + "Documents";
 
 	// Para portadas
-	public static final String DEFAULT_PORTADA_IMAGE_PATH = DOCUMENTS_PATH + File.separator + "album_cartas"
+	public static final String DEFAULT_PORTADA_IMAGE_PATH = DOCUMENTS_PATH + File.separator + "gradeo_cartas"
 			+ File.separator + Utilidades.nombreDB() + File.separator + "portadas";
 
 	// Para la base de la ruta de imágenes predeterminada
-	private static final String DEFAULT_IMAGE_PATH_BASE = DOCUMENTS_PATH + File.separator + "album_cartas"
+	private static final String DEFAULT_IMAGE_PATH_BASE = DOCUMENTS_PATH + File.separator + "gradeo_cartas"
 			+ File.separator + Utilidades.nombreDB();
 
 	private static final String LOG_FILE_NAME = "log_"
@@ -197,7 +197,7 @@ public class FuncionesExcel {
 	 * @return Una tarea que realiza la exportación y devuelve true si se realiza
 	 *         con éxito, o false si ocurre un error.
 	 */
-	public Task<Boolean> crearExcelTask(List<Carta> listaCartas, String tipoBusqueda, SimpleDateFormat dateFormat) {
+	public Task<Boolean> crearExcelTask(List<CartaGradeo> listaCartas, String tipoBusqueda, SimpleDateFormat dateFormat) {
 		File[] directorioImagenes = { null };
 		File[] directorioFichero = { null };
 
@@ -211,7 +211,7 @@ public class FuncionesExcel {
 
 			String userDir = System.getProperty("user.home");
 			String ubicacion = userDir + File.separator + "AppData" + File.separator + "Roaming";
-			String direccion = ubicacion + File.separator + "album" + File.separator + Utilidades.nombreDB()
+			String direccion = ubicacion + File.separator + "gradeado" + File.separator + Utilidades.nombreDB()
 					+ File.separator + "backups" + File.separator + nombreCarpeta;
 
 			try {
@@ -255,7 +255,7 @@ public class FuncionesExcel {
 		return trabajarFichero(listaCartas, tipoBusqueda, directorioImagenes, directorioFichero);
 	}
 
-	public Task<Boolean> trabajarFichero(List<Carta> listaCartas, String tipoBusqueda, File[] directorioImagenes,
+	public Task<Boolean> trabajarFichero(List<CartaGradeo> listaCartas, String tipoBusqueda, File[] directorioImagenes,
 			File[] directorioFichero) {
 		return new Task<Boolean>() {
 			@Override
@@ -276,7 +276,7 @@ public class FuncionesExcel {
 					nav.verCargaCartas(cargaCartasControllerRef);
 					if (directorioFichero[0] != null) {
 
-						List<Carta> listaCartasCopia = new ArrayList<>(listaCartas);
+						List<CartaGradeo> listaCartasCopia = new ArrayList<>(listaCartas);
 						escribirDatosCartas(listaCartasCopia, hoja, cargaCartasControllerRef, directorioImagenes[0]);
 						escribirLibroYCSV(libro, directorioFichero[0]);
 						actualizarProgreso(cargaCartasControllerRef);
@@ -305,9 +305,8 @@ public class FuncionesExcel {
 	}
 
 	private void crearEncabezados(Sheet hoja) {
-		String[] encabezados = { "idCarta", "nomCarta", "numCarta", "editorialCarta", "coleccionCarta", "rarezaCarta",
-				"esFoilCarta", "gradeoCarta", "estadoCarta", "precioCarta", "urlReferenciaCarta",
-				"direccionImagenCarta", "normasCarta" };
+		String[] encabezados = { "idCarta", "nomCarta", "codCarta", "numCarta", "anioCarta", "coleccionCarta",
+				"edicionCarta", "empresaCarta", "gradeoCarta", "urlReferenciaCarta", "direccionImagenCarta" };
 
 		Row fila = hoja.createRow(0);
 		for (int i = 0; i < encabezados.length; i++) {
@@ -323,10 +322,10 @@ public class FuncionesExcel {
 		}
 	}
 
-	private int escribirDatosCartas(List<Carta> listaCartas, Sheet hoja,
+	private int escribirDatosCartas(List<CartaGradeo> listaCartas, Sheet hoja,
 			AtomicReference<CargaCartasController> cargaCartasControllerRef, File directorioImagenes) {
 		int indiceFinal = 1; // Comenzar desde 1 para omitir la fila de encabezado
-		for (Carta comic : listaCartas) {
+		for (CartaGradeo comic : listaCartas) {
 			Row fila = hoja.createRow(indiceFinal);
 			llenarFilaConDatos(comic, fila);
 
@@ -345,18 +344,18 @@ public class FuncionesExcel {
 		return indiceFinal;
 	}
 
-	private void llenarFilaConDatos(Carta comic, Row fila) {
-		fila.createCell(0).setCellValue("");
-		fila.createCell(1).setCellValue(comic.getNomCarta());
-		fila.createCell(2).setCellValue(comic.getNumCarta());
-		fila.createCell(3).setCellValue(comic.getEditorialCarta());
-		fila.createCell(4).setCellValue(comic.getColeccionCarta());
-		fila.createCell(5).setCellValue(comic.getRarezaCarta());
-		fila.createCell(6).setCellValue(comic.getPrecioCartaNormal());
-		fila.createCell(7).setCellValue(comic.getPrecioCartaFoil());
-		fila.createCell(8).setCellValue(comic.getUrlReferenciaCarta());
-		fila.createCell(9).setCellValue(comic.getDireccionImagenCarta());
-		fila.createCell(10).setCellValue(comic.getNormasCarta());
+	private void llenarFilaConDatos(CartaGradeo carta, Row fila) {
+	    fila.createCell(0).setCellValue(carta.getIdCarta());
+	    fila.createCell(1).setCellValue(carta.getNomCarta());
+	    fila.createCell(2).setCellValue(carta.getCodCarta());               // Nueva columna para 'codCarta'
+	    fila.createCell(3).setCellValue(carta.getNumCarta());
+	    fila.createCell(4).setCellValue(carta.getAnioCarta());              // Nueva columna para 'anioCarta'
+	    fila.createCell(5).setCellValue(carta.getColeccionCarta());
+	    fila.createCell(6).setCellValue(carta.getEdicionCarta());           // Nueva columna para 'edicionCarta'
+	    fila.createCell(7).setCellValue(carta.getEmpresaCarta());           // Nueva columna para 'empresaCarta'
+	    fila.createCell(8).setCellValue(carta.getGradeoCarta());            // Nueva columna para 'gradeoCarta'
+	    fila.createCell(9).setCellValue(carta.getUrlReferenciaCarta());
+	    fila.createCell(10).setCellValue(carta.getDireccionImagenCarta());
 	}
 
 	private void actualizarProgreso(AtomicReference<CargaCartasController> cargaCartasControllerRef) {
@@ -450,7 +449,7 @@ public class FuncionesExcel {
 						return;
 					}
 
-					Carta comicNuevo = CartaFichero.datosCartaFichero(lineText);
+					CartaGradeo comicNuevo = CartaGradeoFichero.datosCartaFichero(lineText);
 
 					if (comicNuevo != null) {
 						InsertManager.insertarDatos(comicNuevo, true);
@@ -484,7 +483,7 @@ public class FuncionesExcel {
 		}
 	}
 
-	public static void cargaCartas(Carta comicNuevo, AtomicReference<CargaCartasController> cargaCartasControllerRef,
+	public static void cargaCartas(CartaGradeo comicNuevo, AtomicReference<CargaCartasController> cargaCartasControllerRef,
 			File directorio, boolean esImportado) {
 		// Verificar si el cómic es nulo
 		if (comicNuevo == null || cargaCartasControllerRef == null) {
@@ -522,7 +521,7 @@ public class FuncionesExcel {
 		updateUI(progress, comicInfo, cargaCartasControllerRef);
 	}
 
-	private static String buildCartaInfo(Carta comic) {
+	private static String buildCartaInfo(CartaGradeo comic) {
 		return "Carta: " + comic.getNomCarta() + " - " + comic.getNumCarta() + " - " + comic.getColeccionCarta() + "\n";
 	}
 

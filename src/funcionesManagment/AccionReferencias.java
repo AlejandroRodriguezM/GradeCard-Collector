@@ -2,7 +2,7 @@ package funcionesManagment;
 
 import java.util.List;
 
-import cartaManagement.Carta;
+import cartaManagement.CartaGradeo;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -26,17 +26,17 @@ import javafx.stage.Stage;
 
 public class AccionReferencias {
 
-	private TableColumn<Carta, String> iDColumna;
-	private TableColumn<Carta, String> nombreColumna;
-	private TableColumn<Carta, String> numeroColumna;
-	private TableColumn<Carta, String> editorialColumna;
-	private TableColumn<Carta, String> coleccionColumna;
-	private TableColumn<Carta, String> rarezaColumna;
-	private TableColumn<Carta, String> precioColumnaNormal;
-	private TableColumn<Carta, String> precioColumnaFoil;
-	private TableColumn<Carta, String> referenciaColumna;
+	private TableColumn<CartaGradeo, String> iDColumna;
+	private TableColumn<CartaGradeo, String> nombreColumna;
+	private TableColumn<CartaGradeo, String> numeroColumna;
+	private TableColumn<CartaGradeo, String> editorialColumna;
+	private TableColumn<CartaGradeo, String> coleccionColumna;
+	private TableColumn<CartaGradeo, String> rarezaColumna;
+	private TableColumn<CartaGradeo, String> precioColumnaNormal;
+	private TableColumn<CartaGradeo, String> precioColumnaFoil;
+	private TableColumn<CartaGradeo, String> referenciaColumna;
 
-	public TableView<Carta> tablaBBDD;
+	public TableView<CartaGradeo> tablaBBDD;
 
 	private VBox rootVBox;
 	private VBox vboxContenido;
@@ -152,7 +152,7 @@ public class AccionReferencias {
 	private List<Control> controlAccion;
 
 	private static List<ComboBox<String>> listaComboboxes;
-	private static List<TableColumn<Carta, String>> listaColumnasTabla;
+	private static List<TableColumn<CartaGradeo, String>> listaColumnasTabla;
 	private static ObservableList<Control> listaTextFields;
 	private static ObservableList<Button> listaBotones;
 	private static ObservableList<Node> listaElementosFondo;
@@ -162,70 +162,70 @@ public class AccionReferencias {
 	/**
 	 * @return the iDColumna
 	 */
-	public TableColumn<Carta, String> getiDColumna() {
+	public TableColumn<CartaGradeo, String> getiDColumna() {
 		return iDColumna;
 	}
 
 	/**
 	 * @return the nombreColumna
 	 */
-	public TableColumn<Carta, String> getNombreColumna() {
+	public TableColumn<CartaGradeo, String> getNombreColumna() {
 		return nombreColumna;
 	}
 
 	/**
 	 * @return the numeroColumna
 	 */
-	public TableColumn<Carta, String> getNumeroColumna() {
+	public TableColumn<CartaGradeo, String> getNumeroColumna() {
 		return numeroColumna;
 	}
 
 	/**
 	 * @return the editorialColumna
 	 */
-	public TableColumn<Carta, String> getEditorialColumna() {
+	public TableColumn<CartaGradeo, String> getEditorialColumna() {
 		return editorialColumna;
 	}
 
 	/**
 	 * @return the coleccionColumna
 	 */
-	public TableColumn<Carta, String> getColeccionColumna() {
+	public TableColumn<CartaGradeo, String> getColeccionColumna() {
 		return coleccionColumna;
 	}
 
 	/**
 	 * @return the rarezaColumna
 	 */
-	public TableColumn<Carta, String> getRarezaColumna() {
+	public TableColumn<CartaGradeo, String> getRarezaColumna() {
 		return rarezaColumna;
 	}
 
 	/**
 	 * @return the precioColumnaNormal
 	 */
-	public TableColumn<Carta, String> getPrecioColumnaNormal() {
+	public TableColumn<CartaGradeo, String> getPrecioColumnaNormal() {
 		return precioColumnaNormal;
 	}
 
 	/**
 	 * @return the precioColumnaFoil
 	 */
-	public TableColumn<Carta, String> getPrecioColumnaFoil() {
+	public TableColumn<CartaGradeo, String> getPrecioColumnaFoil() {
 		return precioColumnaFoil;
 	}
 
 	/**
 	 * @return the referenciaColumna
 	 */
-	public TableColumn<Carta, String> getReferenciaColumna() {
+	public TableColumn<CartaGradeo, String> getReferenciaColumna() {
 		return referenciaColumna;
 	}
 
 	/**
 	 * @return the tablaBBDD
 	 */
-	public TableView<Carta> getTablaBBDD() {
+	public TableView<CartaGradeo> getTablaBBDD() {
 		return tablaBBDD;
 	}
 
@@ -890,7 +890,7 @@ public class AccionReferencias {
 	/**
 	 * @return the listaColumnasTabla
 	 */
-	public static List<TableColumn<Carta, String>> getListaColumnasTabla() {
+	public static List<TableColumn<CartaGradeo, String>> getListaColumnasTabla() {
 		return listaColumnasTabla;
 	}
 
@@ -960,70 +960,70 @@ public class AccionReferencias {
 	/**
 	 * @param iDColumna the iDColumna to set
 	 */
-	public void setiDColumna(TableColumn<Carta, String> iDColumna) {
+	public void setiDColumna(TableColumn<CartaGradeo, String> iDColumna) {
 		this.iDColumna = iDColumna;
 	}
 
 	/**
 	 * @param nombreColumna the nombreColumna to set
 	 */
-	public void setNombreColumna(TableColumn<Carta, String> nombreColumna) {
+	public void setNombreColumna(TableColumn<CartaGradeo, String> nombreColumna) {
 		this.nombreColumna = nombreColumna;
 	}
 
 	/**
 	 * @param numeroColumna the numeroColumna to set
 	 */
-	public void setNumeroColumna(TableColumn<Carta, String> numeroColumna) {
+	public void setNumeroColumna(TableColumn<CartaGradeo, String> numeroColumna) {
 		this.numeroColumna = numeroColumna;
 	}
 
 	/**
 	 * @param editorialColumna the editorialColumna to set
 	 */
-	public void setEditorialColumna(TableColumn<Carta, String> editorialColumna) {
+	public void setEditorialColumna(TableColumn<CartaGradeo, String> editorialColumna) {
 		this.editorialColumna = editorialColumna;
 	}
 
 	/**
 	 * @param coleccionColumna the coleccionColumna to set
 	 */
-	public void setColeccionColumna(TableColumn<Carta, String> coleccionColumna) {
+	public void setColeccionColumna(TableColumn<CartaGradeo, String> coleccionColumna) {
 		this.coleccionColumna = coleccionColumna;
 	}
 
 	/**
 	 * @param rarezaColumna the rarezaColumna to set
 	 */
-	public void setRarezaColumna(TableColumn<Carta, String> rarezaColumna) {
+	public void setRarezaColumna(TableColumn<CartaGradeo, String> rarezaColumna) {
 		this.rarezaColumna = rarezaColumna;
 	}
 
 	/**
 	 * @param precioColumnaNormal the precioColumnaNormal to set
 	 */
-	public void setPrecioColumnaNormal(TableColumn<Carta, String> precioColumnaNormal) {
+	public void setPrecioColumnaNormal(TableColumn<CartaGradeo, String> precioColumnaNormal) {
 		this.precioColumnaNormal = precioColumnaNormal;
 	}
 
 	/**
 	 * @param precioColumnaFoil the precioColumnaFoil to set
 	 */
-	public void setPrecioColumnaFoil(TableColumn<Carta, String> precioColumnaFoil) {
+	public void setPrecioColumnaFoil(TableColumn<CartaGradeo, String> precioColumnaFoil) {
 		this.precioColumnaFoil = precioColumnaFoil;
 	}
 
 	/**
 	 * @param referenciaColumna the referenciaColumna to set
 	 */
-	public void setReferenciaColumna(TableColumn<Carta, String> referenciaColumna) {
+	public void setReferenciaColumna(TableColumn<CartaGradeo, String> referenciaColumna) {
 		this.referenciaColumna = referenciaColumna;
 	}
 
 	/**
 	 * @param tablaBBDD the tablaBBDD to set
 	 */
-	public void setTablaBBDD(TableView<Carta> tablaBBDD) {
+	public void setTablaBBDD(TableView<CartaGradeo> tablaBBDD) {
 		this.tablaBBDD = tablaBBDD;
 	}
 
@@ -1697,7 +1697,7 @@ public class AccionReferencias {
 	/**
 	 * @param listaColumnasTabla the listaColumnasTabla to set
 	 */
-	public static void setListaColumnasTabla(List<TableColumn<Carta, String>> listaColumnasTabla) {
+	public static void setListaColumnasTabla(List<TableColumn<CartaGradeo, String>> listaColumnasTabla) {
 		AccionReferencias.listaColumnasTabla = listaColumnasTabla;
 	}
 

@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
 
-import cartaManagement.Carta;
+import cartaManagement.CartaGradeo;
 import funcionesAuxiliares.Utilidades;
 
 public class DeleteManager {
@@ -65,7 +65,7 @@ public class DeleteManager {
 				PreparedStatement ps = conn.prepareStatement(DELETE_SENTENCIA);) {
 			if (SelectManager.comprobarIdentificadorCarta(idComic)) { // Comprueba si la ID introducida existe en la
 																		// base de datos
-				Carta carta = SelectManager.cartaDatos(idComic);
+				CartaGradeo carta = SelectManager.cartaDatos(idComic);
 				ps.setString(1, idComic);
 				if (ps.executeUpdate() == 1) { // Si se ha modificado correctamente, se añade el cómic a la lista
 					ListasCartasDAO.listaCartas.add(carta);

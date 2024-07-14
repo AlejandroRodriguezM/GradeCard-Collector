@@ -8,6 +8,7 @@ import java.util.List;
 
 import alarmas.AlarmaList;
 import cartaManagement.Carta;
+import cartaManagement.CartaGradeo;
 import dbmanager.CartaManagerDAO;
 import dbmanager.ConectManager;
 import dbmanager.ListasCartasDAO;
@@ -63,7 +64,7 @@ public class AccionAniadir {
 			}
 		}
 
-		Carta comic = AccionControlUI.camposCarta(controls, true);
+		CartaGradeo comic = AccionControlUI.camposCarta(controls, true);
 		accionRellenoDatos.actualizarCamposUnicos(comic);
 
 		referenciaVentana.getProntInfoTextArea().setOpacity(1);
@@ -71,13 +72,13 @@ public class AccionAniadir {
 		accionFuncionesComunes.procesarCarta(comic, false);
 	}
 
-	public static void guardarContenidoLista(boolean esLista, Carta carta) {
+	public static void guardarContenidoLista(boolean esLista, CartaGradeo carta) {
 
 		if (!ListasCartasDAO.cartasImportados.isEmpty() && nav.alertaInsertar()) {
-			Collections.sort(ListasCartasDAO.cartasImportados, Comparator.comparing(Carta::getNomCarta));
+			Collections.sort(ListasCartasDAO.cartasImportados, Comparator.comparing(CartaGradeo::getNomCarta));
 			String mensajePront = "";
 			if (esLista) {
-				for (Carta c : ListasCartasDAO.cartasImportados) {
+				for (CartaGradeo c : ListasCartasDAO.cartasImportados) {
 					if (AccionControlUI.comprobarListaValidacion(c)) {
 						CartaManagerDAO.insertarDatos(c, true);
 					}

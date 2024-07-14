@@ -45,7 +45,7 @@ public class FuncionesFicheros {
 
 	static String userHome = System.getProperty("user.home");
 	static String ubicacion = userHome + File.separator + "AppData" + File.separator + "Roaming";
-	static String carpetaLibreria = ubicacion + File.separator + "album";
+	static String carpetaLibreria = ubicacion + File.separator + "gradeado";
 	public static String rutaDestinoRecursos = carpetaLibreria + File.separator + "recursos";
 
 	public static Map<String, String> devolverDatosConfig() {
@@ -212,7 +212,7 @@ public class FuncionesFicheros {
 	}
 
 	public static void descargarRecursos() {
-		String urlArchivoZip = "https://github.com/AlejandroRodriguezM/Album-Cartas/raw/main/src/recursos/recursos.zip";
+		String urlArchivoZip = "https://github.com/AlejandroRodriguezM/GradeCard-Collector/raw/main/src/recursos/recursos.zip";
 
 		String archivoDestino = rutaDestinoRecursos + File.separator + "recursos.zip";
 
