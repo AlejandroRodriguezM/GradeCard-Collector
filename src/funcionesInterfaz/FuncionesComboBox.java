@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
-import cartaManagement.Carta;
+import cartaManagement.CartaGradeo;
 import dbmanager.DBUtilidades;
 import dbmanager.ListasCartasDAO;
 import javafx.beans.property.SimpleStringProperty;
@@ -59,8 +59,8 @@ public class FuncionesComboBox {
 	 *                        Carta.
 	 * @return Un objeto Carta con los valores seleccionados en los ComboBoxes.
 	 */
-	private Carta getCartaFromComboBoxes(List<ComboBox<String>> comboboxes) {
-		Carta carta = new Carta();
+	private CartaGradeo getCartaFromComboBoxes(List<ComboBox<String>> comboboxes) {
+		CartaGradeo carta = new CartaGradeo();
 		int cantidadDeComboBoxes = comboboxes.size();
 		for (int i = 0; i < cantidadDeComboBoxes; i++) {
 			ComboBox<String> comboBox = comboboxes.get(i);
@@ -75,21 +75,17 @@ public class FuncionesComboBox {
 				carta.setNumCarta(value);
 				break;
 			case 2:
-				carta.setEditorialCarta(value);
+				carta.setEdicionCarta(value);
 				break;
 			case 3:
 				carta.setColeccionCarta(value);
 				break;
 			case 4:
-				carta.setRarezaCarta(value);
+				carta.setGradeoCarta(value);
 				break;
 			case 5:
-				carta.setPrecioCartaNormal(value);
+				carta.setEmpresaCarta(value);
 				break;
-			case 6:
-				carta.setPrecioCartaFoil(value);
-				break;
-			// Add more cases for additional comboboxes if needed
 			default:
 				break;
 			}
@@ -144,13 +140,19 @@ public class FuncionesComboBox {
 	 * @throws ExecutionException
 	 * @throws InterruptedException
 	 */
-	public void actualizarComboBoxes(List<ComboBox<String>> comboboxes, Carta carta) {
-
-		Carta cartaTemp = new Carta.CartaBuilder("", carta.getNomCarta()).numCarta(carta.getNumCarta())
-				.editorialCarta(carta.getEditorialCarta()).coleccionCarta(carta.getColeccionCarta())
-				.rarezaCarta(carta.getRarezaCarta()).precioCartaNormal(carta.getPrecioCartaNormal())
-				.precioCartaFoil(carta.getPrecioCartaFoil()).urlReferenciaCarta("").direccionImagenCarta("")
-				.normasCarta("").build();
+	public void actualizarComboBoxes(List<ComboBox<String>> comboboxes, CartaGradeo carta) {
+		
+		CartaGradeo cartaTemp = new CartaGradeo.CartaGradeoBuilder("", carta.getNomCarta())
+			    .codCarta(carta.getCodCarta())
+			    .numCarta(carta.getNumCarta())
+			    .anioCarta(carta.getAnioCarta())
+			    .coleccionCarta(carta.getColeccionCarta())
+			    .edicionCarta(carta.getEdicionCarta())
+			    .empresaCarta(carta.getEmpresaCarta())
+			    .gradeoCarta(carta.getGradeoCarta())
+			    .urlReferenciaCarta("")
+			    .direccionImagenCarta("")
+			    .build();
 
 		String sql = DBUtilidades.datosConcatenados(cartaTemp);
 
@@ -260,7 +262,7 @@ public class FuncionesComboBox {
 					handleComboBoxEmptyChange(comboBox, comboboxes);
 				} else {
 					modificarPopup(comboBox);
-					Carta comic = getCartaFromComboBoxes(comboboxes);
+					CartaGradeo comic = getCartaFromComboBoxes(comboboxes);
 					actualizarComboBoxes(comboboxes, comic);
 				}
 			});
@@ -303,7 +305,7 @@ public class FuncionesComboBox {
 			setupFilteredPopup(comboboxes, comboBox, ListasCartasDAO.itemsList.get(index));
 		}
 
-		Carta comic = getCartaFromComboBoxes(comboboxes);
+		CartaGradeo comic = getCartaFromComboBoxes(comboboxes);
 		actualizarComboBoxes(comboboxes, comic);
 	}
 
@@ -351,7 +353,7 @@ public class FuncionesComboBox {
 				listView.setItems(FXCollections.observableArrayList(currentFilteredItems));
 			} else {
 				originalComboBox.setValue("");
-				Carta comic = getCartaFromComboBoxes(comboboxes);
+				CartaGradeo comic = getCartaFromComboBoxes(comboboxes);
 				actualizarComboBoxes(comboboxes, comic);
 
 				List<String> allFilteredItems = new ArrayList<>(

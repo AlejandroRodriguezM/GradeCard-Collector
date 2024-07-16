@@ -24,6 +24,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import cartaManagement.Carta;
+import cartaManagement.CartaGradeo;
 import ficherosFunciones.FuncionesFicheros;
 import javafx.concurrent.Task;
 
@@ -212,7 +213,7 @@ public class WebScrapGoogleCardMarket {
 		}
 	}
 
-	public static Carta extraerDatosMTG(String url) {
+	public static CartaGradeo extraerDatosMTG(String url) {
 
 		List<String> data = getCartaFromPuppeteer(url); // Método para obtener datos de la carta
 
@@ -261,7 +262,7 @@ public class WebScrapGoogleCardMarket {
 			}
 
 		}
-		return new Carta.CartaBuilder("", nombre).numCarta(numero).editorialCarta(editorial).coleccionCarta(coleccion)
+		return new CartaGradeo.CartaBuilder("", nombre).numCarta(numero).editorialCarta(editorial).coleccionCarta(coleccion)
 				.rarezaCarta(rareza).precioCartaNormal(precioNormal).precioCartaFoil(precioFoil)
 				.urlReferenciaCarta(referencia).direccionImagenCarta(imagen).normasCarta(normas).build();
 	}
@@ -453,7 +454,7 @@ public class WebScrapGoogleCardMarket {
 		return url;
 	}
 
-	public static String extraerImagen(Carta carta) {
+	public static String extraerImagen(CartaGradeo carta) {
 		String argument = "cardtrader+" + carta.getNomCarta().replace(" ", "+") + "+" + carta.getNumCarta() + "+"
 				+ carta.getColeccionCarta().replace(" ", "+");
 		String urlCarta = searchWebImagen(argument);

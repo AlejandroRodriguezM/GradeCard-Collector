@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import cartaManagement.Carta;
 import cartaManagement.CartaGradeo;
 import dbmanager.ListasCartasDAO;
 import dbmanager.SelectManager;
@@ -49,8 +48,8 @@ public class FuncionesTableView {
 
 	private static AccionReferencias referenciaVentana = getReferenciaVentana();
 
-	public static void busquedaHyperLink(TableColumn<Carta, String> columna) {
-		columna.setCellFactory(column -> new TableCell<Carta, String>() {
+	public static void busquedaHyperLink(TableColumn<CartaGradeo, String> columna) {
+		columna.setCellFactory(column -> new TableCell<CartaGradeo, String>() {
 			private VBox vbox = new VBox();
 			private String lastItem = null;
 
@@ -118,8 +117,8 @@ public class FuncionesTableView {
 		disableFocusTraversal();
 	}
 
-	private static TableRow<Carta> createRow() {
-		TableRow<Carta> row = new TableRow<>();
+	private static TableRow<CartaGradeo> createRow() {
+		TableRow<CartaGradeo> row = new TableRow<>();
 		Tooltip tooltip = createTooltip();
 
 		row.setOnMouseMoved(event -> showTooltip(event, row, tooltip));
@@ -136,10 +135,10 @@ public class FuncionesTableView {
 		return tooltip;
 	}
 
-	private static void showTooltip(MouseEvent event, TableRow<Carta> row, Tooltip tooltip) {
+	private static void showTooltip(MouseEvent event, TableRow<CartaGradeo> row, Tooltip tooltip) {
 		if (!row.isEmpty()) {
 			row.setStyle("-fx-background-color: #BFEFFF;");
-			Carta comic = row.getItem();
+			CartaGradeo comic = row.getItem();
 			if (comic != null) {
 				String mensaje = generateTooltipMessage(comic);
 				adjustTooltipPosition(event, tooltip);
@@ -159,13 +158,11 @@ public class FuncionesTableView {
 		});
 	}
 
-	private static String generateTooltipMessage(Carta carta) {
+	private static String generateTooltipMessage(CartaGradeo carta) {
 		StringBuilder mensajeBuilder = new StringBuilder();
 		mensajeBuilder.append("Nombre: ").append(carta.getNomCarta()).append("\nNumero: ").append(carta.getNumCarta())
-				.append("\nEditorial: ").append(carta.getEditorialCarta()).append("\nColeccion: ")
-				.append(carta.getColeccionCarta()).append("\nPrecio: ")
-				.append(carta.getPrecioCartaNormal().equals("0") ? carta.getPrecioCartaNormal() + " $" : "")
-				.append(carta.getPrecioCartaFoil().equals("0") ? carta.getPrecioCartaFoil() + " $" : "");
+				.append(carta.getEdicionCarta()).append("\nEdicion: ").append(carta.getColeccionCarta())
+				.append("\nColeccion: ").append(carta.getEmpresaCarta()).append("\nEmpresa: ");
 
 		return mensajeBuilder.toString();
 	}
@@ -185,7 +182,7 @@ public class FuncionesTableView {
 		tooltip.setY(posY);
 	}
 
-	private static void hideTooltipIfOutside(MouseEvent event, TableRow<Carta> row, Tooltip tooltip) {
+	private static void hideTooltipIfOutside(MouseEvent event, TableRow<CartaGradeo> row, Tooltip tooltip) {
 		if (!row.isEmpty() && !row.getBoundsInLocal().contains(event.getSceneX(), event.getSceneY())) {
 			row.setStyle("");
 			tooltip.hide();
@@ -199,7 +196,7 @@ public class FuncionesTableView {
 	public static void actualizarBusquedaRaw() {
 		getReferenciaVentana();
 		AccionReferencias.getListaColumnasTabla()
-				.forEach(columna -> columna.setCellFactory(column -> new TableCell<Carta, String>() {
+				.forEach(columna -> columna.setCellFactory(column -> new TableCell<CartaGradeo, String>() {
 					private VBox vbox = new VBox();
 					private String lastItem = null;
 
@@ -222,7 +219,7 @@ public class FuncionesTableView {
 				}));
 	}
 
-	private static void createLabels(TableColumn<Carta, String> columna, String item, VBox vbox) {
+	private static void createLabels(TableColumn<CartaGradeo, String> columna, String item, VBox vbox) {
 		String[] nombres = item.split(" - ");
 		for (String nombre : nombres) {
 			if (!nombre.isEmpty()) {
@@ -236,7 +233,8 @@ public class FuncionesTableView {
 		}
 	}
 
-	private static Hyperlink createHyperlinkForText(Text text, String nombre, TableColumn<Carta, String> columna) {
+	private static Hyperlink createHyperlinkForText(Text text, String nombre,
+			TableColumn<CartaGradeo, String> columna) {
 		Hyperlink hyperlink = new Hyperlink();
 		text.setWrappingWidth(columna.getWidth() - (columna.getWidth()));
 		hyperlink.setGraphic(text);
@@ -251,7 +249,7 @@ public class FuncionesTableView {
 
 	}
 
-	private static Text createTextForColumn(TableColumn<Carta, String> columna, String nombre) {
+	private static Text createTextForColumn(TableColumn<CartaGradeo, String> columna, String nombre) {
 		Text text = new Text(nombre);
 		text.setFont(Font.font("System", FontWeight.NORMAL, 13));
 		if (columna.getText().equalsIgnoreCase("referencia")) {
@@ -285,7 +283,7 @@ public class FuncionesTableView {
 	 * @param rawSelecionado El comic seleccionado en su forma cruda.
 	 * @throws SQLException Si ocurre un error de base de datos.
 	 */
-	public static void columnaSeleccionada(TableView<Carta> tablaBBDD, String rawSelecionado) {
+	public static void columnaSeleccionada(TableView<CartaGradeo> tablaBBDD, String rawSelecionado) {
 		ListasCartasDAO.reiniciarListaCartas();
 		nombreColumnas();
 
@@ -304,14 +302,14 @@ public class FuncionesTableView {
 	 * @param tablaBBDD  La TableView en la que se aplicarán las configuraciones.
 	 */
 	public static void nombreColumnas() {
-		for (TableColumn<Carta, String> column : AccionReferencias.getListaColumnasTabla()) {
+		for (TableColumn<CartaGradeo, String> column : AccionReferencias.getListaColumnasTabla()) {
 			String columnName = column.getText(); // Obtiene el nombre de la columna
 //
 			configureColumn(column, columnName);
 		}
 	}
 
-	private static void configureColumn(TableColumn<Carta, String> column, String property) {
+	private static void configureColumn(TableColumn<CartaGradeo, String> column, String property) {
 		switch (property) {
 		case "Nombre":
 			property = "nomCarta";
@@ -355,7 +353,7 @@ public class FuncionesTableView {
 	public static void modificarColumnas(boolean esPrincipal) {
 
 		getReferenciaVentana();
-		for (TableColumn<Carta, String> column : AccionReferencias.getListaColumnasTabla()) {
+		for (TableColumn<CartaGradeo, String> column : AccionReferencias.getListaColumnasTabla()) {
 			column.prefWidthProperty().unbind(); // Desvincular cualquier propiedad prefWidth existente
 		}
 
@@ -392,7 +390,7 @@ public class FuncionesTableView {
 		// Aplicar los anchos específicos a cada columna
 		for (int i = 0; i < AccionReferencias.getListaColumnasTabla().size(); i++) {
 			getReferenciaVentana();
-			TableColumn<Carta, String> column = AccionReferencias.getListaColumnasTabla().get(i);
+			TableColumn<CartaGradeo, String> column = AccionReferencias.getListaColumnasTabla().get(i);
 			Double columnWidth = columnWidths[i];
 			column.setPrefWidth(columnWidth);
 		}

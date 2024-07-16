@@ -58,7 +58,7 @@ import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
 
 import Controladores.OpcionesAvanzadasController;
-import cartaManagement.Carta;
+import cartaManagement.CartaGradeo;
 import dbmanager.ConectManager;
 import dbmanager.DBUtilidades;
 import dbmanager.ListasCartasDAO;
@@ -121,7 +121,7 @@ public class Utilidades {
 	private static AccionReferencias referenciaVentanaPrincipal = getReferenciaVentanaPrincipal();
 
 	public static final String DB_FOLDER = System.getProperty("user.home") + File.separator + "AppData" + File.separator
-			+ "Roaming" + File.separator + "album" + File.separator;
+			+ "Roaming" + File.separator + "gradeo" + File.separator;
 
 	/**
 	 * Verifica si el sistema operativo es Windows.
@@ -377,7 +377,7 @@ public class Utilidades {
 	 * @param datos Los datos del cómic.
 	 * @return El nombre completo del cómic con formato para archivo.
 	 */
-	public String obtenerNombreCompleto(Carta datos) {
+	public String obtenerNombreCompleto(CartaGradeo datos) {
 		String userDir = System.getProperty("user.home");
 		String documentsPath = userDir + File.separator + "Documents";
 		String defaultImagePath = documentsPath + File.separator + "album_cartas" + File.separator
@@ -391,10 +391,10 @@ public class Utilidades {
 	 * @param datos Los datos del cómic.
 	 * @return El nuevo nombre de archivo del cómic con formato para archivo.
 	 */
-	public String crearNuevoNombre(Carta datos) {
+	public String crearNuevoNombre(CartaGradeo datos) {
 		String nombreCarta = datos.getNomCarta().replace(" ", "_").replace(":", "_").replace("-", "_");
 		String numeroCarta = datos.getNumCarta();
-		String editorialCarta = datos.getEditorialCarta().replace(" ", "_").replace(",", "_").replace("-", "_")
+		String editorialCarta = datos.getEdicionCarta().replace(" ", "_").replace(",", "_").replace("-", "_")
 				.replace(":", "_");
 		String nombreCompleto = nombreCarta + "_" + numeroCarta + "_" + editorialCarta;
 		String extension = ".jpg";
@@ -1034,7 +1034,7 @@ public class Utilidades {
 		String nombreCompletoDB = obtenerDatoDespuesDeDosPuntos("Database");
 		String[] nombreCortado = nombreCompletoDB.split("\\.");
 		String nombredb = nombreCortado[0];
-		String defaultImagePath = documentsPath + File.separator + "album_cartas" + File.separator + nombredb
+		String defaultImagePath = documentsPath + File.separator + "gradeo_cartas" + File.separator + nombredb
 				+ File.separator + "portadas";
 
 		File portadasFolder = new File(defaultImagePath);
@@ -1323,8 +1323,8 @@ public class Utilidades {
 	 * 
 	 * @return El ID del cómic seleccionado o null si no hay selección.
 	 */
-	public static String obtenerIdCartaSeleccionado(TableView<Carta> tablaBBDD) {
-		Carta idRow = tablaBBDD.getSelectionModel().getSelectedItem();
+	public static String obtenerIdCartaSeleccionado(TableView<CartaGradeo> tablaBBDD) {
+		CartaGradeo idRow = tablaBBDD.getSelectionModel().getSelectedItem();
 		return (idRow != null) ? idRow.getIdCarta() : null;
 	}
 
@@ -1335,7 +1335,7 @@ public class Utilidades {
 	 * @return El objeto Carta correspondiente al ID proporcionado.
 	 * @throws SQLException Si hay un error al acceder a la base de datos.
 	 */
-	public static Carta obtenerCartaSeleccionado(String idCarta) {
+	public static CartaGradeo obtenerCartaSeleccionado(String idCarta) {
 
 		if (!ListasCartasDAO.cartasImportados.isEmpty()) {
 			return ListasCartasDAO.buscarCartaPorID(ListasCartasDAO.cartasImportados, idCarta);
@@ -1547,7 +1547,7 @@ public class Utilidades {
 	 */
 	public static String defaultIfNullOrEmpty(String value, String defaultValue) {
 
-		Carta.limpiarCampo(value);
+		CartaGradeo.limpiarCampo(value);
 
 		return (value == null || value.isEmpty()) ? defaultValue : value;
 	}
@@ -2223,7 +2223,8 @@ public class Utilidades {
 
 	public static String nombreDB() {
 		String nombreCompletoDB = FuncionesFicheros.datosEnvioFichero();
-		if (!nombreCompletoDB.isEmpty()) {
+		
+		if (nombreCompletoDB != null && !nombreCompletoDB.isEmpty()) {
 			String nombreCortado[] = nombreCompletoDB.split("\\.");
 			String nombredb = nombreCortado[0];
 			return nombredb;
@@ -2271,7 +2272,7 @@ public class Utilidades {
 
 	public static void crearDBPRedeterminada() {
 
-		String dbName = "album_predeterminada";
+		String dbName = "gradeo_predeterminada";
 		Ventanas nav = new Ventanas();
 		if (!comprobarDB()) {
 //			FuncionesFicheros.guardarDatosBaseLocal((""), null, null);

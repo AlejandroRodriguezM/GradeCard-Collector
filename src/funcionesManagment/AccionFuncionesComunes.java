@@ -23,7 +23,6 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import Controladores.CargaCartasController;
 import alarmas.AlarmaList;
-import cartaManagement.Carta;
 import cartaManagement.CartaGradeo;
 import dbmanager.CartaManagerDAO;
 import dbmanager.DatabaseManagerDAO;
@@ -130,18 +129,18 @@ public class AccionFuncionesComunes {
 	private void mostrarErrorDatosIncorrectos() {
 		String mensaje = "Error. Debes de introducir los datos correctos";
 		AlarmaList.mostrarMensajePront(mensaje, false, getReferenciaVentana().getProntInfoTextArea());
-		List<Carta> cartasFinal = ListasCartasDAO.cartasImportados;
+		List<CartaGradeo> cartasFinal = ListasCartasDAO.cartasImportados;
 		Platform.runLater(() -> FuncionesTableView.tablaBBDD(cartasFinal));
 	}
 
-	private void procesarNuevaCarta(Carta comic) {
+	private void procesarNuevaCarta(CartaGradeo comic) {
 		CartaManagerDAO.insertarDatos(comic, true);
-		Carta newSelection = getReferenciaVentana().getTablaBBDD().getSelectionModel().getSelectedItem();
-		List<Carta> cartasFinal;
+		CartaGradeo newSelection = getReferenciaVentana().getTablaBBDD().getSelectionModel().getSelectedItem();
+		List<CartaGradeo> cartasFinal;
 
 		if (newSelection != null) {
-			String idCarta = newSelection.getIdCarta();
-			ListasCartasDAO.cartasImportados.removeIf(c -> c.getIdCarta().equals(idCarta));
+			String idCartaGradeo = newSelection.getIdCarta();
+			ListasCartasDAO.cartasImportados.removeIf(c -> c.getIdCarta().equals(idCartaGradeo));
 			getReferenciaVentana().getTablaBBDD().getItems().clear();
 			cartasFinal = ListasCartasDAO.cartasImportados;
 		} else {
@@ -153,14 +152,14 @@ public class AccionFuncionesComunes {
 	}
 
 	/**
-	 * Procesa el bloque común utilizado en la función procesarCarta para actualizar
-	 * la interfaz gráfica y realizar operaciones relacionadas con la manipulación
-	 * de imágenes y la actualización de listas y combos.
+	 * Procesa el bloque común utilizado en la función procesarCartaGradeo para
+	 * actualizar la interfaz gráfica y realizar operaciones relacionadas con la
+	 * manipulación de imágenes y la actualización de listas y combos.
 	 *
-	 * @param comic El objeto Carta que se está procesando.
+	 * @param comic El objeto CartaGradeo que se está procesando.
 	 * @throws SQLException Si ocurre un error al interactuar con la base de datos.
 	 */
-	private void procesarBloqueComun(Carta comic) {
+	private void procesarBloqueComun(CartaGradeo comic) {
 		File file = new File(comic.getDireccionImagenCarta());
 		Image imagen = new Image(file.toURI().toString(), 250, 0, true, true);
 		getReferenciaVentana().getImagenCarta().setImage(imagen);
@@ -170,7 +169,7 @@ public class AccionFuncionesComunes {
 		FuncionesTableView.actualizarBusquedaRaw();
 	}
 
-	public static boolean procesarCartaPorCodigo(Carta cartaInfo, boolean esClonar) {
+	public static boolean procesarCartaPorCodigo(CartaGradeo cartaInfo, boolean esClonar) {
 
 		boolean alMenosUnoProcesado = false;
 
@@ -197,42 +196,32 @@ public class AccionFuncionesComunes {
 		});
 	}
 
-	public static void actualizarPrecioCartasNormal(Carta cartaOriginal, String nuevoPrecio) {
+	public static void actualizarInformacionCartas(CartaGradeo cartaOriginal) {
 
-		cartaOriginal.setPrecioCartaNormal(nuevoPrecio);
-	}
-
-	public static void actualizarPrecioCartasFoil(Carta cartaOriginal, String nuevoPrecio) {
-
-		cartaOriginal.setPrecioCartaNormal(nuevoPrecio);
-	}
-
-	public static void actualizarInformacionCartas(Carta cartaOriginal) {
-
-		String numCarta = cartaOriginal.getNumCarta();
+		String numCartaGradeo = cartaOriginal.getNumCarta();
 		String nombreCorregido = Utilidades.eliminarParentesis(cartaOriginal.getNomCarta());
 		String nombreLimpio = Utilidades.extraerNombreLimpio(nombreCorregido);
 		nombreLimpio = DatabaseManagerDAO.corregirPatrones(nombreLimpio);
-		String editorial = DatabaseManagerDAO.getComercializadora((cartaOriginal.getEditorialCarta()));
+		String edicion = DatabaseManagerDAO.getComercializadora((cartaOriginal.getEdicionCarta()));
 
 		cartaOriginal.setNomCarta(nombreLimpio);
-		cartaOriginal.setNumCarta(numCarta);
-		cartaOriginal.setEditorialCarta(editorial);
+		cartaOriginal.setNumCarta(numCartaGradeo);
+		cartaOriginal.setEdicionCarta(edicion);
 		cartaOriginal.setDireccionImagenCarta(cartaOriginal.getDireccionImagenCarta());
 
 	}
 
-	public static void actualizarCompletoCartas(Carta cartaOriginal) {
+	public static void actualizarCompletoCartas(CartaGradeo cartaOriginal) {
 
-		String numCarta = cartaOriginal.getNumCarta();
+		String numCartaGradeo = cartaOriginal.getNumCarta();
 		String nombreCorregido = Utilidades.eliminarParentesis(cartaOriginal.getNomCarta());
 		String nombreLimpio = Utilidades.extraerNombreLimpio(nombreCorregido);
 		nombreLimpio = DatabaseManagerDAO.corregirPatrones(nombreLimpio);
-		String editorial = DatabaseManagerDAO.getComercializadora((cartaOriginal.getEditorialCarta()));
+		String edicion = DatabaseManagerDAO.getComercializadora((cartaOriginal.getEdicionCarta()));
 
 		cartaOriginal.setNomCarta(nombreLimpio);
-		cartaOriginal.setNumCarta(numCarta);
-		cartaOriginal.setEditorialCarta(editorial);
+		cartaOriginal.setNumCarta(numCartaGradeo);
+		cartaOriginal.setEdicionCarta(edicion);
 
 	}
 
@@ -247,15 +236,15 @@ public class AccionFuncionesComunes {
 		return urlImagen.replace("\\", "/").replaceFirst("^http:", "https:");
 	}
 
-	public static void actualizarCartasDatabase(Carta cartaOriginal, String tipoUpdate) {
+	public static void actualizarCartasDatabase(CartaGradeo cartaOriginal, String tipoUpdate) {
 
-		String codigoCarta = cartaOriginal.getUrlReferenciaCarta();
+		String codigoCartaGradeo = cartaOriginal.getUrlReferenciaCarta();
 
-		String tipoTienda = determinarTipoTienda(codigoCarta);
+		String tipoTienda = determinarTipoTienda(codigoCartaGradeo);
 
-		List<Carta> cartaColeccion = obtenerCartaInfo(codigoCarta, true, tipoTienda);
+		List<CartaGradeo> cartaColeccion = obtenerCartaInfo(codigoCartaGradeo, true, tipoTienda);
 
-		for (Carta cartaInfo : cartaColeccion) {
+		for (CartaGradeo cartaInfo : cartaColeccion) {
 			cartaInfo.setIdCarta(cartaOriginal.getIdCarta());
 
 			if (tipoUpdate.equalsIgnoreCase("actualizar datos")) {
@@ -264,11 +253,12 @@ public class AccionFuncionesComunes {
 			} else if (tipoUpdate.equalsIgnoreCase("actualizar precio")) {
 				cartaInfo.setNomCarta(cartaOriginal.getNomCarta());
 				cartaInfo.setNumCarta(cartaOriginal.getNumCarta());
-				cartaInfo.setEditorialCarta(cartaOriginal.getEditorialCarta());
+				cartaInfo.setEdicionCarta(cartaOriginal.getEdicionCarta());
 				cartaInfo.setColeccionCarta(cartaOriginal.getColeccionCarta());
-				cartaInfo.setRarezaCarta(cartaOriginal.getRarezaCarta());
+				cartaInfo.setGradeoCarta(cartaOriginal.getGradeoCarta());
 				cartaInfo.setUrlReferenciaCarta(cartaOriginal.getUrlReferenciaCarta());
-				cartaInfo.setNormasCarta(cartaOriginal.getNormasCarta());
+				cartaInfo.setCodCarta(cartaOriginal.getCodCarta());
+				cartaInfo.setAnioCarta(cartaOriginal.getAnioCarta());
 				cartaInfo.setDireccionImagenCarta(cartaOriginal.getDireccionImagenCarta());
 			} else {
 				cartaInfo.setUrlReferenciaCarta(cartaOriginal.getUrlReferenciaCarta());
@@ -290,10 +280,10 @@ public class AccionFuncionesComunes {
 		}
 	}
 
-	public static Carta copiarCartaClon(Carta cartaOriginal) {
+	public static CartaGradeo copiarCartaClon(CartaGradeo cartaOriginal) {
 		try {
 			// Clonar la carta original
-			Carta cartaClon = (Carta) cartaOriginal.clone();
+			CartaGradeo cartaClon = (CartaGradeo) cartaOriginal.clone();
 
 			// Obtener la dirección actual de la imagen
 			String direccionActual = cartaOriginal.getDireccionImagenCarta();
@@ -305,8 +295,8 @@ public class AccionFuncionesComunes {
 				// Verificar si el archivo existe antes de proceder
 				if (imagenActual.exists()) {
 					// Generar un nuevo nombre de archivo y ruta destino
-					String codigoNuevoCarta = codigoNuevaImagen();
-					String nombreArchivoNuevo = codigoNuevoCarta + ".jpg";
+					String codigoNuevoCartaGradeo = codigoNuevaImagen();
+					String nombreArchivoNuevo = codigoNuevoCartaGradeo + ".jpg";
 					String carpetaPortadas = carpetaPortadas(Utilidades.nombreDB());
 					String urlFinal = carpetaPortadas + File.separator + nombreArchivoNuevo;
 
@@ -334,15 +324,15 @@ public class AccionFuncionesComunes {
 		}
 	}
 
-	public static void actualizarCartasPortadas(Carta cartaOriginal, String tipoTienda) {
+	public static void actualizarCartasPortadas(CartaGradeo cartaOriginal, String tipoTienda) {
 
 		actualizarValorPortadaCarta(cartaOriginal, tipoTienda);
 		UpdateManager.actualizarCartaBBDD(cartaOriginal, "portada");
 	}
 
-	public static void actualizarValorPortadaCarta(Carta cartaOriginal, String tipoTienda) {
-		String codigoNuevoCarta = codigoNuevaImagen();
-		String urlFinal = carpetaPortadas(Utilidades.nombreDB()) + File.separator + codigoNuevoCarta + ".jpg";
+	public static void actualizarValorPortadaCarta(CartaGradeo cartaOriginal, String tipoTienda) {
+		String codigoNuevoCartaGradeo = codigoNuevaImagen();
+		String urlFinal = carpetaPortadas(Utilidades.nombreDB()) + File.separator + codigoNuevoCartaGradeo + ".jpg";
 		String imagen = "";
 		if (tipoTienda.equalsIgnoreCase("CardMarket")) {
 			imagen = imagenCarta(cartaOriginal);
@@ -357,16 +347,16 @@ public class AccionFuncionesComunes {
 
 			imagen = FuncionesScrapeoComunes.getImagenFromPuppeteer(urlReferencia, scriptPath);
 		}
-		actualizarPortadaCartas(codigoNuevoCarta, imagen);
+		actualizarPortadaCartas(codigoNuevoCartaGradeo, imagen);
 		cartaOriginal.setDireccionImagenCarta(urlFinal);
 	}
 
-	public static String imagenCarta(Carta cartaOriginal) {
+	public static String imagenCarta(CartaGradeo cartaOriginal) {
 		String argument = "cardtrader+" + cartaOriginal.getNomCarta().replace(" ", "+") + "+"
 				+ cartaOriginal.getNumCarta() + "+" + cartaOriginal.getColeccionCarta().replace(" ", "+");
-		String urlCarta = WebScrapGoogleCardMarket.searchWebImagen(argument);
-		if (urlCarta.contains("/cards/")) {
-			return WebScrapGoogleCardMarket.extraerDatosImagen(urlCarta);
+		String urlCartaGradeo = WebScrapGoogleCardMarket.searchWebImagen(argument);
+		if (urlCartaGradeo.contains("/cards/")) {
+			return WebScrapGoogleCardMarket.extraerDatosImagen(urlCartaGradeo);
 		}
 		return "";
 	}
@@ -440,12 +430,11 @@ public class AccionFuncionesComunes {
 
 	public static void limpiarDatosCarta() {
 		getReferenciaVentana().getNombreCartaTextField().setText("");
-		getReferenciaVentana().getEditorialCartaTextField().setText("");
+		getReferenciaVentana().getEdicionCartaTextField().setText("");
 		getReferenciaVentana().getColeccionCartaTextField().setText("");
-		getReferenciaVentana().getRarezaCartaTextField().setText("");
-		getReferenciaVentana().getNormasCartaTextArea().setText("");
-		getReferenciaVentana().getPrecioCartaNormalTextField().setText("");
-		getReferenciaVentana().getPrecioCartaFoilTextField().setText("");
+		getReferenciaVentana().getGradeoCartaTextField().setText("");
+		getReferenciaVentana().getAnioCartaTextField().setText("");
+		getReferenciaVentana().getCodigoCartaTextField().setText("");
 		getReferenciaVentana().getIdCartaTratarTextField().setText("");
 		getReferenciaVentana().getDireccionImagenTextField().setText("");
 		getReferenciaVentana().getBusquedaCodigoTextField().setText("");
@@ -496,10 +485,10 @@ public class AccionFuncionesComunes {
 	/**
 	 * Verifica si se ha encontrado información válida para el cómic.
 	 *
-	 * @param comicInfo Un objeto Carta con la información del cómic.
+	 * @param comicInfo Un objeto CartaGradeo con la información del cómic.
 	 * @return True si la información es válida y existe; de lo contrario, False.
 	 */
-	private static boolean comprobarCodigo(Carta comicInfo) {
+	private static boolean comprobarCodigo(CartaGradeo comicInfo) {
 		return comicInfo != null;
 	}
 
@@ -510,7 +499,7 @@ public class AccionFuncionesComunes {
 	 * @param comicInfo Un arreglo de strings con información del cómic.
 	 * @throws IOException
 	 */
-	private static void rellenarTablaImport(Carta comic, boolean esClonar) {
+	private static void rellenarTablaImport(CartaGradeo comic, boolean esClonar) {
 		Platform.runLater(() -> {
 
 			String numCartaStr = comic.getNumCarta();
@@ -519,17 +508,16 @@ public class AccionFuncionesComunes {
 			String id = "A" + 0 + "" + (ListasCartasDAO.cartasImportados.size() + 1);
 			String titulo = Utilidades.defaultIfNullOrEmpty(DatabaseManagerDAO.corregirPatrones(nombreCorregido),
 					"Vacio");
-
-			String editorial = Utilidades.defaultIfNullOrEmpty(comic.getEditorialCarta(), "0");
+			String anioCarta = Utilidades.defaultIfNullOrEmpty(comic.getAnioCarta(), "0");
+			String codigo = Utilidades.defaultIfNullOrEmpty(comic.getCodCarta(), "0");
+			String edicion = Utilidades.defaultIfNullOrEmpty(comic.getEdicionCarta(), "0");
 			String numero = Utilidades.defaultIfNullOrEmpty(numCartaStr, "0");
 			String coleccion = Utilidades
 					.defaultIfNullOrEmpty(DatabaseManagerDAO.corregirNombre(comic.getColeccionCarta()), "Vacio");
-			String rareza = Utilidades.defaultIfNullOrEmpty(DatabaseManagerDAO.corregirNombre(comic.getRarezaCarta()),
+			String gradeo = Utilidades.defaultIfNullOrEmpty(DatabaseManagerDAO.corregirNombre(comic.getGradeoCarta()),
 					"Vacio");
-			String normas = Utilidades.defaultIfNullOrEmpty(DatabaseManagerDAO.corregirNombre(comic.getNormasCarta()),
+			String empresa = Utilidades.defaultIfNullOrEmpty(DatabaseManagerDAO.corregirNombre(comic.getEmpresaCarta()),
 					"Vacio");
-			String precioNormal = Utilidades.defaultIfNullOrEmpty(comic.getPrecioCartaNormal(), "0");
-			String precioFoil = Utilidades.defaultIfNullOrEmpty(comic.getPrecioCartaFoil(), "0");
 			String urlReferencia = Utilidades.defaultIfNullOrEmpty(comic.getUrlReferenciaCarta(), "Vacio");
 			// Variables relacionadas con la imagen del cómic
 			String imagen = "";
@@ -569,10 +557,9 @@ public class AccionFuncionesComunes {
 				imagen = comic.getDireccionImagenCarta();
 			}
 
-			Carta comicImport = new Carta.CartaBuilder(id, titulo).numCarta(numero).editorialCarta(editorial)
-					.coleccionCarta(coleccion).rarezaCarta(rareza).precioCartaNormal(precioNormal)
-					.precioCartaFoil(precioFoil).urlReferenciaCarta(urlReferencia).direccionImagenCarta(imagen)
-					.normasCarta(normas).build();
+			CartaGradeo comicImport = new CartaGradeo.CartaGradeoBuilder(id, titulo).codCarta(codigo).numCarta(numero)
+					.anioCarta(anioCarta).coleccionCarta(coleccion).edicionCarta(edicion).empresaCarta(empresa)
+					.gradeoCarta(gradeo).urlReferenciaCarta(urlReferencia).direccionImagenCarta(imagen).build();
 
 			ListasCartasDAO.cartasImportados.add(comicImport);
 			FuncionesTableView.nombreColumnas();
@@ -580,10 +567,10 @@ public class AccionFuncionesComunes {
 		});
 	}
 
-	public static List<Carta> obtenerCartaInfo(String finalValorCodigo, boolean esImport, String tipoTienda) {
+	public static List<CartaGradeo> obtenerCartaInfo(String finalValorCodigo, boolean esImport, String tipoTienda) {
 		try {
 
-			List<Carta> cartaInfo = new ArrayList<>();
+			List<CartaGradeo> cartaInfo = new ArrayList<>();
 			if (esImport) {
 
 				if (tipoTienda.equalsIgnoreCase("CardMarket")) {
@@ -603,7 +590,7 @@ public class AccionFuncionesComunes {
 			}
 
 			// Convertir la lista a un Set para eliminar duplicados
-			Set<Carta> cartaSet = new HashSet<>(cartaInfo);
+			Set<CartaGradeo> cartaSet = new HashSet<>(cartaInfo);
 			cartaInfo.clear(); // Limpiar la lista original
 			cartaInfo.addAll(cartaSet); // Agregar los elementos únicos de vuelta a la lista
 			procesarCartas(cartaInfo);
@@ -628,18 +615,17 @@ public class AccionFuncionesComunes {
 		}
 	}
 
-	private static void procesarCartas(List<Carta> cartaInfo) {
-		List<Carta> cartasProcesadas = new ArrayList<>();
+	private static void procesarCartas(List<CartaGradeo> cartaInfo) {
+		List<CartaGradeo> cartasProcesadas = new ArrayList<>();
 
-		for (Carta cartaNueva : cartaInfo) {
+		for (CartaGradeo cartaNueva : cartaInfo) {
 			String referenciaNueva = obtenerReferenciaBase(cartaNueva.getUrlReferenciaCarta());
 			boolean cartaDuplicada = false;
 
-			for (Carta cartaExistente : cartasProcesadas) {
+			for (CartaGradeo cartaExistente : cartasProcesadas) {
 				String referenciaExistente = obtenerReferenciaBase(cartaExistente.getUrlReferenciaCarta());
 
 				if (referenciaExistente.equals(referenciaNueva)) {
-					procesarCartaExistente(cartaNueva, cartaExistente);
 					cartaDuplicada = true;
 					break;
 				}
@@ -652,38 +638,6 @@ public class AccionFuncionesComunes {
 
 		cartaInfo.clear();
 		cartaInfo.addAll(cartasProcesadas);
-	}
-
-	private static void procesarCartaExistente(Carta cartaNueva, Carta cartaExistente) {
-		if (cartaNueva.getUrlReferenciaCarta().endsWith("?isFoil=Y")) {
-			procesarCartaNuevaFoil(cartaNueva, cartaExistente);
-		} else {
-			procesarCartaNuevaNormal(cartaNueva, cartaExistente);
-		}
-	}
-
-	private static void procesarCartaNuevaFoil(Carta cartaNueva, Carta cartaExistente) {
-		if (cartaExistente.getPrecioCartaFoil().equals("0.0")) {
-			cartaExistente.setPrecioCartaFoil(cartaNueva.getPrecioCartaFoil());
-		}
-
-		fusionarPrecios(cartaNueva, cartaExistente);
-	}
-
-	private static void procesarCartaNuevaNormal(Carta cartaNueva, Carta cartaExistente) {
-		if (cartaExistente.getPrecioCartaNormal().equals("0.0")) {
-			cartaExistente.setPrecioCartaNormal(cartaNueva.getPrecioCartaNormal());
-		}
-
-		fusionarPrecios(cartaNueva, cartaExistente);
-	}
-
-	private static void fusionarPrecios(Carta cartaNueva, Carta cartaExistente) {
-		if (!cartaExistente.getPrecioCartaNormal().equals("0.0")
-				&& !cartaExistente.getPrecioCartaFoil().equals("0.0")) {
-			cartaNueva.setPrecioCartaNormal(cartaExistente.getPrecioCartaNormal());
-			cartaNueva.setPrecioCartaFoil(cartaExistente.getPrecioCartaFoil());
-		}
 	}
 
 	// Método auxiliar para obtener la referencia base sin el sufijo "?isFoil=Y"
@@ -712,7 +666,7 @@ public class AccionFuncionesComunes {
 	}
 
 	// ES OPCIONES
-	public static void busquedaPorListaDatabase(List<Carta> listaCartasDatabase, String tipoUpdate) {
+	public static void busquedaPorListaDatabase(List<CartaGradeo> listaCartasDatabase, String tipoUpdate) {
 
 		controlCargaCartas(listaCartasDatabase.size());
 
@@ -756,7 +710,7 @@ public class AccionFuncionesComunes {
 		mensajesUnicos.clear();
 	}
 
-	private static Task<Void> createSearchTask(String tipoUpdate, List<Carta> listaCartasDatabase) {
+	private static Task<Void> createSearchTask(String tipoUpdate, List<CartaGradeo> listaCartasDatabase) {
 		return new Task<>() {
 			@Override
 			protected Void call() {
@@ -764,7 +718,7 @@ public class AccionFuncionesComunes {
 
 				if (tipoUpdate.isEmpty()) {
 					try (BufferedReader reader = new BufferedReader(new FileReader(fichero))) {
-						List<Carta> listaSinDuplicados = new ArrayList<>();
+						List<CartaGradeo> listaSinDuplicados = new ArrayList<>();
 
 						reader.lines().forEach(linea -> {
 
@@ -775,10 +729,10 @@ public class AccionFuncionesComunes {
 										"100%", 100.0));
 								return;
 							}
-							List<Carta> listaOriginal = obtenerCartaInfo(linea, true, tipoTienda);
+							List<CartaGradeo> listaOriginal = obtenerCartaInfo(linea, true, tipoTienda);
 
 							// Procesar y fusionar duplicados
-							for (Carta carta : listaOriginal) {
+							for (CartaGradeo carta : listaOriginal) {
 								agregarCartaConDuplicados(listaSinDuplicados, carta);
 								mensajesCargaCartas(carta, tipoUpdate);
 
@@ -806,26 +760,17 @@ public class AccionFuncionesComunes {
 	}
 
 	// Método para agregar carta y fusionar duplicados
-	private static void agregarCartaConDuplicados(List<Carta> cartaInfo, Carta cartaNueva) {
+	private static void agregarCartaConDuplicados(List<CartaGradeo> cartaInfo, CartaGradeo cartaNueva) {
 		String referenciaNueva = obtenerReferenciaBase(cartaNueva.getUrlReferenciaCarta());
 		boolean cartaDuplicada = false;
 
-		for (Carta cartaExistente : cartaInfo) {
+		for (CartaGradeo cartaExistente : cartaInfo) {
 			String tipoTienda = obtenerNombreTienda(cartaExistente.getUrlReferenciaCarta());
 
 			if (tipoTienda.equalsIgnoreCase("cardMarket")) {
 				String referenciaExistente = obtenerReferenciaBase(cartaExistente.getUrlReferenciaCarta());
 
 				if (referenciaExistente.equals(referenciaNueva)) {
-					if (cartaNueva.getUrlReferenciaCarta().endsWith("?isFoil=Y")) {
-						if (cartaExistente.getPrecioCartaFoil().equals("0.0")) {
-							cartaExistente.setPrecioCartaFoil(cartaNueva.getPrecioCartaFoil());
-						}
-					} else {
-						if (cartaExistente.getPrecioCartaNormal().equals("0.0")) {
-							cartaExistente.setPrecioCartaNormal(cartaNueva.getPrecioCartaNormal());
-						}
-					}
 					cartaDuplicada = true;
 					break;
 				}
@@ -837,7 +782,7 @@ public class AccionFuncionesComunes {
 		}
 	}
 
-	private static void processCarta(Carta carta, String tipoUpdate) {
+	private static void processCarta(CartaGradeo carta, String tipoUpdate) {
 
 		if (tipoUpdate.isEmpty()) {
 
@@ -859,14 +804,14 @@ public class AccionFuncionesComunes {
 		}
 	}
 
-	private static void mensajesCargaCartas(Carta carta, String tipoUpdate) {
+	private static void mensajesCargaCartas(CartaGradeo carta, String tipoUpdate) {
 		StringBuilder textoBuilder = new StringBuilder();
 
 		if (carta.getUrlReferenciaCarta().isEmpty() || carta.getUrlReferenciaCarta().equalsIgnoreCase("vacio")) {
 
 			if (tipoUpdate.isEmpty()) {
 				codigoFaltante.append("Falta carta con código: ").append(carta.getNomCarta()).append("\n");
-				textoBuilder.append("Carta no capturado: ").append(carta.getNomCarta()).append("\n");
+				textoBuilder.append("CartaGradeo no capturado: ").append(carta.getNomCarta()).append("\n");
 			} else {
 				codigoFaltante.append("ID no procesado: ").append(carta.getIdCarta()).append("\n");
 				textoBuilder.append("ID no procesado: ").append(carta.getIdCarta()).append("\n");
@@ -879,7 +824,7 @@ public class AccionFuncionesComunes {
 			if (tipoUpdate.isEmpty()) {
 				textoBuilder.append("Codigo: ").append(carta.getNomCarta()).append(" procesado.").append("\n");
 			} else if (tipoUpdate.equalsIgnoreCase("actualizar portadas")) {
-				textoBuilder.append("Portada Carta ID: ").append(carta.getIdCarta()).append(" actualizado.")
+				textoBuilder.append("Portada CartaGradeo ID: ").append(carta.getIdCarta()).append(" actualizado.")
 						.append("\n");
 			} else {
 				textoBuilder.append("ID: ").append(carta.getIdCarta()).append(" actualizado.").append("\n");
@@ -1165,10 +1110,10 @@ public class AccionFuncionesComunes {
 		if (getReferenciaVentana() != null) {
 			setStyleIfNotNull(getReferenciaVentana().getNombreCartaTextField());
 			setStyleIfNotNull(getReferenciaVentana().getNumeroCartaCombobox());
-			setStyleIfNotNull(getReferenciaVentana().getEditorialCartaTextField());
+			setStyleIfNotNull(getReferenciaVentana().getEdicionCartaTextField());
 			setStyleIfNotNull(getReferenciaVentana().getColeccionCartaTextField());
-			setStyleIfNotNull(getReferenciaVentana().getPrecioCartaNormalTextField());
-			setStyleIfNotNull(getReferenciaVentana().getPrecioCartaFoilTextField());
+			setStyleIfNotNull(getReferenciaVentana().getGradeoCartaTextField());
+			setStyleIfNotNull(getReferenciaVentana().getAnioCartaTextField());
 		}
 	}
 

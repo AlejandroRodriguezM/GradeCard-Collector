@@ -69,13 +69,6 @@ public class ImagenAmpliadaController implements Initializable {
 			}
 		});
 
-		if (!cartaInfo.devolverNormas().isEmpty()) {
-			infoCartaString = cartaInfo.infoCarta();
-
-		} else {
-			infoCartaString = "ERROR. Datos vacios";
-		}
-
 		
 		infoCarta.setText(infoCartaString);
 

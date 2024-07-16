@@ -68,7 +68,6 @@ public class DatabaseManagerDAO {
 						+ "codCarta TEXT NOT NULL, " // Nueva columna para 'codCarta'
 						+ "numCarta TEXT NOT NULL, " + "anioCarta TEXT NOT NULL, " // Nueva columna para 'anioCarta'
 						+ "coleccionCarta TEXT NOT NULL, " + "edicionCarta TEXT NOT NULL, " // Nueva columna para
-																							// 'edicionCarta'
 						+ "empresaCarta TEXT NOT NULL, " // Nueva columna para 'empresaCarta'
 						+ "gradeoCarta TEXT NOT NULL, " // Nueva columna para 'gradeoCarta'
 						+ "urlReferenciaCarta TEXT NOT NULL, " + "direccionImagenCarta TEXT NOT NULL)";

@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import alarmas.AlarmaList;
-import cartaManagement.Carta;
+import cartaManagement.CartaGradeo;
 import dbmanager.CartaManagerDAO;
 import dbmanager.DBUtilidades;
 import dbmanager.ListasCartasDAO;
@@ -51,7 +51,7 @@ public class AccionEliminar {
 				ListasCartasDAO.listasAutoCompletado();
 
 				String sentenciaSQL = DBUtilidades.construirSentenciaSQL(DBUtilidades.TipoBusqueda.COMPLETA);
-				List<Carta> listaCartas = CartaManagerDAO.verLibreria(sentenciaSQL);
+				List<CartaGradeo> listaCartas = CartaManagerDAO.verLibreria(sentenciaSQL);
 				getReferenciaVentana().getTablaBBDD().refresh();
 				FuncionesTableView.nombreColumnas();
 				FuncionesTableView.tablaBBDD(listaCartas);
@@ -76,7 +76,7 @@ public class AccionEliminar {
 
 		if (nav.alertaEliminar() && idCarta != null) {
 			// Obtener la carta a eliminar
-			Carta cartaEliminar = ListasCartasDAO.cartasImportados.stream().filter(c -> c.getIdCarta().equals(idCarta))
+			CartaGradeo cartaEliminar = ListasCartasDAO.cartasImportados.stream().filter(c -> c.getIdCarta().equals(idCarta))
 					.findFirst().orElse(null);
 
 			if (cartaEliminar != null) {

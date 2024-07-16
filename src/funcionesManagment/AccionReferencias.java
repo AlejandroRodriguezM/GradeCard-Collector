@@ -29,11 +29,10 @@ public class AccionReferencias {
 	private TableColumn<CartaGradeo, String> iDColumna;
 	private TableColumn<CartaGradeo, String> nombreColumna;
 	private TableColumn<CartaGradeo, String> numeroColumna;
-	private TableColumn<CartaGradeo, String> editorialColumna;
+	private TableColumn<CartaGradeo, String> edicionColumna;
 	private TableColumn<CartaGradeo, String> coleccionColumna;
-	private TableColumn<CartaGradeo, String> rarezaColumna;
-	private TableColumn<CartaGradeo, String> precioColumnaNormal;
-	private TableColumn<CartaGradeo, String> precioColumnaFoil;
+	private TableColumn<CartaGradeo, String> certificacionColumna;
+	private TableColumn<CartaGradeo, String> empresaColumna;
 	private TableColumn<CartaGradeo, String> referenciaColumna;
 
 	public TableView<CartaGradeo> tablaBBDD;
@@ -82,35 +81,36 @@ public class AccionReferencias {
 	private Rectangle barraCambioAltura;
 
 	private Label alarmaConexionInternet;
-	private Label labelEditorial;
+	private Label labelEdicion;
 	private Label labelColeccion;
 	private Label labelNombre;
-	private Label labelRareza;
-	private Label labelNormas;
 	private Label labelIdMod;
 	private Label labelPortada;
-	private Label labelPrecioFoil;
-	private Label labelPrecioNormal;
+	private Label labelGradeo;
 	private Label labelReferencia;
 	private Label prontInfoLabel;
 	private Label alarmaConexionSql;
 	private Label labelComprobar;
 	private Label labelVersion;
+	private Label labelEmpresa;
 	private Label prontInfoEspecial;
 	private Label prontInfoPreviews;
 	private Label prontInfoPortadas;
+	private Label labelAnio;
+	private Label labelCodigo;
 
 	private TextField busquedaCodigoTextField;
 	private TextField nombreCartaTextField;
-	private TextField editorialCartaTextField;
+	private TextField codigoCartaTextField;
+	private TextField anioCartaTextField;
+	private TextField nombreEmpresaTextField;
+	private TextField edicionCartaTextField;
 	private TextField coleccionCartaTextField;
-	private TextField rarezaCartaTextField;
-	private TextArea normasCartaTextArea;
-	private TextField precioCartaNormalTextField;
-	private TextField precioCartaFoilTextField;
+	private TextField gradeoCartaTextField;
 	private TextField idCartaTratarTextField;
 	private TextField direccionImagenTextField;
 	private TextField urlReferenciaTextField;
+	private TextField numeroCartaTextField;
 
 	private TextField codigoCartaTratarTextField;
 	private TextField busquedaGeneralTextField;
@@ -118,9 +118,10 @@ public class AccionReferencias {
 	private ComboBox<String> nombreCartaCombobox;
 	private ComboBox<String> numeroCartaCombobox;
 	private ComboBox<String> nombreTiendaCombobox;
-	private ComboBox<String> nombreEditorialCombobox;
+	private ComboBox<String> nombreEdicionCombobox;
 	private ComboBox<String> nombreColeccionCombobox;
-	private ComboBox<String> nombreRarezaCombobox;
+	private ComboBox<String> nombreGradeoCombobox;
+	private ComboBox<String> nombreEmpresaCombobox;
 	private ComboBox<String> comboPreviewsCombobox;
 
 	private TextArea prontInfoTextArea;
@@ -181,10 +182,10 @@ public class AccionReferencias {
 	}
 
 	/**
-	 * @return the editorialColumna
+	 * @return the edicionColumna
 	 */
-	public TableColumn<CartaGradeo, String> getEditorialColumna() {
-		return editorialColumna;
+	public TableColumn<CartaGradeo, String> getEdicionColumna() {
+		return edicionColumna;
 	}
 
 	/**
@@ -195,24 +196,17 @@ public class AccionReferencias {
 	}
 
 	/**
-	 * @return the rarezaColumna
+	 * @return the certificacionColumna
 	 */
-	public TableColumn<CartaGradeo, String> getRarezaColumna() {
-		return rarezaColumna;
+	public TableColumn<CartaGradeo, String> getCertificacionColumna() {
+		return certificacionColumna;
 	}
 
 	/**
-	 * @return the precioColumnaNormal
+	 * @return the empresaColumna
 	 */
-	public TableColumn<CartaGradeo, String> getPrecioColumnaNormal() {
-		return precioColumnaNormal;
-	}
-
-	/**
-	 * @return the precioColumnaFoil
-	 */
-	public TableColumn<CartaGradeo, String> getPrecioColumnaFoil() {
-		return precioColumnaFoil;
+	public TableColumn<CartaGradeo, String> getEmpresaColumna() {
+		return empresaColumna;
 	}
 
 	/**
@@ -283,6 +277,13 @@ public class AccionReferencias {
 	 */
 	public ImageView getCargaImagen() {
 		return cargaImagen;
+	}
+
+	/**
+	 * @return the botonClonarCarta
+	 */
+	public Button getBotonClonarCarta() {
+		return botonClonarCarta;
 	}
 
 	/**
@@ -489,10 +490,10 @@ public class AccionReferencias {
 	}
 
 	/**
-	 * @return the labelEditorial
+	 * @return the labelEdicion
 	 */
-	public Label getLabelEditorial() {
-		return labelEditorial;
+	public Label getLabelEdicion() {
+		return labelEdicion;
 	}
 
 	/**
@@ -503,17 +504,10 @@ public class AccionReferencias {
 	}
 
 	/**
-	 * @return the labelRareza
+	 * @return the labelNombre
 	 */
-	public Label getLabelRareza() {
-		return labelRareza;
-	}
-
-	/**
-	 * @return the labelNormas
-	 */
-	public Label getLabelNormas() {
-		return labelNormas;
+	public Label getLabelNombre() {
+		return labelNombre;
 	}
 
 	/**
@@ -531,17 +525,10 @@ public class AccionReferencias {
 	}
 
 	/**
-	 * @return the labelPrecioFoil
+	 * @return the labelGradeo
 	 */
-	public Label getLabelPrecioFoil() {
-		return labelPrecioFoil;
-	}
-
-	/**
-	 * @return the labelPrecioNormal
-	 */
-	public Label getLabelPrecioNormal() {
-		return labelPrecioNormal;
+	public Label getLabelGradeo() {
+		return labelGradeo;
 	}
 
 	/**
@@ -580,6 +567,13 @@ public class AccionReferencias {
 	}
 
 	/**
+	 * @return the labelEmpresa
+	 */
+	public Label getLabelEmpresa() {
+		return labelEmpresa;
+	}
+
+	/**
 	 * @return the prontInfoEspecial
 	 */
 	public Label getProntInfoEspecial() {
@@ -601,6 +595,20 @@ public class AccionReferencias {
 	}
 
 	/**
+	 * @return the labelAnio
+	 */
+	public Label getLabelAnio() {
+		return labelAnio;
+	}
+
+	/**
+	 * @return the labelCodigo
+	 */
+	public Label getLabelCodigo() {
+		return labelCodigo;
+	}
+
+	/**
 	 * @return the busquedaCodigoTextField
 	 */
 	public TextField getBusquedaCodigoTextField() {
@@ -615,10 +623,31 @@ public class AccionReferencias {
 	}
 
 	/**
-	 * @return the editorialCartaTextField
+	 * @return the codigoCartaTextField
 	 */
-	public TextField getEditorialCartaTextField() {
-		return editorialCartaTextField;
+	public TextField getCodigoCartaTextField() {
+		return codigoCartaTextField;
+	}
+
+	/**
+	 * @return the anioCartaTextField
+	 */
+	public TextField getAnioCartaTextField() {
+		return anioCartaTextField;
+	}
+
+	/**
+	 * @return the nombreEmpresaTextField
+	 */
+	public TextField getNombreEmpresaTextField() {
+		return nombreEmpresaTextField;
+	}
+
+	/**
+	 * @return the edicionCartaTextField
+	 */
+	public TextField getEdicionCartaTextField() {
+		return edicionCartaTextField;
 	}
 
 	/**
@@ -629,31 +658,10 @@ public class AccionReferencias {
 	}
 
 	/**
-	 * @return the rarezaCartaTextField
+	 * @return the gradeoCartaTextField
 	 */
-	public TextField getRarezaCartaTextField() {
-		return rarezaCartaTextField;
-	}
-
-	/**
-	 * @return the normasCartaTextArea
-	 */
-	public TextArea getNormasCartaTextArea() {
-		return normasCartaTextArea;
-	}
-
-	/**
-	 * @return the precioCartaNormalTextField
-	 */
-	public TextField getPrecioCartaNormalTextField() {
-		return precioCartaNormalTextField;
-	}
-
-	/**
-	 * @return the precioCartaFoilTextField
-	 */
-	public TextField getPrecioCartaFoilTextField() {
-		return precioCartaFoilTextField;
+	public TextField getGradeoCartaTextField() {
+		return gradeoCartaTextField;
 	}
 
 	/**
@@ -675,6 +683,13 @@ public class AccionReferencias {
 	 */
 	public TextField getUrlReferenciaTextField() {
 		return urlReferenciaTextField;
+	}
+
+	/**
+	 * @return the numeroCartaTextField
+	 */
+	public TextField getNumeroCartaTextField() {
+		return numeroCartaTextField;
 	}
 
 	/**
@@ -713,10 +728,10 @@ public class AccionReferencias {
 	}
 
 	/**
-	 * @return the nombreEditorialCombobox
+	 * @return the nombreEdicionCombobox
 	 */
-	public ComboBox<String> getNombreEditorialCombobox() {
-		return nombreEditorialCombobox;
+	public ComboBox<String> getNombreEdicionCombobox() {
+		return nombreEdicionCombobox;
 	}
 
 	/**
@@ -727,10 +742,17 @@ public class AccionReferencias {
 	}
 
 	/**
-	 * @return the nombreRarezaCombobox
+	 * @return the nombreGradeoCombobox
 	 */
-	public ComboBox<String> getNombreRarezaCombobox() {
-		return nombreRarezaCombobox;
+	public ComboBox<String> getNombreGradeoCombobox() {
+		return nombreGradeoCombobox;
+	}
+
+	/**
+	 * @return the nombreEmpresaCombobox
+	 */
+	public ComboBox<String> getNombreEmpresaCombobox() {
+		return nombreEmpresaCombobox;
 	}
 
 	/**
@@ -822,6 +844,13 @@ public class AccionReferencias {
 	 */
 	public MenuItem getMenuArchivoSobreMi() {
 		return menuArchivoSobreMi;
+	}
+
+	/**
+	 * @return the menuEstadisticaSumaTotal
+	 */
+	public MenuItem getMenuEstadisticaSumaTotal() {
+		return menuEstadisticaSumaTotal;
 	}
 
 	/**
@@ -923,41 +952,6 @@ public class AccionReferencias {
 	}
 
 	/**
-	 * @return the labelNombre
-	 */
-	public Label getLabelNombre() {
-		return labelNombre;
-	}
-
-	/**
-	 * @return the botonClonarCarta
-	 */
-	public Button getBotonClonarCarta() {
-		return botonClonarCarta;
-	}
-
-	/**
-	 * @return the menuEstadisticaSumaTotal
-	 */
-	public MenuItem getMenuEstadisticaSumaTotal() {
-		return menuEstadisticaSumaTotal;
-	}
-
-	/**
-	 * @param botonClonarCarta the botonClonarCarta to set
-	 */
-	public void setBotonClonarCarta(Button botonClonarCarta) {
-		this.botonClonarCarta = botonClonarCarta;
-	}
-
-	/**
-	 * @param labelNombre the labelNombre to set
-	 */
-	public void setLabelNombre(Label labelNombre) {
-		this.labelNombre = labelNombre;
-	}
-
-	/**
 	 * @param iDColumna the iDColumna to set
 	 */
 	public void setiDColumna(TableColumn<CartaGradeo, String> iDColumna) {
@@ -979,10 +973,10 @@ public class AccionReferencias {
 	}
 
 	/**
-	 * @param editorialColumna the editorialColumna to set
+	 * @param edicionColumna the edicionColumna to set
 	 */
-	public void setEditorialColumna(TableColumn<CartaGradeo, String> editorialColumna) {
-		this.editorialColumna = editorialColumna;
+	public void setEdicionColumna(TableColumn<CartaGradeo, String> edicionColumna) {
+		this.edicionColumna = edicionColumna;
 	}
 
 	/**
@@ -993,24 +987,17 @@ public class AccionReferencias {
 	}
 
 	/**
-	 * @param rarezaColumna the rarezaColumna to set
+	 * @param certificacionColumna the certificacionColumna to set
 	 */
-	public void setRarezaColumna(TableColumn<CartaGradeo, String> rarezaColumna) {
-		this.rarezaColumna = rarezaColumna;
+	public void setCertificacionColumna(TableColumn<CartaGradeo, String> certificacionColumna) {
+		this.certificacionColumna = certificacionColumna;
 	}
 
 	/**
-	 * @param precioColumnaNormal the precioColumnaNormal to set
+	 * @param empresaColumna the empresaColumna to set
 	 */
-	public void setPrecioColumnaNormal(TableColumn<CartaGradeo, String> precioColumnaNormal) {
-		this.precioColumnaNormal = precioColumnaNormal;
-	}
-
-	/**
-	 * @param precioColumnaFoil the precioColumnaFoil to set
-	 */
-	public void setPrecioColumnaFoil(TableColumn<CartaGradeo, String> precioColumnaFoil) {
-		this.precioColumnaFoil = precioColumnaFoil;
+	public void setEmpresaColumna(TableColumn<CartaGradeo, String> empresaColumna) {
+		this.empresaColumna = empresaColumna;
 	}
 
 	/**
@@ -1081,6 +1068,13 @@ public class AccionReferencias {
 	 */
 	public void setCargaImagen(ImageView cargaImagen) {
 		this.cargaImagen = cargaImagen;
+	}
+
+	/**
+	 * @param botonClonarCarta the botonClonarCarta to set
+	 */
+	public void setBotonClonarCarta(Button botonClonarCarta) {
+		this.botonClonarCarta = botonClonarCarta;
 	}
 
 	/**
@@ -1288,10 +1282,10 @@ public class AccionReferencias {
 	}
 
 	/**
-	 * @param labelEditorial the labelEditorial to set
+	 * @param labelEdicion the labelEdicion to set
 	 */
-	public void setLabelEditorial(Label labelEditorial) {
-		this.labelEditorial = labelEditorial;
+	public void setLabelEdicion(Label labelEdicion) {
+		this.labelEdicion = labelEdicion;
 	}
 
 	/**
@@ -1302,17 +1296,10 @@ public class AccionReferencias {
 	}
 
 	/**
-	 * @param labelRareza the labelRareza to set
+	 * @param labelNombre the labelNombre to set
 	 */
-	public void setLabelRareza(Label labelRareza) {
-		this.labelRareza = labelRareza;
-	}
-
-	/**
-	 * @param labelNormas the labelNormas to set
-	 */
-	public void setLabelNormas(Label labelNormas) {
-		this.labelNormas = labelNormas;
+	public void setLabelNombre(Label labelNombre) {
+		this.labelNombre = labelNombre;
 	}
 
 	/**
@@ -1330,17 +1317,10 @@ public class AccionReferencias {
 	}
 
 	/**
-	 * @param labelPrecioFoil the labelPrecioFoil to set
+	 * @param labelGradeo the labelGradeo to set
 	 */
-	public void setLabelPrecioFoil(Label labelPrecioFoil) {
-		this.labelPrecioFoil = labelPrecioFoil;
-	}
-
-	/**
-	 * @param labelPrecioNormal the labelPrecioNormal to set
-	 */
-	public void setLabelPrecioNormal(Label labelPrecioNormal) {
-		this.labelPrecioNormal = labelPrecioNormal;
+	public void setLabelGradeo(Label labelGradeo) {
+		this.labelGradeo = labelGradeo;
 	}
 
 	/**
@@ -1379,6 +1359,13 @@ public class AccionReferencias {
 	}
 
 	/**
+	 * @param labelEmpresa the labelEmpresa to set
+	 */
+	public void setLabelEmpresa(Label labelEmpresa) {
+		this.labelEmpresa = labelEmpresa;
+	}
+
+	/**
 	 * @param prontInfoEspecial the prontInfoEspecial to set
 	 */
 	public void setProntInfoEspecial(Label prontInfoEspecial) {
@@ -1400,6 +1387,20 @@ public class AccionReferencias {
 	}
 
 	/**
+	 * @param labelAnio the labelAnio to set
+	 */
+	public void setLabelAnio(Label labelAnio) {
+		this.labelAnio = labelAnio;
+	}
+
+	/**
+	 * @param labelCodigo the labelCodigo to set
+	 */
+	public void setLabelCodigo(Label labelCodigo) {
+		this.labelCodigo = labelCodigo;
+	}
+
+	/**
 	 * @param busquedaCodigoTextField the busquedaCodigoTextField to set
 	 */
 	public void setBusquedaCodigoTextField(TextField busquedaCodigoTextField) {
@@ -1414,10 +1415,31 @@ public class AccionReferencias {
 	}
 
 	/**
-	 * @param editorialCartaTextField the editorialCartaTextField to set
+	 * @param codigoCartaTextField the codigoCartaTextField to set
 	 */
-	public void setEditorialCartaTextField(TextField editorialCartaTextField) {
-		this.editorialCartaTextField = editorialCartaTextField;
+	public void setCodigoCartaTextField(TextField codigoCartaTextField) {
+		this.codigoCartaTextField = codigoCartaTextField;
+	}
+
+	/**
+	 * @param anioCartaTextField the anioCartaTextField to set
+	 */
+	public void setAnioCartaTextField(TextField anioCartaTextField) {
+		this.anioCartaTextField = anioCartaTextField;
+	}
+
+	/**
+	 * @param nombreEmpresaTextField the nombreEmpresaTextField to set
+	 */
+	public void setNombreEmpresaTextField(TextField nombreEmpresaTextField) {
+		this.nombreEmpresaTextField = nombreEmpresaTextField;
+	}
+
+	/**
+	 * @param edicionCartaTextField the edicionCartaTextField to set
+	 */
+	public void setEdicionCartaTextField(TextField edicionCartaTextField) {
+		this.edicionCartaTextField = edicionCartaTextField;
 	}
 
 	/**
@@ -1428,31 +1450,10 @@ public class AccionReferencias {
 	}
 
 	/**
-	 * @param rarezaCartaTextField the rarezaCartaTextField to set
+	 * @param gradeoCartaTextField the gradeoCartaTextField to set
 	 */
-	public void setRarezaCartaTextField(TextField rarezaCartaTextField) {
-		this.rarezaCartaTextField = rarezaCartaTextField;
-	}
-
-	/**
-	 * @param normasCartaTextArea the normasCartaTextArea to set
-	 */
-	public void setNormasCartaTextArea(TextArea normasCartaTextArea) {
-		this.normasCartaTextArea = normasCartaTextArea;
-	}
-
-	/**
-	 * @param precioCartaNormalTextField the precioCartaNormalTextField to set
-	 */
-	public void setPrecioCartaNormalTextField(TextField precioCartaNormalTextField) {
-		this.precioCartaNormalTextField = precioCartaNormalTextField;
-	}
-
-	/**
-	 * @param precioCartaFoilTextField the precioCartaFoilTextField to set
-	 */
-	public void setPrecioCartaFoilTextField(TextField precioCartaFoilTextField) {
-		this.precioCartaFoilTextField = precioCartaFoilTextField;
+	public void setGradeoCartaTextField(TextField gradeoCartaTextField) {
+		this.gradeoCartaTextField = gradeoCartaTextField;
 	}
 
 	/**
@@ -1474,6 +1475,13 @@ public class AccionReferencias {
 	 */
 	public void setUrlReferenciaTextField(TextField urlReferenciaTextField) {
 		this.urlReferenciaTextField = urlReferenciaTextField;
+	}
+
+	/**
+	 * @param numeroCartaTextField the numeroCartaTextField to set
+	 */
+	public void setNumeroCartaTextField(TextField numeroCartaTextField) {
+		this.numeroCartaTextField = numeroCartaTextField;
 	}
 
 	/**
@@ -1512,10 +1520,10 @@ public class AccionReferencias {
 	}
 
 	/**
-	 * @param nombreEditorialCombobox the nombreEditorialCombobox to set
+	 * @param nombreEdicionCombobox the nombreEdicionCombobox to set
 	 */
-	public void setNombreEditorialCombobox(ComboBox<String> nombreEditorialCombobox) {
-		this.nombreEditorialCombobox = nombreEditorialCombobox;
+	public void setNombreEdicionCombobox(ComboBox<String> nombreEdicionCombobox) {
+		this.nombreEdicionCombobox = nombreEdicionCombobox;
 	}
 
 	/**
@@ -1526,10 +1534,17 @@ public class AccionReferencias {
 	}
 
 	/**
-	 * @param nombreRarezaCombobox the nombreRarezaCombobox to set
+	 * @param nombreGradeoCombobox the nombreGradeoCombobox to set
 	 */
-	public void setNombreRarezaCombobox(ComboBox<String> nombreRarezaCombobox) {
-		this.nombreRarezaCombobox = nombreRarezaCombobox;
+	public void setNombreGradeoCombobox(ComboBox<String> nombreGradeoCombobox) {
+		this.nombreGradeoCombobox = nombreGradeoCombobox;
+	}
+
+	/**
+	 * @param nombreEmpresaCombobox the nombreEmpresaCombobox to set
+	 */
+	public void setNombreEmpresaCombobox(ComboBox<String> nombreEmpresaCombobox) {
+		this.nombreEmpresaCombobox = nombreEmpresaCombobox;
 	}
 
 	/**
@@ -1625,7 +1640,7 @@ public class AccionReferencias {
 	}
 
 	/**
-	 * @param menuEstadisticaComprados the menuEstadisticaComprados to set
+	 * @param menuEstadisticaSumaTotal the menuEstadisticaSumaTotal to set
 	 */
 	public void setMenuEstadisticaSumaTotal(MenuItem menuEstadisticaSumaTotal) {
 		this.menuEstadisticaSumaTotal = menuEstadisticaSumaTotal;
@@ -1728,4 +1743,5 @@ public class AccionReferencias {
 	public void setStageVentana(Stage stageVentana) {
 		this.stageVentana = stageVentana;
 	}
+
 }

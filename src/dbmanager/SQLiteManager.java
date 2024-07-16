@@ -9,7 +9,7 @@ import java.sql.Statement;
 public class SQLiteManager {
 
 	private static final String DB_FOLDER = System.getProperty("user.home") + File.separator + "AppData"
-			+ File.separator + "Roaming" + File.separator + "album" + File.separator;
+			+ File.separator + "Roaming" + File.separator + "gradeo" + File.separator;
 
 	/**
 	 * Comprueba si existe una base de datos con el nombre especificado para la
@@ -35,10 +35,12 @@ public class SQLiteManager {
 
 			String createTableSQL = "CREATE TABLE IF NOT EXISTS albumbbdd ("
 					+ "idCarta INTEGER PRIMARY KEY AUTOINCREMENT, " + "nomCarta TEXT NOT NULL, "
-					+ "numCarta TEXT NOT NULL, " + "editorialCarta TEXT NOT NULL, " + "coleccionCarta TEXT NOT NULL, "
-					+ "rarezaCarta TEXT NOT NULL, " + "precioCartaFoil TEXT NOT NULL, "
-					+ "precioCartaNormal TEXT NOT NULL, " + "urlReferenciaCarta TEXT NOT NULL, "
-					+ "direccionImagenCarta TEXT NOT NULL, " + "normasCarta TEXT NOT NULL)";
+					+ "codCarta TEXT NOT NULL, " // Nueva columna para 'codCarta'
+					+ "numCarta TEXT NOT NULL, " + "anioCarta TEXT NOT NULL, " // Nueva columna para 'anioCarta'
+					+ "coleccionCarta TEXT NOT NULL, " + "edicionCarta TEXT NOT NULL, " // Nueva columna para
+					+ "empresaCarta TEXT NOT NULL, " // Nueva columna para 'empresaCarta'
+					+ "gradeoCarta TEXT NOT NULL, " // Nueva columna para 'gradeoCarta'
+					+ "urlReferenciaCarta TEXT NOT NULL, " + "direccionImagenCarta TEXT NOT NULL)";
 
 			statement.executeUpdate(createTableSQL);
 

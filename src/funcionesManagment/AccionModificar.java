@@ -1,18 +1,14 @@
 package funcionesManagment;
 
-import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
 
 import alarmas.AlarmaList;
-import cartaManagement.Carta;
+import cartaManagement.CartaGradeo;
 import dbmanager.CartaManagerDAO;
-import dbmanager.ConectManager;
 import dbmanager.DBUtilidades;
 import dbmanager.ListasCartasDAO;
 import dbmanager.SelectManager;
@@ -28,7 +24,6 @@ import javafx.scene.control.Control;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import javafx.util.Pair;
 import webScrap.WebScrapNodeJSInstall;
 
 public class AccionModificar {
@@ -69,7 +64,7 @@ public class AccionModificar {
 
 		String idCarta = getReferenciaVentana().getIdCartaTratarTextField().getText();
 		getReferenciaVentana().getIdCartaTratarTextField().setStyle("");
-		Carta comicActualizar = CartaManagerDAO.cartaDatos(idCarta);
+		CartaGradeo comicActualizar = CartaManagerDAO.cartaDatos(idCarta);
 		if (accionFuncionesComunes.comprobarExistenciaCarta(idCarta)) {
 			if (nav.alertaAccionGeneral()) {
 				CartaManagerDAO.actualizarCartaBBDD(comicActualizar, "vender");
@@ -100,12 +95,12 @@ public class AccionModificar {
 
 		if (accionFuncionesComunes.comprobarExistenciaCarta(idCarta)) {
 			String sentenciaSQL = DBUtilidades.construirSentenciaSQL(DBUtilidades.TipoBusqueda.COMPLETA);
-			List<Carta> listaCartas;
+			List<CartaGradeo> listaCartas;
 			if (nav.alertaAccionGeneral()) {
 
 				Utilidades.convertirNombresCarpetas(AccionFuncionesComunes.carpetaPortadas(Utilidades.nombreDB()));
 
-				Carta comicModificado = AccionControlUI.cartaModificado();
+				CartaGradeo comicModificado = AccionControlUI.cartaModificado();
 
 				accionFuncionesComunes.procesarCarta(comicModificado, true);
 
@@ -151,7 +146,7 @@ public class AccionModificar {
 			}
 		}
 
-		Carta datos = AccionControlUI.camposCarta(valorControles, true);
+		CartaGradeo datos = AccionControlUI.camposCarta(valorControles, true);
 
 		if (!ListasCartasDAO.cartasImportados.isEmpty()) {
 
@@ -160,7 +155,7 @@ public class AccionModificar {
 			}
 
 			// Si hay elementos en la lista
-			for (Carta c : ListasCartasDAO.cartasImportados) {
+			for (CartaGradeo c : ListasCartasDAO.cartasImportados) {
 				if (c.getIdCarta().equals(datos.getIdCarta())) {
 					// Si se encuentra un cómic con el mismo ID, reemplazarlo con los nuevos datos
 					ListasCartasDAO.cartasImportados.set(ListasCartasDAO.cartasImportados.indexOf(c), datos);
@@ -181,7 +176,7 @@ public class AccionModificar {
 		AccionFuncionesComunes.cambiarEstadoBotones(false);
 		getReferenciaVentana().getBotonCancelarSubida().setVisible(false); // Oculta el botón de cancelar
 
-		Carta.limpiarCamposCarta(datos);
+		CartaGradeo.limpiarCamposCarta(datos);
 		AccionControlUI.limpiarAutorellenos(false);
 
 		FuncionesTableView.nombreColumnas();
@@ -190,20 +185,20 @@ public class AccionModificar {
 
 	public void mostrarElementosModificar(List<Node> elementosAMostrarYHabilitar) {
 
-		elementosAMostrarYHabilitar.addAll(Arrays.asList(referenciaVentana.getLabelRareza(),
-				referenciaVentana.getLabelNormas(), referenciaVentana.getLabelPrecioNormal(),
-				referenciaVentana.getLabelPrecioFoil(), referenciaVentana.getLabelIdMod(),
-				referenciaVentana.getLabelPortada(), referenciaVentana.getLabelReferencia()));
+		elementosAMostrarYHabilitar
+				.addAll(Arrays.asList(referenciaVentana.getLabelAnio(), referenciaVentana.getLabelEmpresa(),
+						referenciaVentana.getLabelCodigo(), referenciaVentana.getLabelIdMod(),
+						referenciaVentana.getLabelPortada(), referenciaVentana.getLabelReferencia()));
 
 		elementosAMostrarYHabilitar
 				.addAll(Arrays.asList(referenciaVentana.getNumeroCartaCombobox(), getReferenciaVentana().getRootVBox(),
 						getReferenciaVentana().getBotonSubidaPortada(), getReferenciaVentana().getBotonbbdd(),
 						getReferenciaVentana().getTablaBBDD(), getReferenciaVentana().getBotonParametroCarta()));
 
-		elementosAMostrarYHabilitar.addAll(Arrays.asList(referenciaVentana.getRarezaCartaTextField(),
-				referenciaVentana.getNormasCartaTextArea(), referenciaVentana.getIdCartaTratarTextField(),
+		elementosAMostrarYHabilitar.addAll(Arrays.asList(referenciaVentana.getGradeoCartaTextField(),
+				referenciaVentana.getNombreEmpresaTextField(), referenciaVentana.getIdCartaTratarTextField(),
 				referenciaVentana.getDireccionImagenTextField(), referenciaVentana.getUrlReferenciaTextField(),
-				referenciaVentana.getPrecioCartaNormalTextField(), referenciaVentana.getPrecioCartaFoilTextField()));
+				referenciaVentana.getGradeoCartaTextField(), referenciaVentana.getCodigoCartaTextField()));
 
 		elementosAMostrarYHabilitar.addAll(Arrays.asList(referenciaVentana.getBotonSubidaPortada(),
 				getReferenciaVentana().getBotonModificarCarta()));
@@ -229,7 +224,7 @@ public class AccionModificar {
 		}
 
 		String sentenciaSQL = DBUtilidades.construirSentenciaSQL(DBUtilidades.TipoBusqueda.COMPLETA);
-		List<Carta> listaCartasDatabase = SelectManager.verLibreria(sentenciaSQL, true);
+		List<CartaGradeo> listaCartasDatabase = SelectManager.verLibreria(sentenciaSQL, true);
 
 		Collections.sort(listaCartasDatabase, (comic1, comic2) -> {
 			int id1 = Integer.parseInt(comic1.getIdCarta());

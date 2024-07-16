@@ -7,7 +7,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import alarmas.AlarmaList;
-import cartaManagement.Carta;
 import cartaManagement.CartaGradeo;
 import dbmanager.CartaManagerDAO;
 import dbmanager.ConectManager;
@@ -65,7 +64,7 @@ public class AccionAniadir {
 		}
 
 		CartaGradeo comic = AccionControlUI.camposCarta(controls, true);
-		accionRellenoDatos.actualizarCamposUnicos(comic);
+//		accionRellenoDatos.actualizarCamposUnicos(comic);
 
 		referenciaVentana.getProntInfoTextArea().setOpacity(1);
 
@@ -110,17 +109,15 @@ public class AccionAniadir {
 
 	public void mostrarElementosAniadir(List<Node> elementosAMostrarYHabilitar) {
 
-		elementosAMostrarYHabilitar.addAll(Arrays.asList(referenciaVentana.getLabelRareza(),
-				referenciaVentana.getLabelNormas(), referenciaVentana.getLabelPrecioNormal(),referenciaVentana.getLabelPrecioFoil(),
-				referenciaVentana.getLabelIdMod(), referenciaVentana.getLabelPortada(), referenciaVentana.getLabelReferencia()));
+		elementosAMostrarYHabilitar.addAll(Arrays.asList(referenciaVentana.getLabelGradeo(),
+				referenciaVentana.getLabelEmpresa(), referenciaVentana.getLabelIdMod(),
+				referenciaVentana.getLabelPortada(), referenciaVentana.getLabelReferencia()));
 
-		elementosAMostrarYHabilitar.addAll(
-				Arrays.asList(referenciaVentana.getNumeroCartaCombobox()));
+		elementosAMostrarYHabilitar.addAll(Arrays.asList(referenciaVentana.getNumeroCartaCombobox()));
 
-		elementosAMostrarYHabilitar.addAll(Arrays.asList(referenciaVentana.getRarezaCartaTextField(),
-				referenciaVentana.getNormasCartaTextArea(), referenciaVentana.getPrecioCartaNormalTextField(),referenciaVentana.getPrecioCartaFoilTextField(),
-				referenciaVentana.getIdCartaTratarTextField(), referenciaVentana.getDireccionImagenTextField(),
-				referenciaVentana.getUrlReferenciaTextField()));
+		elementosAMostrarYHabilitar.addAll(Arrays.asList(referenciaVentana.getGradeoCartaTextField(),
+				referenciaVentana.getNombreEmpresaTextField(), referenciaVentana.getIdCartaTratarTextField(),
+				referenciaVentana.getDireccionImagenTextField(), referenciaVentana.getUrlReferenciaTextField()));
 
 		elementosAMostrarYHabilitar.addAll(Arrays.asList(referenciaVentana.getBotonSubidaPortada(),
 				referenciaVentana.getBotonBusquedaAvanzada(), referenciaVentana.getBotonGuardarCambioCarta(),

@@ -26,7 +26,161 @@ public class CartaGradeo implements Cloneable {
     protected String direccionImagenCarta;
     protected String urlReferenciaCarta;
 
-    public static class CartaGradeoBuilder {
+    /**
+	 * @return the idCarta
+	 */
+	public String getIdCarta() {
+		return idCarta;
+	}
+
+	/**
+	 * @return the nomCarta
+	 */
+	public String getNomCarta() {
+		return nomCarta;
+	}
+
+	/**
+	 * @return the codCarta
+	 */
+	public String getCodCarta() {
+		return codCarta;
+	}
+
+	/**
+	 * @return the numCarta
+	 */
+	public String getNumCarta() {
+		return numCarta;
+	}
+
+	/**
+	 * @return the anioCarta
+	 */
+	public String getAnioCarta() {
+		return anioCarta;
+	}
+
+	/**
+	 * @return the coleccionCarta
+	 */
+	public String getColeccionCarta() {
+		return coleccionCarta;
+	}
+
+	/**
+	 * @return the edicionCarta
+	 */
+	public String getEdicionCarta() {
+		return edicionCarta;
+	}
+
+	/**
+	 * @return the empresaCarta
+	 */
+	public String getEmpresaCarta() {
+		return empresaCarta;
+	}
+
+	/**
+	 * @return the gradeoCarta
+	 */
+	public String getGradeoCarta() {
+		return gradeoCarta;
+	}
+
+	/**
+	 * @return the direccionImagenCarta
+	 */
+	public String getDireccionImagenCarta() {
+		return direccionImagenCarta;
+	}
+
+	/**
+	 * @return the urlReferenciaCarta
+	 */
+	public String getUrlReferenciaCarta() {
+		return urlReferenciaCarta;
+	}
+
+	/**
+	 * @param idCarta the idCarta to set
+	 */
+	public void setIdCarta(String idCarta) {
+		this.idCarta = idCarta;
+	}
+
+	/**
+	 * @param nomCarta the nomCarta to set
+	 */
+	public void setNomCarta(String nomCarta) {
+		this.nomCarta = nomCarta;
+	}
+
+	/**
+	 * @param codCarta the codCarta to set
+	 */
+	public void setCodCarta(String codCarta) {
+		this.codCarta = codCarta;
+	}
+
+	/**
+	 * @param numCarta the numCarta to set
+	 */
+	public void setNumCarta(String numCarta) {
+		this.numCarta = numCarta;
+	}
+
+	/**
+	 * @param anioCarta the anioCarta to set
+	 */
+	public void setAnioCarta(String anioCarta) {
+		this.anioCarta = anioCarta;
+	}
+
+	/**
+	 * @param coleccionCarta the coleccionCarta to set
+	 */
+	public void setColeccionCarta(String coleccionCarta) {
+		this.coleccionCarta = coleccionCarta;
+	}
+
+	/**
+	 * @param edicionCarta the edicionCarta to set
+	 */
+	public void setEdicionCarta(String edicionCarta) {
+		this.edicionCarta = edicionCarta;
+	}
+
+	/**
+	 * @param empresaCarta the empresaCarta to set
+	 */
+	public void setEmpresaCarta(String empresaCarta) {
+		this.empresaCarta = empresaCarta;
+	}
+
+	/**
+	 * @param gradeoCarta the gradeoCarta to set
+	 */
+	public void setGradeoCarta(String gradeoCarta) {
+		this.gradeoCarta = gradeoCarta;
+	}
+
+	/**
+	 * @param direccionImagenCarta the direccionImagenCarta to set
+	 */
+	public void setDireccionImagenCarta(String direccionImagenCarta) {
+		this.direccionImagenCarta = direccionImagenCarta;
+	}
+
+	/**
+	 * @param urlReferenciaCarta the urlReferenciaCarta to set
+	 */
+	public void setUrlReferenciaCarta(String urlReferenciaCarta) {
+		this.urlReferenciaCarta = urlReferenciaCarta;
+	}
+
+	public static class CartaGradeoBuilder {
         private String idCarta;
         private String nomCarta;
         private String codCarta;
@@ -106,6 +260,20 @@ public class CartaGradeo implements Cloneable {
         this.gradeoCarta = builder.gradeoCarta;
         this.direccionImagenCarta = builder.direccionImagenCarta;
         this.urlReferenciaCarta = builder.urlReferenciaCarta;
+    }
+    
+    public CartaGradeo() {
+        this.idCarta = "";
+        this.nomCarta = "";
+        this.codCarta = "";
+        this.numCarta = "";
+        this.anioCarta = "";
+        this.coleccionCarta = "";
+        this.edicionCarta = "";
+        this.empresaCarta = "";
+        this.gradeoCarta = "";
+        this.direccionImagenCarta = "";
+        this.urlReferenciaCarta = "";
     }
 
     public static CartaGradeo obtenerCarta(String idCarta) {
@@ -208,94 +376,5 @@ public class CartaGradeo implements Cloneable {
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
-    }
-
-    // Getters y setters
-    public String getIdCarta() {
-        return idCarta;
-    }
-
-    public void setIdCarta(String idCarta) {
-        this.idCarta = idCarta;
-    }
-
-    public String getNomCarta() {
-        return nomCarta;
-    }
-
-    public void setNomCarta(String nomCarta) {
-        this.nomCarta = nomCarta;
-    }
-
-    public String getCodCarta() {
-        return codCarta;
-    }
-
-    public void setCodCarta(String codCarta) {
-        this.codCarta = codCarta;
-    }
-
-    public String getNumCarta() {
-        return numCarta;
-    }
-
-    public void setNumCarta(String numCarta) {
-        this.numCarta = numCarta;
-    }
-
-    public String getAnioCarta() {
-        return anioCarta;
-    }
-
-    public void setAnioCarta(String anioCarta) {
-        this.anioCarta = anioCarta;
-    }
-
-    public String getColeccionCarta() {
-        return coleccionCarta;
-    }
-
-    public void setColeccionCarta(String coleccionCarta) {
-        this.coleccionCarta = coleccionCarta;
-    }
-
-    public String getEdicionCarta() {
-        return edicionCarta;
-    }
-
-    public void setEdicionCarta(String edicionCarta) {
-        this.edicionCarta = edicionCarta;
-    }
-
-    public String getEmpresaCarta() {
-        return empresaCarta;
-    }
-
-    public void setEmpresaCarta(String empresaCarta) {
-        this.empresaCarta = empresaCarta;
-    }
-
-    public String getGradeoCarta() {
-        return gradeoCarta;
-    }
-
-    public void setGradeoCarta(String gradeoCarta) {
-        this.gradeoCarta = gradeoCarta;
-    }
-
-    public String getDireccionImagenCarta() {
-        return direccionImagenCarta;
-    }
-
-    public void setDireccionImagenCarta(String direccionImagenCarta) {
-        this.direccionImagenCarta = direccionImagenCarta;
-    }
-
-    public String getUrlReferenciaCarta() {
-        return urlReferenciaCarta;
-    }
-
-    public void setUrlReferenciaCarta(String urlReferenciaCarta) {
-        this.urlReferenciaCarta = urlReferenciaCarta;
     }
 }

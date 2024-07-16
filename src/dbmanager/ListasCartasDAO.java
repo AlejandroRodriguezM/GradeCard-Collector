@@ -49,7 +49,7 @@ public class ListasCartasDAO {
 	 * Construimos la ruta al directorio "libreria_comics" dentro de "Documents" y
 	 * añadimos el nombre de la base de datos y la carpeta "portadas".
 	 */
-	private static final String SOURCE_PATH = DOCUMENTS_PATH + File.separator + "album_cartas" + File.separator
+	private static final String SOURCE_PATH = DOCUMENTS_PATH + File.separator + "gradeo_cartas" + File.separator
 			+ Utilidades.nombreDB() + File.separator + "portadas" + File.separator;
 
 	public static List<CartaGradeo> listaTemporalCartas = new ArrayList<>();
@@ -79,7 +79,7 @@ public class ListasCartasDAO {
 	/**
 	 * Lista de formatos.
 	 */
-	public static List<String> listagradeo = new ArrayList<>();
+	public static List<String> listaGradeo = new ArrayList<>();
 
 	/**
 	 * Lista de editoriales.
@@ -90,6 +90,8 @@ public class ListasCartasDAO {
 	 * Lista de procedencias.
 	 */
 	public static List<String> listaColeccion = new ArrayList<>();
+
+	public static List<String> listaEmpresa = new ArrayList<>();
 
 	/**
 	 * Lista de nombres de cómics.
@@ -127,10 +129,6 @@ public class ListasCartasDAO {
 
 	public static List<String> listaReferencia = new ArrayList<>();
 
-	public static List<String> listaPreciosNormal = new ArrayList<>();
-
-	public static List<String> listaPreciosFoil = new ArrayList<>();
-
 	/**
 	 * Lista de cómics limpios.
 	 */
@@ -152,7 +150,7 @@ public class ListasCartasDAO {
 	 * Lista de listas de elementos.
 	 */
 	public static List<List<String>> itemsList = Arrays.asList(listaNombre, listaNumeroCarta, listaEdicion,
-			listaColeccion, listagradeo, nombrePrecioNormalList, nombrePrecioFoilList);
+			listaColeccion, listaGradeo, nombrePrecioNormalList, nombrePrecioFoilList);
 
 	public static void eliminarUltimaCartaImportada() {
 		ObservableList<CartaGradeo> cartasImportados = ListasCartasDAO.cartasImportados;
@@ -198,10 +196,9 @@ public class ListasCartasDAO {
 		listaNumeroCarta = DBUtilidades.obtenerValoresColumna("numCarta");
 		listaEdicion = DBUtilidades.obtenerValoresColumna("edicionCarta");
 		listaColeccion = DBUtilidades.obtenerValoresColumna("coleccionCarta");
-		listagradeo = DBUtilidades.obtenerValoresColumna("gradeoCarta");
+		listaGradeo = DBUtilidades.obtenerValoresColumna("gradeoCarta");
 		listaReferencia = DBUtilidades.obtenerValoresColumna("urlReferenciaCarta");
-		listaPreciosNormal = DBUtilidades.obtenerValoresColumna("precioCartaNormal");
-		listaPreciosFoil = DBUtilidades.obtenerValoresColumna("precioCartaFoil");
+		listaEmpresa = DBUtilidades.obtenerValoresColumna("empresaCarta");
 
 		listaID = ordenarLista(listaID);
 
@@ -210,8 +207,8 @@ public class ListasCartasDAO {
 		Collections.sort(numerosCarta);
 		listaNumeroCarta = numerosCarta.stream().map(String::valueOf).collect(Collectors.toList());
 
-		itemsList = Arrays.asList(listaNombre, listaNumeroCarta, listaEdicion, listaColeccion, listagradeo,
-				listaPreciosNormal, listaPreciosFoil);
+		itemsList = Arrays.asList(listaNombre, listaNumeroCarta, listaEdicion, listaColeccion, listaGradeo,
+				listaEmpresa);
 
 	}
 
@@ -334,7 +331,7 @@ public class ListasCartasDAO {
 		listaNombre.clear();
 		listaNumeroCarta.clear();
 		listaEdicion.clear();
-		listagradeo.clear();
+		listaGradeo.clear();
 		listaColeccion.clear();
 	}
 
@@ -351,7 +348,7 @@ public class ListasCartasDAO {
 		listaID.clear();
 		listaNombre.clear();
 		listaNumeroCarta.clear();
-		listagradeo.clear();
+		listaGradeo.clear();
 		listaEdicion.clear();
 		listaColeccion.clear();
 		nombreCartaList.clear();
@@ -535,7 +532,7 @@ public class ListasCartasDAO {
 		System.out.println("Tamaño de listaID: " + listaID.size());
 		System.out.println("Tamaño de listaNombre: " + listaNombre.size());
 		System.out.println("Tamaño de listaNumeroCarta: " + listaNumeroCarta.size());
-		System.out.println("Tamaño de listaRareza: " + listagradeo.size());
+		System.out.println("Tamaño de listaRareza: " + listaGradeo.size());
 		System.out.println("Tamaño de listaEditorial: " + listaEdicion.size());
 		System.out.println("Tamaño de listaColeccion: " + listaColeccion.size());
 		System.out.println("Tamaño de nombreCartaList: " + nombreCartaList.size());

@@ -45,7 +45,7 @@ public class FuncionesFicheros {
 
 	static String userHome = System.getProperty("user.home");
 	static String ubicacion = userHome + File.separator + "AppData" + File.separator + "Roaming";
-	static String carpetaLibreria = ubicacion + File.separator + "gradeado";
+	static String carpetaLibreria = ubicacion + File.separator + "gradeo";
 	public static String rutaDestinoRecursos = carpetaLibreria + File.separator + "recursos";
 
 	public static Map<String, String> devolverDatosConfig() {

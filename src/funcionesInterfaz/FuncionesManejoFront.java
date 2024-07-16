@@ -9,7 +9,7 @@ import java.util.Set;
 import org.controlsfx.control.textfield.TextFields;
 
 import alarmas.AlarmaList;
-import cartaManagement.Carta;
+import cartaManagement.CartaGradeo;
 import funcionesAuxiliares.Utilidades;
 import funcionesManagment.AccionReferencias;
 import javafx.application.Platform;
@@ -55,7 +55,7 @@ public class FuncionesManejoFront {
 	}
 
 	public static void establecerAnchoColumnas(double numColumns) {
-		for (TableColumn<Carta, String> columna : AccionReferencias.getListaColumnasTabla()) {
+		for (TableColumn<CartaGradeo, String> columna : AccionReferencias.getListaColumnasTabla()) {
 			columna.prefWidthProperty().bind(referenciaVentana.getTablaBBDD().widthProperty().divide(numColumns));
 		}
 	}
@@ -359,17 +359,17 @@ public class FuncionesManejoFront {
 				referenciaVentana.getBotonGuardarListaCartas());
 
 		disableControls(estadoAccion, referenciaVentana.getNombreCartaCombobox(),
-				referenciaVentana.getNumeroCartaCombobox(), referenciaVentana.getNombreEditorialCombobox(),
-				referenciaVentana.getNombreColeccionCombobox(), referenciaVentana.getNombreRarezaCombobox(),
-				referenciaVentana.getNumeroCartaCombobox(), referenciaVentana.getNombreTiendaCombobox());
+				referenciaVentana.getNumeroCartaCombobox(), referenciaVentana.getNombreEdicionCombobox(),
+				referenciaVentana.getNombreColeccionCombobox(), referenciaVentana.getNombreGradeoCombobox(),
+				referenciaVentana.getNumeroCartaCombobox(), referenciaVentana.getNombreTiendaCombobox(),
+				referenciaVentana.getNombreEmpresaCombobox());
 
 		disableTextFields(estadoAccion, referenciaVentana.getNombreCartaTextField(),
-				referenciaVentana.getEditorialCartaTextField(), referenciaVentana.getColeccionCartaTextField(),
-				referenciaVentana.getRarezaCartaTextField(), referenciaVentana.getBusquedaGeneralTextField(),
-				referenciaVentana.getNormasCartaTextArea(), referenciaVentana.getNormasCartaTextArea(),
-				referenciaVentana.getPrecioCartaNormalTextField(), referenciaVentana.getPrecioCartaFoilTextField(),
-				referenciaVentana.getCodigoCartaTratarTextField(), referenciaVentana.getDireccionImagenTextField(),
-				referenciaVentana.getIdCartaTratarTextField(), referenciaVentana.getUrlReferenciaTextField());
+				referenciaVentana.getEdicionCartaTextField(), referenciaVentana.getColeccionCartaTextField(),
+				referenciaVentana.getGradeoCartaTextField(), referenciaVentana.getBusquedaGeneralTextField(),
+				referenciaVentana.getNumeroCartaCombobox(),referenciaVentana.getCodigoCartaTratarTextField(),
+				referenciaVentana.getDireccionImagenTextField(), referenciaVentana.getIdCartaTratarTextField(),
+				referenciaVentana.getUrlReferenciaTextField());
 
 		if (referenciaVentana.getBotonModificar() != null) {
 			// Limpiar elementos adicionales de la interfaz

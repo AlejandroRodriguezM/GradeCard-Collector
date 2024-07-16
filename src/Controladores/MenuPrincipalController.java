@@ -77,159 +77,137 @@ import javafx.stage.Stage;
  * @author Alejandro Rodriguez
  */
 public class MenuPrincipalController implements Initializable {
-
+	// Labels
 	@FXML
 	private Label alarmaConexionInternet;
 
+	// AnchorPanes
 	@FXML
 	private AnchorPane anchoPaneInfo;
-
-	@FXML
-	private ImageView backgroundImage;
-
-	@FXML
-	private Rectangle barraCambioAltura;
-
-	@FXML
-	private Button botonCancelarSubida;
-
-	@FXML
-	private Button botonEliminar;
-
-	@FXML
-	private Button botonIntroducir;
-
-	@FXML
-	private Button botonLimpiar;
-
-	@FXML
-	private Button botonModificar;
-
-	@FXML
-	private Button botonMostrarParametro;
-
-	@FXML
-	private Button botonbbdd;
-
-	@FXML
-	private TextField busquedaGeneral;
-
-	@FXML
-	private TableColumn<CartaGradeo, String> columnaColeccion;
-
-	@FXML
-	private TableColumn<CartaGradeo, String> columnaEditorial;
-
-	@FXML
-	private TableColumn<CartaGradeo, String> columnaId;
-
-	@FXML
-	private TableColumn<CartaGradeo, String> columnaNombre;
-
-	@FXML
-	private TableColumn<CartaGradeo, String> columnaNumero;
-
-	@FXML
-	private TableColumn<CartaGradeo, String> columnaPrecioFoil;
-
-	@FXML
-	private TableColumn<CartaGradeo, String> columnaPrecioNormal;
-
-	@FXML
-	private TableColumn<CartaGradeo, String> columnaRareza;
-
-	@FXML
-	private TableColumn<CartaGradeo, String> columnaReferencia;
-
-	@FXML
-	private ComboBox<String> comboboxColeccionCarta;
-
-	@FXML
-	private ComboBox<String> comboboxEditorialCarta;
-
-	@FXML
-	private ComboBox<String> comboboxNombreCarta;
-
-	@FXML
-	private ComboBox<String> comboboxNumeroCarta;
-
-	@FXML
-	private ComboBox<String> comboboxRarezaCarta;
-
-	@FXML
-	private VBox comboboxVbox;
-
-	@FXML
-	private ImageView imagenCarta;
-
-	@FXML
-	private MenuItem menuArchivoAvanzado;
-
-	@FXML
-	private MenuItem menuArchivoCerrar;
-
-	@FXML
-	private MenuItem menuArchivoDelete;
-
-	@FXML
-	private MenuItem menuArchivoDesconectar;
-
-	@FXML
-	private MenuItem menuArchivoExcel;
-
-	@FXML
-	private MenuItem menuArchivoImportar;
-
-	@FXML
-	private MenuItem menuArchivoSobreMi;
-
-	@FXML
-	private MenuItem menuCartaAniadir;
-
-	@FXML
-	private MenuItem menuCartaEliminar;
-
-	@FXML
-	private MenuItem menuCartaModificar;
-
-	@FXML
-	private MenuItem menuEstadisticaEstadistica;
-
-	@FXML
-	private MenuItem menuPrecioTotal;
-
-	@FXML
-	private MenuBar menuNavegacion;
-
-	@FXML
-	private Menu navegacionCarta;
-
-	@FXML
-	private Menu navegacionCerrar;
-
-	@FXML
-	private Menu navegacionEstadistica;
-
-	@FXML
-	private ProgressIndicator progresoCarga;
-
-	@FXML
-	private TextArea prontInfo;
-
 	@FXML
 	private AnchorPane rootAnchorPane;
 
+	// ImageViews
+	@FXML
+	private ImageView backgroundImage;
+	@FXML
+	private ImageView imagenCarta;
+
+	// Rectangles
+	@FXML
+	private Rectangle barraCambioAltura;
+
+	// Buttons
+	@FXML
+	private Button botonCancelarSubida;
+	@FXML
+	private Button botonEliminar;
+	@FXML
+	private Button botonIntroducir;
+	@FXML
+	private Button botonLimpiar;
+	@FXML
+	private Button botonModificar;
+	@FXML
+	private Button botonMostrarParametro;
+	@FXML
+	private Button botonbbdd;
+
+	// TextFields
+	@FXML
+	private TextField busquedaGeneral;
+
+	// TableColumns
+	@FXML
+	private TableColumn<CartaGradeo, String> columnaCertificacion;
+	@FXML
+	private TableColumn<CartaGradeo, String> columnaColeccion;
+	@FXML
+	private TableColumn<CartaGradeo, String> columnaEdicion;
+	@FXML
+	private TableColumn<CartaGradeo, String> columnaEmpresa;
+	@FXML
+	private TableColumn<CartaGradeo, String> columnaId;
+	@FXML
+	private TableColumn<CartaGradeo, String> columnaNombre;
+	@FXML
+	private TableColumn<CartaGradeo, String> columnaNumero;
+	@FXML
+	private TableColumn<CartaGradeo, String> columnaReferencia;
+
+	// ComboBoxes
+	@FXML
+	private ComboBox<String> comboboxNombreCarta;
+	@FXML
+	private ComboBox<String> comboboxNumeroCarta;
+	@FXML
+	private ComboBox<String> comboboxEdicionCarta;
+	@FXML
+	private ComboBox<String> comboboxColeccionCarta;
+	@FXML
+	private ComboBox<String> comboboxGradeoCarta;
+	@FXML
+	private ComboBox<String> comboboxEmpresaCarta;
+
+	// VBoxes
+	@FXML
+	private VBox comboboxVbox;
 	@FXML
 	private VBox rootVBox;
-
-	@FXML
-	private TableView<CartaGradeo> tablaBBDD;
-
 	@FXML
 	private VBox vboxContenido;
-
 	@FXML
 	private VBox vboxImage;
+
+	// MenuItems
+	@FXML
+	private MenuItem menuArchivoAvanzado;
+	@FXML
+	private MenuItem menuArchivoCerrar;
+	@FXML
+	private MenuItem menuArchivoDelete;
+	@FXML
+	private MenuItem menuArchivoDesconectar;
+	@FXML
+	private MenuItem menuArchivoExcel;
+	@FXML
+	private MenuItem menuArchivoImportar;
+	@FXML
+	private MenuItem menuArchivoSobreMi;
+	@FXML
+	private MenuItem menuCartaAniadir;
+	@FXML
+	private MenuItem menuCartaEliminar;
+	@FXML
+	private MenuItem menuCartaModificar;
+	@FXML
+	private MenuItem menuEstadisticaEstadistica;
+	@FXML
+	private MenuItem menuPrecioTotal;
+
+	// Menus
+	@FXML
+	private Menu navegacionCarta;
+	@FXML
+	private Menu navegacionCerrar;
+	@FXML
+	private Menu navegacionEstadistica;
+
+	// MenuBars
+	@FXML
+	private MenuBar menuNavegacion;
+
+	// ProgressIndicators
+	@FXML
+	private ProgressIndicator progresoCarga;
+
+	// TextAreas
+	@FXML
+	private TextArea prontInfo;
+
+	// TableViews
+	@FXML
+	private TableView<CartaGradeo> tablaBBDD;
 
 	public CartaGradeo cartaCache;
 
@@ -294,19 +272,19 @@ public class MenuPrincipalController implements Initializable {
 		referenciaVentana.setiDColumna(columnaId);
 		referenciaVentana.setNombreColumna(columnaNombre);
 		referenciaVentana.setNumeroColumna(columnaNumero);
-		referenciaVentana.setEditorialColumna(columnaEditorial);
+		referenciaVentana.setEdicionColumna(columnaEdicion);
 		referenciaVentana.setColeccionColumna(columnaColeccion);
-		referenciaVentana.setRarezaColumna(columnaRareza);
-		referenciaVentana.setPrecioColumnaNormal(columnaPrecioNormal);
-		referenciaVentana.setPrecioColumnaFoil(columnaPrecioFoil);
+		referenciaVentana.setEmpresaColumna(columnaEmpresa);
+		referenciaVentana.setCertificacionColumna(columnaCertificacion);
 		referenciaVentana.setReferenciaColumna(columnaReferencia);
 
 		// ComboBoxes
 		referenciaVentana.setNombreCartaCombobox(comboboxNombreCarta);
 		referenciaVentana.setNumeroCartaCombobox(comboboxNumeroCarta);
-		referenciaVentana.setNombreEditorialCombobox(comboboxEditorialCarta);
+		referenciaVentana.setNombreEdicionCombobox(comboboxEdicionCarta);
 		referenciaVentana.setNombreColeccionCombobox(comboboxColeccionCarta);
-		referenciaVentana.setNombreRarezaCombobox(comboboxRarezaCarta);
+		referenciaVentana.setNombreGradeoCombobox(comboboxGradeoCarta);
+		referenciaVentana.setNombreEmpresaCombobox(comboboxEmpresaCarta);
 
 		// Others
 		referenciaVentana.setProntInfoTextArea(prontInfo);
@@ -322,15 +300,15 @@ public class MenuPrincipalController implements Initializable {
 
 		// ComboBox List
 		AccionReferencias.setListaComboboxes(Arrays.asList(comboboxNombreCarta, comboboxNumeroCarta,
-				comboboxEditorialCarta, comboboxColeccionCarta, comboboxRarezaCarta));
+				comboboxEdicionCarta, comboboxColeccionCarta, comboboxGradeoCarta));
 
 		// FXCollections Lists
 		AccionReferencias.setListaElementosFondo(FXCollections.observableArrayList(backgroundImage, menuNavegacion));
 		AccionReferencias.setListaBotones(
 				FXCollections.observableArrayList(botonLimpiar, botonMostrarParametro, botonbbdd, botonCancelarSubida));
 
-		AccionReferencias.setListaColumnasTabla(Arrays.asList(columnaNombre, columnaNumero, columnaEditorial,
-				columnaColeccion, columnaRareza, columnaId, columnaPrecioNormal, columnaPrecioFoil, columnaReferencia));
+		AccionReferencias.setListaColumnasTabla(Arrays.asList(columnaNombre, columnaNumero, columnaEdicion,
+				columnaColeccion, columnaEmpresa, columnaId, columnaCertificacion, columnaReferencia));
 
 		return referenciaVentana;
 	}
@@ -1153,25 +1131,6 @@ public class MenuPrincipalController implements Initializable {
 		imagenCarta.setImage(null);
 		prontInfo.setOpacity(0);
 		nav.verAccionCarta();
-	}
-
-	@FXML
-	void sumaPreciosCartas(ActionEvent event) {
-
-		List<String> preciosNormal = ListasCartasDAO.listaPreciosNormal;
-		List<String> precioFoil = ListasCartasDAO.listaPreciosFoil;
-
-		double preciosNormalSuma = Utilidades.sumaNumeros(preciosNormal);
-		double preciosFoilSuma = Utilidades.sumaNumeros(precioFoil);
-		double total = preciosNormalSuma + preciosFoilSuma;
-		total = Math.round(total * 100.0) / 100.0;
-
-		String mensaje = "Precio total de las cartas son: \n" + "Normal: " + preciosNormalSuma + "€\n" + "Foil: "
-				+ preciosFoilSuma + "€\nTotal: " + total + "€\n" + "\n" + "\n";
-
-		AlarmaList.detenerAnimacion();
-		AlarmaList.mostrarMensajePront(mensaje, true, prontInfo);
-
 	}
 
 	/////////////////////////////
