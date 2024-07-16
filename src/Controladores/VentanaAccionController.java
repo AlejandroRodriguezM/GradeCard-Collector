@@ -467,7 +467,6 @@ public class VentanaAccionController implements Initializable {
 	void verTodabbdd(ActionEvent event) throws IOException, SQLException {
 		enviarReferencias();
 		AccionControlUI.limpiarAutorellenos(false);
-
 		AccionSeleccionar.verBasedeDatos(true, true, null);
 	}
 

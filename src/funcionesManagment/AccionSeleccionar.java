@@ -59,11 +59,13 @@ public class AccionSeleccionar {
 					if (!esPrincipal) {
 						if ("modificar".equals(AccionFuncionesComunes.TIPO_ACCION)) {
 							AccionControlUI.mostrarOpcion(AccionFuncionesComunes.TIPO_ACCION);
+
 						}
+						Utilidades.cambiarVisibilidad(elementos[0], true);
+
 						// Borrar cualquier mensaje de error presente
 						AccionFuncionesComunes.borrarErrores();
 						AccionControlUI.validarCamposClave(true);
-						Utilidades.cambiarVisibilidad(elementos[0], true);
 					}
 				}
 			});
@@ -77,17 +79,13 @@ public class AccionSeleccionar {
 		}
 
 		getReferenciaVentana().getImagenCarta().setOnMouseClicked(event -> {
-
-			if (!esPrincipal && newSelection.getIdCarta().isEmpty()) {
-				return;
-			}
-
 			CartaGradeo carta = newSelection;
 			ImagenAmpliadaController.cartaInfo = carta;
-
+			Ventanas.verVentanaImagen();
 			getReferenciaVentana().getImagenCarta().setVisible(false);
 			AccionControlUI.limpiarAutorellenos(esPrincipal);
 		});
+
 	}
 
 	public static void actualizarRefrenciaClick(AccionReferencias referenciaFXML) {

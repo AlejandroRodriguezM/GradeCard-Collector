@@ -1,6 +1,7 @@
 package funcionesManagment;
 
 import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -89,7 +90,7 @@ public class AccionModificar {
 		}
 	}
 
-	public static void modificarCarta() throws Exception {
+	public static void modificarCarta() throws IOException {
 
 		String idCarta = getReferenciaVentana().getIdCartaTratarTextField().getText();
 		getReferenciaVentana().getIdCartaTratarTextField().setStyle("");
@@ -138,16 +139,11 @@ public class AccionModificar {
 		        TextField textField = (TextField) control;
 		        String prompt = textField.getPromptText(); // Usando el prompt como identificador
 		        String value = textField.getText();
-
-		        System.out.println("Prompt: " + prompt + " Value: " + value);
-
 		        valorControles.add(value);
 		    }
 		}
 
 		CartaGradeo datos = AccionControlUI.camposCarta(valorControles, true);
-		
-		System.out.println(datos.toString());
 
 		if (!ListasCartasDAO.cartasImportados.isEmpty()) {
 
