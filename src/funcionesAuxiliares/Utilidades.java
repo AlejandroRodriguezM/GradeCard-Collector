@@ -302,7 +302,7 @@ public class Utilidades {
 
 		String userDir = System.getProperty("user.home");
 		String documentsPath = userDir + File.separator + "Documents";
-		String defaultImagePath = documentsPath + File.separator + "album_cartas" + File.separator
+		String defaultImagePath = documentsPath + File.separator + "gradeo_cartas" + File.separator
 				+ Utilidades.nombreDB() + File.separator + "portadas";
 
 		// Esto se modificara para hacerlo dinamico
@@ -687,7 +687,7 @@ public class Utilidades {
 	public static String obtenerCarpetaConfiguracion() {
 		String userDir = System.getProperty("user.home");
 		String ubicacion = userDir + File.separator + "AppData" + File.separator + "Roaming";
-		String direccion = ubicacion + File.separator + "album";
+		String direccion = ubicacion + File.separator + "gradeo";
 
 		File directorio = new File(direccion);
 		if (!directorio.exists()) {

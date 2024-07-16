@@ -117,7 +117,7 @@ public class AccionAniadir {
 		elementosAMostrarYHabilitar.addAll(Arrays.asList(referenciaVentana.getGradeoCartaTextField(),
 				referenciaVentana.getNombreEmpresaTextField(), referenciaVentana.getIdCartaTratarTextField(),
 				referenciaVentana.getDireccionImagenTextField(), referenciaVentana.getUrlReferenciaTextField(),
-				referenciaVentana.getAnioCartaTextField()));
+				referenciaVentana.getAnioCartaTextField(), referenciaVentana.getCodigoCartaTextField()));
 
 		elementosAMostrarYHabilitar.addAll(Arrays.asList(referenciaVentana.getBotonSubidaPortada(),
 				referenciaVentana.getBotonBusquedaAvanzada(), referenciaVentana.getBotonGuardarCambioCarta(),

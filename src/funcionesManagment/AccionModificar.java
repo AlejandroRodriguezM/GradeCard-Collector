@@ -134,13 +134,20 @@ public class AccionModificar {
 		List<Control> allControls = getReferenciaVentana().getControlAccion();
 		List<String> valorControles = new ArrayList<>();
 		for (Control control : allControls) {
-			if (control instanceof TextField) {
-				String value = ((TextField) control).getText();
-				valorControles.add(value);
-			}
+		    if (control instanceof TextField) {
+		        TextField textField = (TextField) control;
+		        String prompt = textField.getPromptText(); // Usando el prompt como identificador
+		        String value = textField.getText();
+
+		        System.out.println("Prompt: " + prompt + " Value: " + value);
+
+		        valorControles.add(value);
+		    }
 		}
 
 		CartaGradeo datos = AccionControlUI.camposCarta(valorControles, true);
+		
+		System.out.println(datos.toString());
 
 		if (!ListasCartasDAO.cartasImportados.isEmpty()) {
 

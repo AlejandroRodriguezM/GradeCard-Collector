@@ -28,11 +28,6 @@ public class AccionSeleccionar {
 	private static AccionControlUI accionRellenoDatos = new AccionControlUI();
 
 	/**
-	 * Instancia de la clase Ventanas para la navegación.
-	 */
-	private static Ventanas nav = new Ventanas();
-
-	/**
 	 * Método para seleccionar y mostrar detalles de un cómic en la interfaz
 	 * gráfica. Si la lista de cómics importados no está vacía, utiliza la
 	 * información de la lista; de lo contrario, consulta la base de datos para
@@ -82,10 +77,13 @@ public class AccionSeleccionar {
 		}
 
 		getReferenciaVentana().getImagenCarta().setOnMouseClicked(event -> {
-			String idCarta = newSelection.getIdCarta();
-			CartaGradeo carta = SelectManager.cartaDatos(idCarta);
+
+			if (!esPrincipal && newSelection.getIdCarta().isEmpty()) {
+				return;
+			}
+
+			CartaGradeo carta = newSelection;
 			ImagenAmpliadaController.cartaInfo = carta;
-			Ventanas.verVentanaImagen();
 
 			getReferenciaVentana().getImagenCarta().setVisible(false);
 			AccionControlUI.limpiarAutorellenos(esPrincipal);

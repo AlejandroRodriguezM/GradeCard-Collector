@@ -307,10 +307,10 @@ public class VentanaAccionController implements Initializable {
 				.observableArrayList(Arrays.asList(textFieldNombreCarta, textFieldEdicionCarta, textFieldColeccionCarta,
 						textFieldGradeoCarta, textFieldIdCarta, textFieldDireccionCarta, textFieldUrlCarta)));
 
-		referenciaVentana.setControlAccion(
-				Arrays.asList(busquedaCodigo, textFieldIdCarta, textFieldNombreCarta, textFieldNumeroCarta,
-						textFieldEdicionCarta, textFieldColeccionCarta, textFieldDireccionCarta, textFieldAnioCarta,
-						textFieldUrlCarta, textFieldEmpresaCarta, textFieldGradeoCarta, textFieldCodigoCarta));
+		referenciaVentana.setControlAccion(Arrays.asList(textFieldNombreCarta, textFieldNumeroCarta,
+				textFieldEdicionCarta, textFieldColeccionCarta, textFieldAnioCarta, textFieldUrlCarta,
+				textFieldEmpresaCarta, textFieldGradeoCarta, textFieldCodigoCarta, textFieldDireccionCarta,
+				textFieldIdCarta, busquedaCodigo));
 
 		AccionReferencias.setListaColumnasTabla(Arrays.asList(columnaNombre, columnaNumero, columnaCertificacion,
 				columnaEmpresa, columnaEdicion, columnaColeccion));
@@ -383,7 +383,7 @@ public class VentanaAccionController implements Initializable {
 		if (getCartaCache() != null) {
 			ImagenAmpliadaController.cartaInfo = getCartaCache();
 			if (guardarReferencia().getImagenCarta().getOpacity() != 0) {
-				nav.verVentanaImagen();
+				Ventanas.verVentanaImagen();
 			}
 		}
 	}

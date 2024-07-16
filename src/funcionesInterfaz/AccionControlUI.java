@@ -289,16 +289,15 @@ public class AccionControlUI {
 
 		// Validar campos requeridos y "vacio"
 		if (c.getNomCarta() == null || c.getNomCarta().isEmpty() || c.getNomCarta().equalsIgnoreCase("vacio")
-				|| numCartaStr == null || numCartaStr.isEmpty() || Integer.parseInt(numCartaStr) <= 0
-				|| c.getEmpresaCarta() == null || c.getEmpresaCarta().isEmpty()
-				|| c.getEmpresaCarta().equalsIgnoreCase("vacio") || c.getColeccionCarta() == null
-				|| c.getColeccionCarta().isEmpty() || c.getColeccionCarta().equalsIgnoreCase("vacio")
-				|| c.getGradeoCarta() == null || c.getGradeoCarta().isEmpty()
-				|| c.getGradeoCarta().equalsIgnoreCase("vacio") || c.getUrlReferenciaCarta() == null
-				|| c.getUrlReferenciaCarta().isEmpty() || c.getUrlReferenciaCarta().equalsIgnoreCase("vacio")
-				|| c.getEdicionCarta() == null || c.getEdicionCarta().isEmpty()
-				|| c.getEdicionCarta().equalsIgnoreCase("vacio") || c.getAnioCarta() == null
-				|| c.getAnioCarta().isEmpty() || c.getAnioCarta().equalsIgnoreCase("vacio")
+				|| numCartaStr == null || numCartaStr.isEmpty() || c.getEmpresaCarta() == null
+				|| c.getEmpresaCarta().isEmpty() || c.getEmpresaCarta().equalsIgnoreCase("vacio")
+				|| c.getColeccionCarta() == null || c.getColeccionCarta().isEmpty()
+				|| c.getColeccionCarta().equalsIgnoreCase("vacio") || c.getGradeoCarta() == null
+				|| c.getGradeoCarta().isEmpty() || c.getGradeoCarta().equalsIgnoreCase("vacio")
+				|| c.getUrlReferenciaCarta() == null || c.getUrlReferenciaCarta().isEmpty()
+				|| c.getUrlReferenciaCarta().equalsIgnoreCase("vacio") || c.getEdicionCarta() == null
+				|| c.getEdicionCarta().isEmpty() || c.getEdicionCarta().equalsIgnoreCase("vacio")
+				|| c.getAnioCarta() == null || c.getAnioCarta().isEmpty() || c.getAnioCarta().equalsIgnoreCase("vacio")
 				|| c.getDireccionImagenCarta() == null || c.getDireccionImagenCarta().isEmpty()
 				|| c.getDireccionImagenCarta().equalsIgnoreCase("vacio")) {
 
@@ -378,7 +377,8 @@ public class AccionControlUI {
 			referenciaVentana.getProntInfoTextArea().setText(null);
 			referenciaVentana.getProntInfoTextArea().setOpacity(0);
 			referenciaVentana.getTablaBBDD().getItems().clear();
-			referenciaVentana.getTablaBBDD().setOpacity(0.6);;
+			referenciaVentana.getTablaBBDD().setOpacity(0.6);
+			;
 			referenciaVentana.getTablaBBDD().refresh();
 			referenciaVentana.getImagenCarta().setImage(null);
 			referenciaVentana.getImagenCarta().setOpacity(0);
@@ -585,15 +585,14 @@ public class AccionControlUI {
 		String idCartaTratar = "";
 		String anioCarta = "";
 		if (esAccion) {
-
+			anioCarta = camposCarta.get(4);
 			urlReferenciaCarta = camposCarta.get(5);
 			empresaCarta = camposCarta.get(6);
-			anioCarta = camposCarta.get(7);
+			gradeoCarta = camposCarta.get(7);
 			codigoCarta = camposCarta.get(8);
-			idCartaTratar = camposCarta.get(9);
-			direccionImagenCarta = camposCarta.get(10);
+			direccionImagenCarta = camposCarta.get(9);
+			idCartaTratar = camposCarta.get(11);
 		}
-
 		cartaTemp.setNomCarta(Utilidades.defaultIfNullOrEmpty(nomCarta, ""));
 		cartaTemp.setNumCarta(Utilidades.defaultIfNullOrEmpty(numCarta, ""));
 		cartaTemp.setEdicionCarta(Utilidades.defaultIfNullOrEmpty(edicionCarta, ""));
