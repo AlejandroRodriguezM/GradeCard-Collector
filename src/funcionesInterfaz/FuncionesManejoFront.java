@@ -367,9 +367,10 @@ public class FuncionesManejoFront {
 		disableTextFields(estadoAccion, referenciaVentana.getNombreCartaTextField(),
 				referenciaVentana.getEdicionCartaTextField(), referenciaVentana.getColeccionCartaTextField(),
 				referenciaVentana.getGradeoCartaTextField(), referenciaVentana.getBusquedaGeneralTextField(),
-				referenciaVentana.getNumeroCartaCombobox(),referenciaVentana.getCodigoCartaTratarTextField(),
+				referenciaVentana.getNumeroCartaCombobox(), referenciaVentana.getCodigoCartaTratarTextField(),
 				referenciaVentana.getDireccionImagenTextField(), referenciaVentana.getIdCartaTratarTextField(),
-				referenciaVentana.getUrlReferenciaTextField());
+				referenciaVentana.getUrlReferenciaTextField(), referenciaVentana.getNombreEmpresaTextField(),
+				referenciaVentana.getCodigoCartaTextField(), referenciaVentana.getAnioCartaTextField());
 
 		if (referenciaVentana.getBotonModificar() != null) {
 			// Limpiar elementos adicionales de la interfaz

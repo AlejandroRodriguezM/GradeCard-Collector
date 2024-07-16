@@ -136,7 +136,7 @@ public class OpcionesDatosController implements Initializable {
 	private static AlarmaList alarmaList = new AlarmaList();
 
 	private static final String DB_FOLDER = System.getProperty("user.home") + File.separator + "AppData"
-			+ File.separator + "Roaming" + File.separator + "album" + File.separator;
+			+ File.separator + "Roaming" + File.separator + "gradeo" + File.separator;
 
 	/**
 	 * Inicializa el controlador cuando se carga la vista.

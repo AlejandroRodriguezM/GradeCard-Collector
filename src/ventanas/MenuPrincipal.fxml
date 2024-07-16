@@ -141,7 +141,6 @@
          <font>
             <Font size="10.0" />
          </font></Button>
-      <Button fx:id="botonEliminar" layoutX="329.0" layoutY="116.0" mnemonicParsing="false" onAction="#accionCarta" prefHeight="35.0" prefWidth="90.0" stylesheets="@../style/genericos_style.css" text="Eliminar Carta" />
         <ProgressIndicator fx:id="progresoCarga" layoutX="1154.0" layoutY="317.0" prefHeight="66.0" prefWidth="70.0" stylesheets="@../style/progreso_style.css" visible="false" />
       <Button fx:id="botonCancelarSubida" layoutX="1090.0" layoutY="317.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="57.0" style="-fx-border-color: none; -fx-background-color: none;" visible="false">
          <stylesheets>

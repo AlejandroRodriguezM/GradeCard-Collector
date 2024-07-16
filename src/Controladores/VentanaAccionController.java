@@ -97,6 +97,8 @@ public class VentanaAccionController implements Initializable {
 	private Label labelAnio;
 	@FXML
 	private Label labelCodigo;
+	@FXML
+	private Label labelEmpresa;
 
 	// Buttons
 	@FXML
@@ -127,8 +129,6 @@ public class VentanaAccionController implements Initializable {
 	private Button botonParametroCarta;
 	@FXML
 	private Button botonSubidaPortada;
-	@FXML
-	private Button botonVender;
 	@FXML
 	private Button botonbbdd;
 
@@ -262,7 +262,6 @@ public class VentanaAccionController implements Initializable {
 		referenciaVentana.setBotonLimpiar(botonLimpiar);
 		referenciaVentana.setBotonModificarCarta(botonModificarCarta);
 		referenciaVentana.setBotonParametroCarta(botonParametroCarta);
-		referenciaVentana.setBotonVender(botonVender);
 		referenciaVentana.setBotonbbdd(botonbbdd);
 		referenciaVentana.setBotonGuardarCambioCarta(botonGuardarCambioCarta);
 
@@ -280,6 +279,7 @@ public class VentanaAccionController implements Initializable {
 		referenciaVentana.setLabelColeccion(labelcoleccion);
 		referenciaVentana.setLabelNombre(labelNombre);
 		referenciaVentana.setLabelCodigo(labelCodigo);
+		referenciaVentana.setLabelEmpresa(labelEmpresa);
 
 		referenciaVentana.setLabelIdMod(labelId);
 		referenciaVentana.setLabelAnio(labelAnio);
@@ -307,9 +307,10 @@ public class VentanaAccionController implements Initializable {
 				.observableArrayList(Arrays.asList(textFieldNombreCarta, textFieldEdicionCarta, textFieldColeccionCarta,
 						textFieldGradeoCarta, textFieldIdCarta, textFieldDireccionCarta, textFieldUrlCarta)));
 
-		referenciaVentana.setControlAccion(Arrays.asList(textFieldNombreCarta, textFieldNumeroCarta,
-				textFieldEdicionCarta, textFieldColeccionCarta, textFieldGradeoCarta, textFieldUrlCarta,
-				textFieldIdCarta, textFieldDireccionCarta));
+		referenciaVentana.setControlAccion(
+				Arrays.asList(busquedaCodigo, textFieldIdCarta, textFieldNombreCarta, textFieldNumeroCarta,
+						textFieldEdicionCarta, textFieldColeccionCarta, textFieldDireccionCarta, textFieldAnioCarta,
+						textFieldUrlCarta, textFieldEmpresaCarta, textFieldGradeoCarta, textFieldCodigoCarta));
 
 		AccionReferencias.setListaColumnasTabla(Arrays.asList(columnaNombre, columnaNumero, columnaCertificacion,
 				columnaEmpresa, columnaEdicion, columnaColeccion));
@@ -561,7 +562,7 @@ public class VentanaAccionController implements Initializable {
 	void eliminarCartaSeleccionado(ActionEvent event) {
 		enviarReferencias();
 		nav.cerrarMenuOpciones();
-		AccionEliminar.eliminarCartaLista();
+		AccionModificar.eliminarCartaLista();
 		rellenarCombosEstaticos();
 		imagencarta.setImage(null);
 		setCartaCache(null);
@@ -813,22 +814,6 @@ public class VentanaAccionController implements Initializable {
 	}
 
 	/**
-	 * Metodo que permite cambiar de estado un comic, para que se deje de mostrar en
-	 * el programa, pero este sigue estando dentro de la bbdd
-	 *
-	 * @param event
-	 * @throws IOException
-	 * @throws SQLException
-	 */
-	@FXML
-	void ventaCarta(ActionEvent event) throws SQLException {
-		enviarReferencias();
-		nav.cerrarMenuOpciones();
-		AccionModificar.venderCarta();
-		rellenarCombosEstaticos();
-	}
-
-	/**
 	 * Funcion que elimina un comic de la base de datos.
 	 *
 	 * @param event
@@ -841,7 +826,7 @@ public class VentanaAccionController implements Initializable {
 	void eliminarDatos(ActionEvent event) {
 		enviarReferencias();
 		nav.cerrarMenuOpciones();
-		AccionEliminar.eliminarCarta();
+		AccionModificar.eliminarCarta();
 		rellenarCombosEstaticos();
 
 	}

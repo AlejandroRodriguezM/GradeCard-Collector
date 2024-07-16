@@ -203,9 +203,9 @@ public class ListasCartasDAO {
 		listaID = ordenarLista(listaID);
 
 		// Ordenar listaNumeroCarta como enteros
-		List<Integer> numerosCarta = listaNumeroCarta.stream().map(Integer::parseInt).collect(Collectors.toList());
-		Collections.sort(numerosCarta);
-		listaNumeroCarta = numerosCarta.stream().map(String::valueOf).collect(Collectors.toList());
+//		List<Integer> numerosCarta = listaNumeroCarta.stream().map(Integer::parseInt).collect(Collectors.toList());
+//		Collections.sort(numerosCarta);
+//		listaNumeroCarta = numerosCarta.stream().map(String::valueOf).collect(Collectors.toList());
 
 		itemsList = Arrays.asList(listaNombre, listaNumeroCarta, listaEdicion, listaColeccion, listaGradeo,
 				listaEmpresa);

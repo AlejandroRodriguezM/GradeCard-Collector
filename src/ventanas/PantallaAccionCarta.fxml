@@ -72,12 +72,11 @@
       <ComboBox fx:id="comboBoxTienda" layoutX="4.0" layoutY="262.0" prefHeight="25.0" prefWidth="114.0" promptText="Tienda" visible="false" />
       <TextField fx:id="busquedaCodigo" layoutX="121.0" layoutY="263.0" prefHeight="25.0" prefWidth="125.0" promptText="Nombre de la Carta*" visible="false" />
       <Button fx:id="botonBusquedaCodigo" layoutX="250.0" layoutY="256.0" mnemonicParsing="false" onAction="#busquedaPorCodigo" prefHeight="23.0" prefWidth="90.0" stylesheets="@../style/genericos_style.css" text="Buscar Carta" visible="false" />
-      <Button fx:id="botonModificarCarta" layoutX="601.0" layoutY="260.0" mnemonicParsing="false" onAction="#modificarDatos" prefHeight="73.0" prefWidth="229.0" style="-fx-font-size: 25;" stylesheets="@../style/genericos_style.css" text="Modificar Carta" textAlignment="CENTER" visible="false" wrapText="true">
+      <Button fx:id="botonModificarCarta" layoutX="716.0" layoutY="260.0" mnemonicParsing="false" onAction="#modificarDatos" prefHeight="73.0" prefWidth="114.0" style="-fx-font-size: 15;" stylesheets="@../style/genericos_style.css" text="Modificar Carta" textAlignment="CENTER" visible="false" wrapText="true">
          <font>
             <Font size="13.0" />
          </font></Button>
-      <Button fx:id="botonEliminar" disable="true" layoutX="5.0" layoutY="79.0" mnemonicParsing="false" onAction="#eliminarDatos" prefHeight="73.0" prefWidth="90.0" stylesheets="@../style/genericos_style.css" text="Eliminar Carta" visible="false" />
-      <Button fx:id="botonVender" disable="true" ellipsisString="" layoutX="112.0" layoutY="78.0" mnemonicParsing="false" onAction="#ventaCarta" prefHeight="73.0" prefWidth="90.0" stylesheets="@../style/genericos_style.css" text="Vender Carta" visible="false" />
+      <Button fx:id="botonEliminar" layoutX="623.0" layoutY="260.0" mnemonicParsing="false" onAction="#eliminarDatos" prefHeight="73.0" prefWidth="90.0" stylesheets="@../style/genericos_style.css" text="Eliminar Carta" visible="false" />
       <Button fx:id="botonbbdd" disable="true" layoutX="248.0" layoutY="29.0" mnemonicParsing="false" onAction="#verTodabbdd" prefHeight="35.0" prefWidth="57.0" stylesheets="@../style/genericos_style.css" text="Ver todo" visible="false" />
       <TextField fx:id="textFieldIdCarta" layoutX="56.0" layoutY="29.0" prefHeight="21.0" prefWidth="125.0" promptText="ID carta">
          <font>
@@ -91,14 +90,14 @@
       </Button>
       <VBox fx:id="rootVBox" layoutY="340.0" prefHeight="248.0" prefWidth="838.0">
          <children>
-            <TableView fx:id="tablaBBDD" onKeyPressed="#teclasDireccion" onMouseClicked="#clickRaton" prefHeight="300.0" prefWidth="715.0" stylesheets="@../style/tablas_style.css" tableMenuButtonVisible="true" VBox.vgrow="ALWAYS">
+            <TableView fx:id="tablaBBDD" onKeyPressed="#teclasDireccion" onMouseClicked="#clickRaton" prefHeight="300.0" prefWidth="715.0" stylesheets="@../style/tablas_style.css" VBox.vgrow="ALWAYS">
                <columns>
                   <TableColumn fx:id="id" prefWidth="47.0" text="ID" visible="false" />
                   <TableColumn fx:id="columnaNombre" editable="false" maxWidth="5500.0" prefWidth="200.0" text="Nombre" />
-                  <TableColumn fx:id="columnaNumero" editable="false" maxWidth="5500.0" minWidth="0.0" prefWidth="150.0" text="Numero" />
-                  <TableColumn fx:id="columnaCertificacion" editable="false" maxWidth="5500.0" prefWidth="150.0" text="Certificacion" />
-                  <TableColumn fx:id="columnaEmpresa" editable="false" maxWidth="5500.0" minWidth="0.0" prefWidth="150.0" text="Empresa" />
-                  <TableColumn fx:id="columnaEdicion" editable="false" prefWidth="200.0" text="Edicion" />
+                  <TableColumn fx:id="columnaNumero" editable="false" maxWidth="5500.0" minWidth="0.0" prefWidth="66.0" text="Numero" />
+                  <TableColumn fx:id="columnaCertificacion" editable="false" maxWidth="5500.0" prefWidth="151.0" text="Certificacion" />
+                  <TableColumn fx:id="columnaEmpresa" editable="false" maxWidth="5550.0" minWidth="0.0" prefWidth="147.0" text="Empresa" />
+                  <TableColumn fx:id="columnaEdicion" editable="false" prefWidth="125.0" text="Edicion" />
                   <TableColumn fx:id="columnaColeccion" editable="false" maxWidth="4500.0" minWidth="0.0" prefWidth="200.0" text="Coleccion" />
                </columns>
                <columnResizePolicy>
@@ -124,7 +123,6 @@
       <Button fx:id="botonGuardarCarta" alignment="CENTER" layoutX="739.0" layoutY="262.0" mnemonicParsing="false" onAction="#guardarCartaImportados" prefHeight="33.0" prefWidth="90.0" stylesheets="@../style/genericos_style.css" text="Añadir Carta" textAlignment="CENTER" visible="false" wrapText="true" />
       <Button fx:id="botonEliminarImportadoCarta" layoutX="640.0" layoutY="262.0" mnemonicParsing="false" onAction="#eliminarCartaSeleccionado" prefHeight="33.0" prefWidth="90.0" stylesheets="@../style/genericos_style.css" text="Eliminar Carta" visible="false" wrapText="true" />
       <Button fx:id="botonGuardarCambioCarta" layoutX="248.0" layoutY="29.0" mnemonicParsing="false" onAction="#guardarDatos" prefHeight="35.0" prefWidth="81.0" stylesheets="@../style/genericos_style.css" text="Guardar Carta" visible="false" />
-      <ImageView fx:id="cargaImagen" fitHeight="308.0" fitWidth="207.0" layoutX="391.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="cargaImagen" fitHeight="308.0" fitWidth="199.0" layoutX="391.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="imagencarta" fitHeight="308.0" fitWidth="199.0" layoutX="391.0" layoutY="29.0" onMouseClicked="#ampliarImagen" pickOnBounds="true" />
       <Button fx:id="botonSubidaPortada" layoutX="186.0" layoutY="195.0" mnemonicParsing="false" onAction="#nuevaPortada" prefHeight="25.0" prefWidth="25.0" stylesheets="@../style/boton_subida_style.css" />

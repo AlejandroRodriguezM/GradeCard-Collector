@@ -87,6 +87,11 @@ public class FuncionesFicheros {
 
 			// Leer el archivo de configuración existente
 			File configFile = new File(archivoConfiguracion);
+			
+			if(!configFile.exists()) {
+				configFile.createNewFile();
+			}
+			
 			StringBuilder configContent = new StringBuilder();
 
 			try (BufferedReader bufferedReader = new BufferedReader(new FileReader(configFile))) {

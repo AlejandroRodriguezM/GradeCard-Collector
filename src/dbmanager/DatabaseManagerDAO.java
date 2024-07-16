@@ -28,7 +28,7 @@ public class DatabaseManagerDAO {
 	public static AtomicInteger contadorCambios = new AtomicInteger(0);
 
 	private static final String DB_FOLDER = System.getProperty("user.home") + File.separator + "AppData"
-			+ File.separator + "Roaming" + File.separator + "gradeado" + File.separator;
+			+ File.separator + "Roaming" + File.separator + "gradeo" + File.separator;
 
 	/**
 	 * Permite introducir un nuevo cómic en la base de datos.
@@ -56,6 +56,8 @@ public class DatabaseManagerDAO {
 	public static void createTable(String nombreDatabase) {
 		String url = "jdbc:sqlite:" + DB_FOLDER + nombreDatabase;
 
+		System.out.println(url);
+		
 		try (Connection connection = DriverManager.getConnection(url)) {
 			try (Statement statement = connection.createStatement()) {
 				String dropTableSQL = "DROP TABLE IF EXISTS albumbbdd";
@@ -65,11 +67,9 @@ public class DatabaseManagerDAO {
 			try (Statement statement = connection.createStatement()) {
 				String createTableSQL = "CREATE TABLE IF NOT EXISTS albumbbdd ("
 						+ "idCarta INTEGER PRIMARY KEY AUTOINCREMENT, " + "nomCarta TEXT NOT NULL, "
-						+ "codCarta TEXT NOT NULL, " // Nueva columna para 'codCarta'
-						+ "numCarta TEXT NOT NULL, " + "anioCarta TEXT NOT NULL, " // Nueva columna para 'anioCarta'
-						+ "coleccionCarta TEXT NOT NULL, " + "edicionCarta TEXT NOT NULL, " // Nueva columna para
-						+ "empresaCarta TEXT NOT NULL, " // Nueva columna para 'empresaCarta'
-						+ "gradeoCarta TEXT NOT NULL, " // Nueva columna para 'gradeoCarta'
+						+ "codCarta TEXT NOT NULL, " + "numCarta TEXT NOT NULL, " + "anioCarta TEXT NOT NULL, "
+						+ "coleccionCarta TEXT NOT NULL, " + "edicionCarta TEXT NOT NULL, "
+						+ "empresaCarta TEXT NOT NULL, " + "gradeoCarta TEXT NOT NULL, "
 						+ "urlReferenciaCarta TEXT NOT NULL, " + "direccionImagenCarta TEXT NOT NULL)";
 
 				statement.executeUpdate(createTableSQL);

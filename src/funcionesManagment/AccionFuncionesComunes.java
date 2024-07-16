@@ -417,6 +417,7 @@ public class AccionFuncionesComunes {
 			getReferenciaVentana().getTablaBBDD().getItems().clear();
 			getReferenciaVentana().getTablaBBDD().refresh();
 		}
+
 		getReferenciaVentana().getBotonClonarCarta().setVisible(false);
 		getReferenciaVentana().getProntInfoTextArea().setOpacity(0);
 		getReferenciaVentana().getTablaBBDD().refresh();
@@ -439,19 +440,15 @@ public class AccionFuncionesComunes {
 		getReferenciaVentana().getDireccionImagenTextField().setText("");
 		getReferenciaVentana().getBusquedaCodigoTextField().setText("");
 		getReferenciaVentana().getUrlReferenciaTextField().setText("");
-		getReferenciaVentana().getNumeroCartaCombobox().getEditor().clear(); // Limpiar el texto en el ComboBox
+		getReferenciaVentana().getNumeroCartaTextField().setText("");
 		getReferenciaVentana().getImagenCarta().setImage(null);
-
+		getReferenciaVentana().getNombreEmpresaTextField().setText("");
 		if ("modificar".equals(TIPO_ACCION)) {
 			AccionControlUI.mostrarOpcion(TIPO_ACCION);
 		}
 
-		if ("aniadir".equals(TIPO_ACCION)) {
-
-			if (getReferenciaVentana().getNombreTiendaCombobox().isVisible()) {
-				AccionFuncionesComunes.cambiarVisibilidadAvanzada();
-			}
-
+		if ("aniadir".equals(TIPO_ACCION) && getReferenciaVentana().getNombreTiendaCombobox().isVisible()) {
+			AccionFuncionesComunes.cambiarVisibilidadAvanzada();
 		}
 
 		// Borrar cualquier mensaje de error presente
@@ -1171,11 +1168,11 @@ public class AccionFuncionesComunes {
 	}
 
 	public static String carpetaRaizPortadas(String nombreDatabase) {
-		return DOCUMENTS_PATH + File.separator + "album_cartas" + File.separator + nombreDatabase + File.separator;
+		return DOCUMENTS_PATH + File.separator + "gradeo_cartas" + File.separator + nombreDatabase + File.separator;
 	}
 
 	public static String carpetaPortadas(String nombreDatabase) {
-		return DOCUMENTS_PATH + File.separator + "album_cartas" + File.separator + nombreDatabase + File.separator
+		return DOCUMENTS_PATH + File.separator + "gradeo_cartas" + File.separator + nombreDatabase + File.separator
 				+ "portadas";
 	}
 

@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import Controladores.ImagenAmpliadaController;
 import alarmas.AlarmaList;
 import cartaManagement.CartaGradeo;
 import dbmanager.CartaManagerDAO;
@@ -12,6 +13,7 @@ import dbmanager.DBUtilidades.TipoBusqueda;
 import dbmanager.ListasCartasDAO;
 import dbmanager.SelectManager;
 import funcionesAuxiliares.Utilidades;
+import funcionesAuxiliares.Ventanas;
 import funcionesInterfaz.AccionControlUI;
 import funcionesInterfaz.FuncionesTableView;
 import javafx.collections.FXCollections;
@@ -24,6 +26,11 @@ public class AccionSeleccionar {
 	private static AccionReferencias referenciaVentana = getReferenciaVentana();
 
 	private static AccionControlUI accionRellenoDatos = new AccionControlUI();
+
+	/**
+	 * Instancia de la clase Ventanas para la navegación.
+	 */
+	private static Ventanas nav = new Ventanas();
 
 	/**
 	 * Método para seleccionar y mostrar detalles de un cómic en la interfaz
@@ -39,6 +46,7 @@ public class AccionSeleccionar {
 		Utilidades.comprobacionListaCartas();
 		getReferenciaVentana().getImagenCarta().setOpacity(1);
 		CartaGradeo newSelection = getReferenciaVentana().getTablaBBDD().getSelectionModel().getSelectedItem();
+
 		Scene scene = getReferenciaVentana().getTablaBBDD().getScene();
 		@SuppressWarnings("unchecked")
 		final List<Node>[] elementos = new ArrayList[1];
@@ -50,7 +58,7 @@ public class AccionSeleccionar {
 
 		if (scene != null) {
 			scene.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
-
+				getReferenciaVentana().getImagenCarta().setVisible(true);
 				if (!getReferenciaVentana().getTablaBBDD().isHover()) {
 					getReferenciaVentana().getTablaBBDD().getSelectionModel().clearSelection();
 					if (!esPrincipal) {
@@ -71,8 +79,17 @@ public class AccionSeleccionar {
 			String idCarta = newSelection.getIdCarta();
 			mostrarCarta(idCarta, esPrincipal);
 			Utilidades.cambiarVisibilidad(elementos[0], false);
-
 		}
+
+		getReferenciaVentana().getImagenCarta().setOnMouseClicked(event -> {
+			String idCarta = newSelection.getIdCarta();
+			CartaGradeo carta = SelectManager.cartaDatos(idCarta);
+			ImagenAmpliadaController.cartaInfo = carta;
+			Ventanas.verVentanaImagen();
+
+			getReferenciaVentana().getImagenCarta().setVisible(false);
+			AccionControlUI.limpiarAutorellenos(esPrincipal);
+		});
 	}
 
 	public static void actualizarRefrenciaClick(AccionReferencias referenciaFXML) {

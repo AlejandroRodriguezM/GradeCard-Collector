@@ -60,7 +60,6 @@ public class AccionReferencias {
 	private Button botonLimpiar;
 	private Button botonModificarCarta;
 	private Button botonParametroCarta;
-	private Button botonVender;
 	private Button botonbbdd;
 	private Button botonGuardarCarta;
 	private Button botonGuardarCambioCarta;
@@ -361,13 +360,6 @@ public class AccionReferencias {
 	 */
 	public Button getBotonParametroCarta() {
 		return botonParametroCarta;
-	}
-
-	/**
-	 * @return the botonVender
-	 */
-	public Button getBotonVender() {
-		return botonVender;
 	}
 
 	/**
@@ -1152,13 +1144,6 @@ public class AccionReferencias {
 	 */
 	public void setBotonParametroCarta(Button botonParametroCarta) {
 		this.botonParametroCarta = botonParametroCarta;
-	}
-
-	/**
-	 * @param botonVender the botonVender to set
-	 */
-	public void setBotonVender(Button botonVender) {
-		this.botonVender = botonVender;
 	}
 
 	/**

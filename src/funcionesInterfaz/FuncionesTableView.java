@@ -269,7 +269,6 @@ public class FuncionesTableView {
 	 * @param listaCarta
 	 */
 	public static void tablaBBDD(List<CartaGradeo> listaCarta) {
-		getReferenciaVentana();
 		getReferenciaVentana().getTablaBBDD().getColumns().setAll(AccionReferencias.getListaColumnasTabla());
 		getReferenciaVentana().getTablaBBDD().getItems().setAll(listaCarta);
 		getReferenciaVentana().getImagenCarta().setVisible(true);
@@ -310,15 +309,17 @@ public class FuncionesTableView {
 	}
 
 	private static void configureColumn(TableColumn<CartaGradeo, String> column, String property) {
+
 		switch (property) {
+
 		case "Nombre":
 			property = "nomCarta";
 			break;
 		case "Numero":
 			property = "numCarta";
 			break;
-		case "Editorial":
-			property = "editorialCarta";
+		case "Edicion":
+			property = "edicionCarta";
 			break;
 		case "Referencia":
 			property = "urlReferenciaCarta";
@@ -329,14 +330,11 @@ public class FuncionesTableView {
 		case "ID":
 			property = "idCarta";
 			break;
-		case "Precio Normal":
-			property = "precioCartaNormal";
+		case "Empresa":
+			property = "empresaCarta";
 			break;
-		case "Precio Foil":
-			property = "precioCartaFoil";
-			break;
-		case "Rareza":
-			property = "rarezaCarta";
+		case "Certificacion":
+			property = "gradeoCarta";
 			break;
 		}
 		column.setCellValueFactory(new PropertyValueFactory<>(property));

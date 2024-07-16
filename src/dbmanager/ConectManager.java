@@ -107,7 +107,7 @@ public class ConectManager implements Initializable {
 	public static Connection conexion() {
 
 		String dbFilePath = System.getProperty("user.home") + File.separator + "AppData" + File.separator + "Roaming"
-				+ File.separator + "album" + File.separator + FuncionesFicheros.datosEnvioFichero();
+				+ File.separator + "gradeo" + File.separator + FuncionesFicheros.datosEnvioFichero();
 
 		DB_URL = "jdbc:sqlite:" + dbFilePath;
 

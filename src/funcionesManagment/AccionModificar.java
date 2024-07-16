@@ -1,5 +1,6 @@
 package funcionesManagment;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -136,13 +137,6 @@ public class AccionModificar {
 			if (control instanceof TextField) {
 				String value = ((TextField) control).getText();
 				valorControles.add(value);
-			} else if (control instanceof ComboBox<?>) {
-				Object selectedItem = ((ComboBox<?>) control).getSelectionModel().getSelectedItem();
-				String value = selectedItem != null ? selectedItem.toString() : "";
-				valorControles.add(value);
-			} else if (control instanceof TextArea) {
-				String value = ((TextArea) control).getText();
-				valorControles.add(value);
 			}
 		}
 
@@ -185,20 +179,21 @@ public class AccionModificar {
 
 	public void mostrarElementosModificar(List<Node> elementosAMostrarYHabilitar) {
 
-		elementosAMostrarYHabilitar
-				.addAll(Arrays.asList(referenciaVentana.getLabelAnio(), referenciaVentana.getLabelEmpresa(),
-						referenciaVentana.getLabelCodigo(), referenciaVentana.getLabelIdMod(),
-						referenciaVentana.getLabelPortada(), referenciaVentana.getLabelReferencia()));
+		elementosAMostrarYHabilitar.addAll(Arrays.asList(referenciaVentana.getLabelAnio(),
+				referenciaVentana.getLabelEmpresa(), referenciaVentana.getLabelCodigo(),
+				referenciaVentana.getLabelIdMod(), referenciaVentana.getLabelPortada(),
+				referenciaVentana.getLabelReferencia(), referenciaVentana.getLabelGradeo()));
 
-		elementosAMostrarYHabilitar
-				.addAll(Arrays.asList(referenciaVentana.getNumeroCartaCombobox(), getReferenciaVentana().getRootVBox(),
-						getReferenciaVentana().getBotonSubidaPortada(), getReferenciaVentana().getBotonbbdd(),
-						getReferenciaVentana().getTablaBBDD(), getReferenciaVentana().getBotonParametroCarta()));
+		elementosAMostrarYHabilitar.addAll(Arrays.asList(referenciaVentana.getNumeroCartaCombobox(),
+				getReferenciaVentana().getRootVBox(), getReferenciaVentana().getBotonSubidaPortada(),
+				getReferenciaVentana().getBotonbbdd(), getReferenciaVentana().getTablaBBDD(),
+				getReferenciaVentana().getBotonParametroCarta(), getReferenciaVentana().getBotonEliminar()));
 
 		elementosAMostrarYHabilitar.addAll(Arrays.asList(referenciaVentana.getGradeoCartaTextField(),
 				referenciaVentana.getNombreEmpresaTextField(), referenciaVentana.getIdCartaTratarTextField(),
 				referenciaVentana.getDireccionImagenTextField(), referenciaVentana.getUrlReferenciaTextField(),
-				referenciaVentana.getGradeoCartaTextField(), referenciaVentana.getCodigoCartaTextField()));
+				referenciaVentana.getGradeoCartaTextField(), referenciaVentana.getCodigoCartaTextField(),
+				referenciaVentana.getAnioCartaTextField()));
 
 		elementosAMostrarYHabilitar.addAll(Arrays.asList(referenciaVentana.getBotonSubidaPortada(),
 				getReferenciaVentana().getBotonModificarCarta()));
@@ -247,6 +242,77 @@ public class AccionModificar {
 				getReferenciaVentana().getTablaBBDD().refresh();
 				FuncionesTableView.nombreColumnas();
 				FuncionesTableView.tablaBBDD(ListasCartasDAO.cartasImportados);
+			}
+		}
+	}
+	
+	public static void eliminarCarta() {
+
+		String idCarta = getReferenciaVentana().getIdCartaTratarTextField().getText();
+		getReferenciaVentana().getIdCartaTratarTextField().setStyle("");
+		if (accionFuncionesComunes.comprobarExistenciaCarta(idCarta)) {
+			if (nav.alertaAccionGeneral()) {
+
+				CartaManagerDAO.borrarCarta(idCarta);
+				ListasCartasDAO.reiniciarListaCartas();
+				ListasCartasDAO.listasAutoCompletado();
+
+				String sentenciaSQL = DBUtilidades.construirSentenciaSQL(DBUtilidades.TipoBusqueda.COMPLETA);
+				List<CartaGradeo> listaCartas = CartaManagerDAO.verLibreria(sentenciaSQL);
+				getReferenciaVentana().getTablaBBDD().refresh();
+				FuncionesTableView.nombreColumnas();
+				FuncionesTableView.tablaBBDD(listaCartas);
+
+				List<ComboBox<String>> comboboxes = getReferenciaVentana().getListaComboboxes();
+
+				funcionesCombo.rellenarComboBox(comboboxes);
+				getReferenciaVentana().getImagenCarta().setImage(null);
+				getReferenciaVentana().getImagenCarta().setVisible(true);
+				getReferenciaVentana().getProntInfoTextArea().clear();
+				getReferenciaVentana().getProntInfoTextArea().setOpacity(0);
+				AccionControlUI.limpiarAutorellenos(false);
+			} else {
+				String mensaje = "Accion cancelada";
+				AlarmaList.mostrarMensajePront(mensaje, false, getReferenciaVentana().getProntInfoTextArea());
+			}
+		}
+	}
+
+	public static void eliminarCartaLista() {
+		String idCarta = getReferenciaVentana().getIdCartaTratarTextField().getText();
+
+		if (nav.alertaEliminar() && idCarta != null) {
+			// Obtener la carta a eliminar
+			CartaGradeo cartaEliminar = ListasCartasDAO.cartasImportados.stream()
+					.filter(c -> c.getIdCarta().equals(idCarta)).findFirst().orElse(null);
+
+			if (cartaEliminar != null) {
+				// Obtener la dirección de la imagen y verificar si existe
+				String direccionImagen = cartaEliminar.getDireccionImagenCarta();
+				if (direccionImagen != null && !direccionImagen.isEmpty()) {
+					File archivoImagen = new File(direccionImagen);
+					if (archivoImagen.exists()) {
+						// Borrar el archivo de la imagen
+						if (archivoImagen.delete()) {
+							System.out.println("Archivo de imagen eliminado: " + direccionImagen);
+						} else {
+							System.err.println("No se pudo eliminar el archivo de imagen: " + direccionImagen);
+							// Puedes lanzar una excepción aquí si lo prefieres
+						}
+					}
+				}
+
+				// Eliminar la carta de la lista
+				ListasCartasDAO.cartasImportados.remove(cartaEliminar);
+				AccionControlUI.limpiarAutorellenos(false);
+				FuncionesTableView.nombreColumnas();
+				FuncionesTableView.tablaBBDD(ListasCartasDAO.cartasImportados);
+				getReferenciaVentana().getTablaBBDD().refresh();
+
+				// Verificar si la lista está vacía y cambiar el estado de los botones
+				if (ListasCartasDAO.cartasImportados.isEmpty()) {
+					AccionFuncionesComunes.cambiarEstadoBotones(false);
+				}
 			}
 		}
 	}

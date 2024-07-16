@@ -101,8 +101,6 @@ public class MenuPrincipalController implements Initializable {
 	@FXML
 	private Button botonCancelarSubida;
 	@FXML
-	private Button botonEliminar;
-	@FXML
 	private Button botonIntroducir;
 	@FXML
 	private Button botonLimpiar;
@@ -233,8 +231,6 @@ public class MenuPrincipalController implements Initializable {
 		// Labels
 		referenciaVentana.setAlarmaConexionInternet(alarmaConexionInternet);
 
-		// Buttons
-		referenciaVentana.setBotonEliminar(botonEliminar);
 		referenciaVentana.setBotonLimpiar(botonLimpiar);
 		referenciaVentana.setBotonbbdd(botonbbdd);
 		referenciaVentana.setBotonMostrarParametro(botonMostrarParametro);
@@ -389,7 +385,6 @@ public class MenuPrincipalController implements Initializable {
 
 			if (guardarReferencia().getImagenCarta().getOpacity() != 0) {
 				nav.verVentanaImagen();
-
 			}
 		}
 	}
@@ -444,9 +439,6 @@ public class MenuPrincipalController implements Initializable {
 					botonModificar.setLayoutX(231);
 					botonModificar.setLayoutY(197);
 
-					botonEliminar.setLayoutX(231);
-					botonEliminar.setLayoutY(237);
-
 				} else if (newWidth >= 1131) {
 
 					botonIntroducir.setLayoutX(329);
@@ -454,9 +446,6 @@ public class MenuPrincipalController implements Initializable {
 
 					botonModificar.setLayoutX(329);
 					botonModificar.setLayoutY(72);
-
-					botonEliminar.setLayoutX(329);
-					botonEliminar.setLayoutY(116);
 
 				}
 			});
@@ -553,7 +542,7 @@ public class MenuPrincipalController implements Initializable {
 	 * numero entero en los comboBox numeroCarta y caja_comic
 	 */
 	public void formatearTextField() {
-		comboboxNumeroCarta.getEditor().setTextFormatter(FuncionesComboBox.validadorNenteros());
+//		comboboxNumeroCarta.getEditor().setTextFormatter(FuncionesComboBox.validadorNenteros());
 	}
 
 	/////////////////////////////////
@@ -1085,7 +1074,6 @@ public class MenuPrincipalController implements Initializable {
 	}
 
 	private void limpiarComboBox() {
-
 		// Iterar sobre todos los ComboBox para realizar la limpieza
 		for (ComboBox<String> comboBox : AccionReferencias.getListaComboboxes()) {
 			// Limpiar el campo
@@ -1114,16 +1102,12 @@ public class MenuPrincipalController implements Initializable {
 				AccionFuncionesComunes.setTipoAccion("aniadir");
 			} else if (botonPresionado == botonModificar) {
 				AccionFuncionesComunes.setTipoAccion("modificar");
-			} else if (botonPresionado == botonEliminar) {
-				AccionFuncionesComunes.setTipoAccion("eliminar");
 			}
 		} else if (fuente instanceof MenuItem menuItemPresionado) {
 			if (menuItemPresionado == menuCartaAniadir) {
 				AccionFuncionesComunes.setTipoAccion("aniadir");
 			} else if (menuItemPresionado == menuCartaModificar) {
 				AccionFuncionesComunes.setTipoAccion("modificar");
-			} else if (menuItemPresionado == menuCartaEliminar) {
-				AccionFuncionesComunes.setTipoAccion("eliminar");
 			}
 		}
 		modificarEstadoTabla(259, 0.6);

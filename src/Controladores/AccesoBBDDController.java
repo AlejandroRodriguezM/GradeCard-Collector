@@ -330,7 +330,6 @@ public class AccesoBBDDController implements Initializable {
 	void enviarDatos(ActionEvent event) {
 
 		String datosFichero = FuncionesFicheros.datosEnvioFichero();
-
 		String[] nombreDB = datosFichero.split("\\.");
 
 		if (Utilidades.comprobarDB() && ConectManager.loadDriver()

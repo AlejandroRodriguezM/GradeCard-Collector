@@ -44,7 +44,6 @@ import funcionesInterfaz.FuncionesManejoFront;
 import funcionesManagment.AccionReferencias;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
@@ -74,7 +73,7 @@ public class Ventanas {
 
 	private Stage menuCodigoBarras = null;
 
-	private Stage accionCarta = null;
+	private static Stage accionCarta = null;
 
 	private Stage opcionesAvanzadasStage = null;
 
@@ -82,7 +81,7 @@ public class Ventanas {
 
 	private Stage menuPrincipal = null;
 
-	private Stage imagenAmpliada = null;
+	private static Stage imagenAmpliada = null;
 	private Stage opcionesDB = null;
 
 	private boolean ventanaCerrada = false; // Variable para almacenar el estado de la ventana
@@ -221,11 +220,13 @@ public class Ventanas {
 //		});
 	}
 
-	public void ventanaAbierta(Stage ventanaActual) {
-		if (ventanaActual != null) {
-			ventanaActual.close();
-		}
-	}
+    public static synchronized void ventanaAbierta(Stage ventanaActual) {
+        if (ventanaActual != null) {
+            System.out.println("Je");
+            ventanaActual.close();
+            ventanaActual = null;
+        }
+    }
 
 	/**
 	 * Abre una ventana para realizar acciones en un cómic. Verifica si hay una
@@ -324,13 +325,14 @@ public class Ventanas {
 	 * Define el comportamiento de cierre de la ventana y actualiza la referencia a
 	 * la ventana actual.
 	 */
-	public void verVentanaImagen() {
+    public static synchronized void verVentanaImagen() {
+
 		try {
 			// Verifica si hay una ventana abierta y ciérrala si es necesario
 			ventanaAbierta(imagenAmpliada);
 
 			// Cargo la vista
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/ventanas/ImagenAmpliadaCarta.fxml"));
+            FXMLLoader loader = new FXMLLoader(Ventanas.class.getResource("/ventanas/ImagenAmpliadaCarta.fxml"));
 
 			// Cargo el padre
 			Parent root = loader.load();
@@ -357,7 +359,7 @@ public class Ventanas {
 			});
 			ConectManager.resetConnection();
 		} catch (IOException ex) {
-			alertaException(ex.toString());
+//			alertaException(ex.toString());
 			ex.printStackTrace();
 		}
 	}
@@ -570,8 +572,8 @@ public class Ventanas {
 	}
 
 	public void cerrarVentanaAccion() {
-		if (this.accionCarta != null) {
-			this.accionCarta.close();
+		if (Ventanas.accionCarta != null) {
+			Ventanas.accionCarta.close();
 		}
 	}
 
