@@ -704,7 +704,7 @@ public class VentanaAccionController implements Initializable {
 				enviarReferencias();
 				rellenarCombosEstaticos();
 				if (WebScrapNodeJSInstall.checkNodeJSVersion()) {
-					AccionFuncionesComunes.busquedaPorCodigoImportacion(fichero);
+					AccionFuncionesComunes.busquedaPorCodigoImportacion(fichero, "");
 				}
 
 			}
@@ -755,7 +755,7 @@ public class VentanaAccionController implements Initializable {
 							enviarReferencias();
 							rellenarCombosEstaticos();
 							if (WebScrapNodeJSInstall.checkNodeJSVersion()) {
-								AccionFuncionesComunes.busquedaPorCodigoImportacion(fichero);
+								AccionFuncionesComunes.busquedaPorCodigoImportacion(fichero,tipoTienda);
 							}
 						}
 

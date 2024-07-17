@@ -10,7 +10,7 @@ public class WebScrapACE {
 
 	public static CartaGradeo extraerDatosMTG(String codigoCarta) {
 		String scriptPath = FuncionesFicheros.rutaDestinoRecursos + File.separator + "scrapACE.js";
-		List<String> data = FuncionesScrapeoComunes.getCartaFromPuppeteer(codigoCarta,"", scriptPath);
+		List<String> data = FuncionesScrapeoComunes.getCartaFromPuppeteer(codigoCarta, scriptPath);
 		
 		String nombre = "";
 		String codigo = "";

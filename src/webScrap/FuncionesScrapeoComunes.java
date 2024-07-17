@@ -170,11 +170,11 @@ public class FuncionesScrapeoComunes {
 		return null; // No se encontró el nombre de la carta
 	}
 
-	public static List<String> getCartaFromPuppeteer(String url, String carpetaDestino, String scriptPath) {
+	public static List<String> getCartaFromPuppeteer(String url, String scriptPath) {
 		List<String> dataArrayList = new ArrayList<>();
 
 		try {
-			String command = "node \"" + scriptPath + "\" \"" + url + "\" \"" + carpetaDestino + "\"";
+			String command = "node " + scriptPath + " " + url ;
 			System.out.println("Comando a ejecutar: " + command);
 
 			int attempt = 0;

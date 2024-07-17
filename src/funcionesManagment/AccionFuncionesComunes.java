@@ -569,9 +569,11 @@ public class AccionFuncionesComunes {
 	public static List<CartaGradeo> obtenerCartaInfo(String finalValorCodigo, boolean esImport, String tipoTienda) {
 		List<CartaGradeo> cartaInfo = new ArrayList<>();
 		if (esImport) {
+			
+			System.out.println(tipoTienda);
+			
 			if (tipoTienda.equalsIgnoreCase("PSA")) {
-				String carpetaDescarga = FuncionesScrapeoComunes.carpetaDescarga();
-				cartaInfo.add(WebScrapPSA.extraerDatosMTG(finalValorCodigo, carpetaDescarga));
+				cartaInfo.add(WebScrapPSA.extraerDatosMTG(finalValorCodigo));
 			} else if (tipoTienda.equalsIgnoreCase("OnlyGraded")) {
 				cartaInfo.add(WebScrapOG.devolverCartaBuscada(finalValorCodigo));
 			} else if (tipoTienda.equalsIgnoreCase("CGC")) {
@@ -667,7 +669,7 @@ public class AccionFuncionesComunes {
 
 		controlCargaCartas(listaCartasDatabase.size());
 
-		Task<Void> tarea = createSearchTask(tipoUpdate, listaCartasDatabase);
+		Task<Void> tarea = createSearchTask(tipoUpdate, listaCartasDatabase, "");
 
 		handleTaskEvents(tarea, tipoUpdate);
 
@@ -677,7 +679,7 @@ public class AccionFuncionesComunes {
 	}
 
 	// ES ACCION
-	public static void busquedaPorCodigoImportacion(File file) {
+	public static void busquedaPorCodigoImportacion(File file, String tipoTienda) {
 
 		fichero = file;
 
@@ -685,7 +687,7 @@ public class AccionFuncionesComunes {
 
 		controlCargaCartas(numCargas);
 
-		Task<Void> tarea = createSearchTask("", null);
+		Task<Void> tarea = createSearchTask("", null, tipoTienda);
 
 		handleTaskEvents(tarea, "");
 
@@ -707,7 +709,7 @@ public class AccionFuncionesComunes {
 		mensajesUnicos.clear();
 	}
 
-	private static Task<Void> createSearchTask(String tipoUpdate, List<CartaGradeo> listaCartasDatabase) {
+	private static Task<Void> createSearchTask(String tipoUpdate, List<CartaGradeo> listaCartasDatabase, String tipoTienda) {
 		return new Task<>() {
 			@Override
 			protected Void call() {
@@ -718,9 +720,6 @@ public class AccionFuncionesComunes {
 						List<CartaGradeo> listaSinDuplicados = new ArrayList<>();
 
 						reader.lines().forEach(linea -> {
-
-							String tipoTienda = getReferenciaVentana().getNombreTiendaCombobox().getValue();
-
 							if (isCancelled() || !getReferenciaVentana().getStageVentana().isShowing()) {
 								Platform.runLater(() -> cargaCartasControllerRef.get().cargarDatosEnCargaCartas("",
 										"100%", 100.0));
@@ -735,7 +734,8 @@ public class AccionFuncionesComunes {
 
 								processCarta(carta, "");
 							}
-
+							getReferenciaVentana().getTablaBBDD().setOpacity(1);
+							getReferenciaVentana().getTablaBBDD().setDisable(false);
 						});
 
 					} catch (IOException e) {

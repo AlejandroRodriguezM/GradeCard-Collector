@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import cartaManagement.CartaGradeo;
 import dbmanager.DBUtilidades;
 import dbmanager.ListasCartasDAO;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -141,18 +142,12 @@ public class FuncionesComboBox {
 	 * @throws InterruptedException
 	 */
 	public void actualizarComboBoxes(List<ComboBox<String>> comboboxes, CartaGradeo carta) {
-		
+
 		CartaGradeo cartaTemp = new CartaGradeo.CartaGradeoBuilder("", carta.getNomCarta())
-			    .codCarta(carta.getCodCarta())
-			    .numCarta(carta.getNumCarta())
-			    .anioCarta(carta.getAnioCarta())
-			    .coleccionCarta(carta.getColeccionCarta())
-			    .edicionCarta(carta.getEdicionCarta())
-			    .empresaCarta(carta.getEmpresaCarta())
-			    .gradeoCarta(carta.getGradeoCarta())
-			    .urlReferenciaCarta("")
-			    .direccionImagenCarta("")
-			    .build();
+				.codCarta(carta.getCodCarta()).numCarta(carta.getNumCarta()).anioCarta(carta.getAnioCarta())
+				.coleccionCarta(carta.getColeccionCarta()).edicionCarta(carta.getEdicionCarta())
+				.empresaCarta(carta.getEmpresaCarta()).gradeoCarta(carta.getGradeoCarta()).urlReferenciaCarta("")
+				.direccionImagenCarta("").build();
 
 		String sql = DBUtilidades.datosConcatenados(cartaTemp);
 
@@ -573,25 +568,28 @@ public class FuncionesComboBox {
 	 * @param comboboxes La lista de ComboBoxes a rellenar.
 	 */
 	public static void rellenarComboBoxEstaticos(List<ComboBox<String>> comboboxes) {
-        String[] valores = { "PSA", "OnlyGraded", "CGG", "CGC", "ACE" };
-        String[] ids = { "comboBoxTienda" };
+		String[] valores = { "PSA", "OnlyGraded", "CGG", "CGC", "ACE" };
+		String[] ids = { "comboBoxTienda" };
 
-        // Verificar que la lista de ComboBox tenga al menos el mismo tamaño que los arreglos
-        int tamanio = Math.min(comboboxes.size(), ids.length);
+		// Verificar que la lista de ComboBox tenga al menos el mismo tamaño que los
+		// arreglos
+		int tamanio = Math.min(comboboxes.size(), ids.length);
 
-        for (int i = 0; i < tamanio; i++) {
-            String id = ids[i];
-            ComboBox<String> comboBox = comboboxes.stream()
-                    .filter(cb -> id.equals(cb.getId()))
-                    .findFirst()
-                    .orElse(null);
-            if (comboBox != null) {
-                comboBox.getItems().clear(); // Limpiar elementos anteriores si los hay
-                comboBox.getItems().addAll(valores);
-                comboBox.getSelectionModel().selectFirst();
-            }
-        }
-    }
+		// Ejecutar en el hilo de la aplicación de JavaFX usando Platform.runLater()
+		Platform.runLater(() -> {
+			for (int i = 0; i < tamanio; i++) {
+				String id = ids[i];
+				ComboBox<String> comboBox = comboboxes.stream().filter(cb -> id.equals(cb.getId())).findFirst()
+						.orElse(null);
+				if (comboBox != null) {
+					// Modificar la lista de elementos dentro de Platform.runLater()
+					comboBox.getItems().clear(); // Limpiar elementos anteriores si los hay
+					comboBox.getItems().addAll(valores);
+					comboBox.getSelectionModel().selectFirst();
+				}
+			}
+		});
+	}
 
 	/**
 	 * Funcion que permite modificar la puntuacion de un comic, siempre y cuando el

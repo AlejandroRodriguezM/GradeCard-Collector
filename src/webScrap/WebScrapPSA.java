@@ -8,9 +8,9 @@ import ficherosFunciones.FuncionesFicheros;
 
 public class WebScrapPSA {
 
-	public static CartaGradeo extraerDatosMTG(String codigoCarta, String carpetaDestino) {
+	public static CartaGradeo extraerDatosMTG(String codigoCarta) {
 		String scriptPath = FuncionesFicheros.rutaDestinoRecursos + File.separator + "scrapPSA.js";
-		List<String> data = FuncionesScrapeoComunes.getCartaFromPuppeteer(codigoCarta, carpetaDestino, scriptPath);
+		List<String> data = FuncionesScrapeoComunes.getCartaFromPuppeteer(codigoCarta, scriptPath);
 
 		String nombre = "";
 		String codigo = "";
@@ -53,6 +53,6 @@ public class WebScrapPSA {
 	}
 
 	public static CartaGradeo devolverCartaBuscada(String urlCarta, String carpetaDestino) {
-		return extraerDatosMTG(urlCarta, carpetaDestino);
+		return extraerDatosMTG(urlCarta);
 	}
 }
