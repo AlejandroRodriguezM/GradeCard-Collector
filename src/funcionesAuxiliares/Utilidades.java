@@ -651,22 +651,23 @@ public class Utilidades {
 	 * @return
 	 */
 	public static String generarCodigoUnico(String carpeta) {
-		String codigo;
-		File directorio = new File(carpeta);
+	    String codigo;
+	    File directorio = new File(carpeta);
 
-		// Manejo de excepciones si el directorio no existe o no se puede acceder
-		if (!directorio.exists() || !directorio.isDirectory()) {
-			System.err.println("El directorio no existe o no se puede acceder.");
-			return null;
-		}
+	    // Manejo de excepciones si el directorio no existe o no se puede acceder
+	    if (!directorio.exists() || !directorio.isDirectory()) {
+	        System.err.println("El directorio no existe o no se puede acceder.");
+	        return null;
+	    }
 
-		// Genera un nuevo código único y verifica su existencia
-		do {
-			codigo = generarCodigo();
-		} while (new File(directorio, codigo + ".jpg").exists());
+	    // Genera un nuevo código único y verifica su existencia
+	    do {
+	        codigo = generarCodigo();
+	    } while (new File(directorio, codigo + ".jpg").exists());
 
-		return codigo;
+	    return codigo;
 	}
+
 
 	private static String generarCodigo() {
 		StringBuilder codigo = new StringBuilder(10); // Predefinimos el tamaño del StringBuilder

@@ -42,9 +42,11 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import webScrap.FuncionesScrapeoComunes;
-import webScrap.WebScrapGoogleCardMarket;
-import webScrap.WebScrapGoogleScryfall;
-import webScrap.WebScrapGoogleTCGPlayer;
+import webScrap.WebScrapACE;
+import webScrap.WebScrapCGC;
+import webScrap.WebScrapCGG;
+import webScrap.WebScrapOG;
+import webScrap.WebScrapPSA;
 
 public class AccionFuncionesComunes {
 
@@ -354,9 +356,9 @@ public class AccionFuncionesComunes {
 	public static String imagenCarta(CartaGradeo cartaOriginal) {
 		String argument = "cardtrader+" + cartaOriginal.getNomCarta().replace(" ", "+") + "+"
 				+ cartaOriginal.getNumCarta() + "+" + cartaOriginal.getColeccionCarta().replace(" ", "+");
-		String urlCartaGradeo = WebScrapGoogleCardMarket.searchWebImagen(argument);
+		String urlCartaGradeo = FuncionesScrapeoComunes.searchWebImagen(argument);
 		if (urlCartaGradeo.contains("/cards/")) {
-			return WebScrapGoogleCardMarket.extraerDatosImagen(urlCartaGradeo);
+			return FuncionesScrapeoComunes.extraerDatosImagen(urlCartaGradeo);
 		}
 		return "";
 	}
@@ -412,12 +414,10 @@ public class AccionFuncionesComunes {
 		if (!ListasCartasDAO.cartasImportados.isEmpty() && nav.alertaBorradoLista()) {
 			getReferenciaVentana().getBotonGuardarCarta().setVisible(false);
 			getReferenciaVentana().getBotonEliminarImportadoCarta().setVisible(false);
-
 			ListasCartasDAO.cartasImportados.clear();
-			getReferenciaVentana().getTablaBBDD().getItems().clear();
-			getReferenciaVentana().getTablaBBDD().refresh();
 		}
-
+		getReferenciaVentana().getTablaBBDD().getItems().clear();
+		getReferenciaVentana().getTablaBBDD().refresh();
 		getReferenciaVentana().getBotonClonarCarta().setVisible(false);
 		getReferenciaVentana().getProntInfoTextArea().setOpacity(0);
 		getReferenciaVentana().getTablaBBDD().refresh();
@@ -519,6 +519,7 @@ public class AccionFuncionesComunes {
 			// Variables relacionadas con la imagen del cómic
 			String imagen = "";
 			if (!esClonar) {
+
 				String urlImagen = comic.getDireccionImagenCarta();
 
 				File file = new File(urlImagen);
@@ -550,6 +551,7 @@ public class AccionFuncionesComunes {
 				// Descarga y conversión asíncrona de la imagen
 				Utilidades.descargarYConvertirImagenAsync(uri, carpetaPortadas(Utilidades.nombreDB()),
 						codigoImagen + ".jpg");
+
 			} else {
 				imagen = comic.getDireccionImagenCarta();
 			}
@@ -565,39 +567,37 @@ public class AccionFuncionesComunes {
 	}
 
 	public static List<CartaGradeo> obtenerCartaInfo(String finalValorCodigo, boolean esImport, String tipoTienda) {
-		try {
-
-			List<CartaGradeo> cartaInfo = new ArrayList<>();
-			if (esImport) {
-
-				if (tipoTienda.equalsIgnoreCase("CardMarket")) {
-					cartaInfo.add(WebScrapGoogleCardMarket.extraerDatosMTG(finalValorCodigo));
-				} else if (tipoTienda.equalsIgnoreCase("ScryFall")) {
-					cartaInfo.add(WebScrapGoogleScryfall.devolverCartaBuscada(finalValorCodigo));
-				} else if (tipoTienda.equalsIgnoreCase("TCGPlayer")) {
-					cartaInfo.add(WebScrapGoogleTCGPlayer.devolverCartaBuscada(finalValorCodigo));
-				}
-			} else {
-				List<String> enlaces = WebScrapGoogleCardMarket.buscarEnGoogle(finalValorCodigo);
-				controlCargaCartas(enlaces.size());
-				nav.verCargaCartas(cargaCartasControllerRef);
-				for (String string : enlaces) {
-					cartaInfo.add(WebScrapGoogleCardMarket.extraerDatosMTG(string));
-				}
+		List<CartaGradeo> cartaInfo = new ArrayList<>();
+		if (esImport) {
+			if (tipoTienda.equalsIgnoreCase("PSA")) {
+				String carpetaDescarga = FuncionesScrapeoComunes.carpetaDescarga();
+				cartaInfo.add(WebScrapPSA.extraerDatosMTG(finalValorCodigo, carpetaDescarga));
+			} else if (tipoTienda.equalsIgnoreCase("OnlyGraded")) {
+				cartaInfo.add(WebScrapOG.devolverCartaBuscada(finalValorCodigo));
+			} else if (tipoTienda.equalsIgnoreCase("CGC")) {
+				cartaInfo.add(WebScrapCGC.devolverCartaBuscada(finalValorCodigo));
+			} else if (tipoTienda.equalsIgnoreCase("CGG")) {
+				cartaInfo.add(WebScrapCGG.devolverCartaBuscada(finalValorCodigo));
+			} else if (tipoTienda.equalsIgnoreCase("ACE")) {
+				cartaInfo.add(WebScrapACE.devolverCartaBuscada(finalValorCodigo));
 			}
 
-			// Convertir la lista a un Set para eliminar duplicados
-			Set<CartaGradeo> cartaSet = new HashSet<>(cartaInfo);
-			cartaInfo.clear(); // Limpiar la lista original
-			cartaInfo.addAll(cartaSet); // Agregar los elementos únicos de vuelta a la lista
-			procesarCartas(cartaInfo);
-			return cartaInfo;
-
-		} catch (URISyntaxException e) {
-			// Manejar excepciones
-			System.err.println("Error al obtener información del cómic: " + e.getMessage());
-			return null;
+//			} 
+//			else {
+//				List<String> enlaces = WebScrapGoogleCardMarket.buscarEnGoogle(finalValorCodigo);
+//				controlCargaCartas(enlaces.size());
+//				nav.verCargaCartas(cargaCartasControllerRef);
+//				for (String string : enlaces) {
+//					cartaInfo.add(WebScrapGoogleCardMarket.extraerDatosMTG(string));
+//				}
 		}
+
+		// Convertir la lista a un Set para eliminar duplicados
+		Set<CartaGradeo> cartaSet = new HashSet<>(cartaInfo);
+		cartaInfo.clear(); // Limpiar la lista original
+		cartaInfo.addAll(cartaSet); // Agregar los elementos únicos de vuelta a la lista
+		procesarCartas(cartaInfo);
+		return cartaInfo;
 	}
 
 	public static String obtenerNombreTienda(String tipoTienda) {
@@ -719,7 +719,7 @@ public class AccionFuncionesComunes {
 
 						reader.lines().forEach(linea -> {
 
-							String tipoTienda = obtenerNombreTienda(linea);
+							String tipoTienda = getReferenciaVentana().getNombreTiendaCombobox().getValue();
 
 							if (isCancelled() || !getReferenciaVentana().getStageVentana().isShowing()) {
 								Platform.runLater(() -> cargaCartasControllerRef.get().cargarDatosEnCargaCartas("",
@@ -785,7 +785,7 @@ public class AccionFuncionesComunes {
 
 			String tipoTienda = obtenerNombreTienda(carta.getUrlReferenciaCarta());
 			if (tipoTienda.equalsIgnoreCase("CardMarket")) {
-				String urlImagen = WebScrapGoogleCardMarket.extraerImagen(carta);
+				String urlImagen = FuncionesScrapeoComunes.extraerImagen(carta);
 				carta.setDireccionImagenCarta(urlImagen);
 			}
 

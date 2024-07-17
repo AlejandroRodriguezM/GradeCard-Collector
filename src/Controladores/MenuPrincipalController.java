@@ -380,11 +380,12 @@ public class MenuPrincipalController implements Initializable {
 	@FXML
 	void ampliarImagen(MouseEvent event) {
 		enviarReferencias();
-		if (getCartaCache() != null) {
-			ImagenAmpliadaController.cartaInfo = getCartaCache();
+		CartaGradeo carta = guardarReferencia().getTablaBBDD().getSelectionModel().getSelectedItem();
+		ImagenAmpliadaController.setCartaCache(carta);
+		if (ImagenAmpliadaController.getCartaCache() != null) {
 
 			if (guardarReferencia().getImagenCarta().getOpacity() != 0) {
-				nav.verVentanaImagen();
+				Ventanas.verVentanaImagen();
 			}
 		}
 	}
@@ -752,7 +753,9 @@ public class MenuPrincipalController implements Initializable {
 	void clickRaton(MouseEvent event) {
 		enviarReferencias();
 		if (!tablaBBDD.isDisabled()) {
-			setCartaCache(guardarReferencia().getTablaBBDD().getSelectionModel().getSelectedItem());
+
+			CartaGradeo carta = guardarReferencia().getTablaBBDD().getSelectionModel().getSelectedItem();
+			ImagenAmpliadaController.setCartaCache(carta);
 			AccionSeleccionar.seleccionarCartas(true);
 		}
 	}
@@ -770,7 +773,8 @@ public class MenuPrincipalController implements Initializable {
 		enviarReferencias();
 		if ((event.getCode() == KeyCode.UP || event.getCode() == KeyCode.DOWN) && !tablaBBDD.isDisabled()) {
 
-			setCartaCache(guardarReferencia().getTablaBBDD().getSelectionModel().getSelectedItem());
+			CartaGradeo carta = guardarReferencia().getTablaBBDD().getSelectionModel().getSelectedItem();
+			ImagenAmpliadaController.setCartaCache(carta);
 			AccionSeleccionar.seleccionarCartas(true);
 		}
 
@@ -1194,20 +1198,6 @@ public class MenuPrincipalController implements Initializable {
 	public Stage estadoStage() {
 
 		return (Stage) botonLimpiar.getScene().getWindow();
-	}
-
-	/**
-	 * @return the cartaCache
-	 */
-	public CartaGradeo getCartaCache() {
-		return cartaCache;
-	}
-
-	/**
-	 * @param cartaCache the cartaCache to set
-	 */
-	public void setCartaCache(CartaGradeo cartaCache) {
-		this.cartaCache = cartaCache;
 	}
 
 	/**

@@ -64,10 +64,12 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import webScrap.WebScrapGoogleCardMarket;
-import webScrap.WebScrapGoogleScryfall;
-import webScrap.WebScrapGoogleTCGPlayer;
+import webScrap.WebScrapACE;
+import webScrap.WebScrapCGC;
+import webScrap.WebScrapCGG;
 import webScrap.WebScrapNodeJSInstall;
+import webScrap.WebScrapOG;
+import webScrap.WebScrapPSA;
 
 /**
  * Clase controladora para la ventana de acciones, que gestiona la interfaz de
@@ -380,8 +382,9 @@ public class VentanaAccionController implements Initializable {
 	@FXML
 	void ampliarImagen(MouseEvent event) {
 		enviarReferencias();
-		if (getCartaCache() != null) {
-			ImagenAmpliadaController.cartaInfo = getCartaCache();
+		CartaGradeo carta = guardarReferencia().getTablaBBDD().getSelectionModel().getSelectedItem();
+		ImagenAmpliadaController.setCartaCache(carta);
+		if (ImagenAmpliadaController.getCartaCache() != null) {
 			if (guardarReferencia().getImagenCarta().getOpacity() != 0) {
 				Ventanas.verVentanaImagen();
 			}
@@ -482,7 +485,7 @@ public class VentanaAccionController implements Initializable {
 		nav.cerrarMenuOpciones();
 		AccionModificar.actualizarCartaLista();
 		imagencarta.setImage(null);
-		setCartaCache(null);
+		ImagenAmpliadaController.setCartaCache(null);
 		ocultarBotonesCartas();
 	}
 
@@ -498,10 +501,10 @@ public class VentanaAccionController implements Initializable {
 	void guardarCartaImportados(ActionEvent event) throws IOException, SQLException {
 		enviarReferencias();
 		nav.cerrarMenuOpciones();
-		AccionAniadir.guardarContenidoLista(false, getCartaCache());
+		AccionAniadir.guardarContenidoLista(false, ImagenAmpliadaController.getCartaCache());
 		rellenarCombosEstaticos();
 		imagencarta.setImage(null);
-		setCartaCache(null);
+		ImagenAmpliadaController.setCartaCache(null);
 		ocultarBotonesCartas();
 	}
 
@@ -520,7 +523,7 @@ public class VentanaAccionController implements Initializable {
 		AccionAniadir.guardarContenidoLista(true, null);
 		rellenarCombosEstaticos();
 		imagencarta.setImage(null);
-		setCartaCache(null);
+		ImagenAmpliadaController.setCartaCache(null);
 		ocultarBotonesCartas();
 	}
 
@@ -542,17 +545,18 @@ public class VentanaAccionController implements Initializable {
 		AccionModificar.modificarCarta();
 		rellenarCombosEstaticos();
 		imagencarta.setImage(null);
-		setCartaCache(null);
+		ImagenAmpliadaController.setCartaCache(null);
 	}
 
 	@FXML
 	void clonarCartaSeleccionada(ActionEvent event) {
 
 		int num = Ventanas.verVentanaNumero();
-		CartaGradeo cartaCopiar = getCartaCache();
+		CartaGradeo carta = guardarReferencia().getTablaBBDD().getSelectionModel().getSelectedItem();
+		ImagenAmpliadaController.setCartaCache(carta);
 
 		for (int i = 0; i < num; i++) {
-			CartaGradeo cartaModificada = AccionFuncionesComunes.copiarCartaClon(cartaCopiar);
+			CartaGradeo cartaModificada = AccionFuncionesComunes.copiarCartaClon(carta);
 			AccionFuncionesComunes.procesarCartaPorCodigo(cartaModificada, true);
 		}
 	}
@@ -564,7 +568,7 @@ public class VentanaAccionController implements Initializable {
 		AccionModificar.eliminarCartaLista();
 		rellenarCombosEstaticos();
 		imagencarta.setImage(null);
-		setCartaCache(null);
+		ImagenAmpliadaController.setCartaCache(null);
 		ocultarBotonesCartas();
 	}
 
@@ -631,7 +635,9 @@ public class VentanaAccionController implements Initializable {
 	void clickRaton(MouseEvent event) {
 		enviarReferencias();
 		if (!tablaBBDD.isDisabled()) {
-			setCartaCache(guardarReferencia().getTablaBBDD().getSelectionModel().getSelectedItem());
+
+			CartaGradeo carta = guardarReferencia().getTablaBBDD().getSelectionModel().getSelectedItem();
+			ImagenAmpliadaController.setCartaCache(carta);
 			AccionSeleccionar.seleccionarCartas(false);
 		}
 	}
@@ -648,7 +654,8 @@ public class VentanaAccionController implements Initializable {
 	void teclasDireccion(KeyEvent event) {
 		enviarReferencias();
 		if ((event.getCode() == KeyCode.UP || event.getCode() == KeyCode.DOWN) && !tablaBBDD.isDisabled()) {
-			setCartaCache(guardarReferencia().getTablaBBDD().getSelectionModel().getSelectedItem());
+			CartaGradeo carta = guardarReferencia().getTablaBBDD().getSelectionModel().getSelectedItem();
+			ImagenAmpliadaController.setCartaCache(carta);
 			AccionSeleccionar.seleccionarCartas(false);
 		}
 
@@ -728,42 +735,50 @@ public class VentanaAccionController implements Initializable {
 
 			AccionFuncionesComunes.cargarRuning();
 
-			CompletableFuture<List<String>> future;
+			// Aquí se asigna el CompletableFuture, este es un ejemplo de cómo podría ser
+			// asignado:
+			CompletableFuture<List<String>> future = CompletableFuture.supplyAsync(() -> {
+				// Lógica para obtener los enlaces, esto es solo un ejemplo
+				return obtenerEnlaces(valorCodigo);
+			});
 
-			if (tipoTienda.equalsIgnoreCase("Card Market")) {
-				future = WebScrapGoogleCardMarket.iniciarBusquedaGoogle(valorCodigo);
-			} else if (tipoTienda.equalsIgnoreCase("ScryFall")) {
-				future = WebScrapGoogleScryfall.getCardLinks(valorCodigo);
-			} else if (tipoTienda.equals("TCGPlayer")) {
-				future = WebScrapGoogleTCGPlayer.urlTCG(valorCodigo);
-			} else {
-				future = CompletableFuture.completedFuture(new ArrayList<>());
-			}
+			// Si el future es null, entonces es necesario inicializarlo apropiadamente
+			// antes de usarlo
+			if (future != null) {
+				future.thenAccept(enlaces -> {
 
-			future.thenAccept(enlaces -> {
+					File fichero;
+					try {
+						fichero = createTempFile(enlaces);
 
-				File fichero;
-				try {
-					fichero = createTempFile(enlaces);
-
-					if (fichero != null) {
-						enviarReferencias();
-						rellenarCombosEstaticos();
-						if (WebScrapNodeJSInstall.checkNodeJSVersion()) {
-							AccionFuncionesComunes.busquedaPorCodigoImportacion(fichero);
+						if (fichero != null) {
+							enviarReferencias();
+							rellenarCombosEstaticos();
+							if (WebScrapNodeJSInstall.checkNodeJSVersion()) {
+								AccionFuncionesComunes.busquedaPorCodigoImportacion(fichero);
+							}
 						}
+
+					} catch (IOException e) {
+						e.printStackTrace();
 					}
+				});
 
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			});
-
-			future.exceptionally(ex -> {
-				ex.printStackTrace();
-				return null; // Manejar errores aquí según sea necesario
-			});
+				future.exceptionally(ex -> {
+					ex.printStackTrace();
+					return null; // Manejar errores aquí según sea necesario
+				});
+			}
 		}
+	}
+
+	// Ejemplo de método para obtener los enlaces
+	private List<String> obtenerEnlaces(String valorCodigo) {
+
+		List<String> codigoGradeo = new ArrayList<>();
+		codigoGradeo.add(valorCodigo);
+
+		return codigoGradeo;
 	}
 
 	public File createTempFile(List<String> data) throws IOException {
@@ -797,7 +812,7 @@ public class VentanaAccionController implements Initializable {
 		enviarReferencias();
 		AccionFuncionesComunes.limpiarDatosPantallaAccion();
 		rellenarCombosEstaticos();
-		setCartaCache(null);
+		ImagenAmpliadaController.setCartaCache(null);
 	}
 
 	/**
@@ -862,20 +877,6 @@ public class VentanaAccionController implements Initializable {
 	}
 
 	/**
-	 * @return the cartaCache
-	 */
-	public CartaGradeo getCartaCache() {
-		return cartaCache;
-	}
-
-	/**
-	 * @param cartaCache the cartaCache to set
-	 */
-	public void setCartaCache(CartaGradeo cartaCache) {
-		this.cartaCache = cartaCache;
-	}
-
-	/**
 	 * Cierra la ventana asociada a este controlador, si está disponible. Si no se
 	 * ha establecido una instancia de ventana (Stage), este método no realiza
 	 * ninguna acción.
@@ -883,7 +884,7 @@ public class VentanaAccionController implements Initializable {
 	public void closeWindow() {
 
 		stage = estadoStage();
-		setCartaCache(null);
+		ImagenAmpliadaController.setCartaCache(null);
 		if (stage != null) {
 
 			if (FuncionesManejoFront.getStageVentanas().contains(estadoStage())) {

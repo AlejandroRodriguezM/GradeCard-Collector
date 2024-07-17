@@ -319,8 +319,6 @@ public class FuncionesComboBox {
 	private void setupFilteredPopup(List<ComboBox<String>> comboboxes, ComboBox<String> originalComboBox,
 			List<String> filteredItems) {
 
-		System.out.println(123);
-
 		modificarPopup(originalComboBox);
 
 		ListView<String> listView = new ListView<>(FXCollections.observableArrayList(filteredItems));
@@ -575,27 +573,25 @@ public class FuncionesComboBox {
 	 * @param comboboxes La lista de ComboBoxes a rellenar.
 	 */
 	public static void rellenarComboBoxEstaticos(List<ComboBox<String>> comboboxes) {
-		String[][] valores = { { "Card Market", "ScryFall", "TCGPlayer" }
+        String[] valores = { "PSA", "OnlyGraded", "CGG", "CGC", "ACE" };
+        String[] ids = { "comboBoxTienda" };
 
-		};
+        // Verificar que la lista de ComboBox tenga al menos el mismo tamaño que los arreglos
+        int tamanio = Math.min(comboboxes.size(), ids.length);
 
-		String[] ids = { "comboBoxTienda" };
-
-		// Verificar que la lista de ComboBox tenga al menos el mismo tamaño que los
-		// arreglos
-		int tamanio = Math.min(comboboxes.size(), ids.length);
-
-		for (int i = 0; i < tamanio; i++) {
-			String id = ids[i];
-			ComboBox<String> comboBox = comboboxes.stream().filter(cb -> cb.getId().equals(id)).findFirst()
-					.orElse(null);
-			if (comboBox != null) {
-				comboBox.getItems().clear(); // Limpiar elementos anteriores si los hay
-				comboBox.getItems().addAll(valores[i]);
-				comboBox.getSelectionModel().selectFirst();
-			}
-		}
-	}
+        for (int i = 0; i < tamanio; i++) {
+            String id = ids[i];
+            ComboBox<String> comboBox = comboboxes.stream()
+                    .filter(cb -> id.equals(cb.getId()))
+                    .findFirst()
+                    .orElse(null);
+            if (comboBox != null) {
+                comboBox.getItems().clear(); // Limpiar elementos anteriores si los hay
+                comboBox.getItems().addAll(valores);
+                comboBox.getSelectionModel().selectFirst();
+            }
+        }
+    }
 
 	/**
 	 * Funcion que permite modificar la puntuacion de un comic, siempre y cuando el
@@ -623,71 +619,6 @@ public class FuncionesComboBox {
 		}
 
 		return numCarta;
-	}
-
-	/**
-	 * Funcion que permite seleccionar en el comboBox "caja_actual" y lo devuelve,
-	 * para la busqueda de comic
-	 * 
-	 * @return
-	 */
-	public static String cajaCombobox(ComboBox<String> numeroCajaCarta) {
-
-		String cajaCartas = "";
-
-		if (numeroCajaCarta.getSelectionModel().getSelectedItem() != null) {
-			cajaCartas = numeroCajaCarta.getSelectionModel().getSelectedItem();
-		}
-
-		return cajaCartas;
-	}
-
-	/**
-	 * Funcion que permite seleccionar en el comboBox "caja_actual" y lo devuelve,
-	 * para la busqueda de comic
-	 * 
-	 * @return
-	 */
-	public static String estadoCombobox(ComboBox<String> estadoCarta) {
-
-		String estadoNuevo = "";
-
-		if (estadoCarta.getSelectionModel().getSelectedItem() != null) {
-			estadoNuevo = estadoCarta.getSelectionModel().getSelectedItem();
-		}
-
-		return estadoNuevo;
-	}
-
-	/**
-	 * Funcion que permite seleccionar en el comboBox "nombreFormato" y lo devuelve,
-	 * para la busqueda de comic
-	 * 
-	 * @return
-	 */
-	public static String formatoCombobox(ComboBox<String> formatoCarta) {
-
-		String formatoEstado = "";
-		if (formatoCarta.getSelectionModel().getSelectedItem() != null) {
-			formatoEstado = formatoCarta.getSelectionModel().getSelectedItem();
-		}
-		return formatoEstado;
-	}
-
-	/**
-	 * Funcion que permite modificar el estado de un comic.
-	 *
-	 * @param ps
-	 * @return
-	 */
-	public static String procedenciaCombobox(ComboBox<String> procedenciaCarta) {
-
-		String procedenciaEstadoNuevo = "";
-		if (procedenciaCarta.getSelectionModel().getSelectedItem() != null) {
-			procedenciaEstadoNuevo = procedenciaCarta.getSelectionModel().getSelectedItem();
-		}
-
-		return procedenciaEstadoNuevo;
 	}
 
 }

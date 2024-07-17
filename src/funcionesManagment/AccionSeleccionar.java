@@ -55,11 +55,17 @@ public class AccionSeleccionar {
 			scene.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
 				getReferenciaVentana().getImagenCarta().setVisible(true);
 				if (!getReferenciaVentana().getTablaBBDD().isHover()) {
-					getReferenciaVentana().getTablaBBDD().getSelectionModel().clearSelection();
-					if (!esPrincipal) {
+
+					if (esPrincipal) {
+						getReferenciaVentana().getTablaBBDD().getSelectionModel().clearSelection();
+					} else {
+
+						if (!"aniadir".equals(AccionFuncionesComunes.TIPO_ACCION)) {
+							getReferenciaVentana().getTablaBBDD().getSelectionModel().clearSelection();
+						}
+
 						if ("modificar".equals(AccionFuncionesComunes.TIPO_ACCION)) {
 							AccionControlUI.mostrarOpcion(AccionFuncionesComunes.TIPO_ACCION);
-
 						}
 						Utilidades.cambiarVisibilidad(elementos[0], true);
 
@@ -80,7 +86,7 @@ public class AccionSeleccionar {
 
 		getReferenciaVentana().getImagenCarta().setOnMouseClicked(event -> {
 			CartaGradeo carta = newSelection;
-			ImagenAmpliadaController.cartaInfo = carta;
+			ImagenAmpliadaController.setCartaCache(carta);
 			Ventanas.verVentanaImagen();
 			getReferenciaVentana().getImagenCarta().setVisible(false);
 			AccionControlUI.limpiarAutorellenos(esPrincipal);
@@ -115,7 +121,7 @@ public class AccionSeleccionar {
 			AccionControlUI.limpiarAutorellenos(esPrincipal);
 			return;
 		}
-
+		referenciaVentana.getImagenCarta().setOpacity(1);
 		if (!esPrincipal) {
 			accionRellenoDatos.setAtributosDesdeTabla(comicTemp);
 			AccionControlUI.validarCamposClave(false);

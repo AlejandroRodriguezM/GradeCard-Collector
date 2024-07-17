@@ -338,6 +338,7 @@ public class CartaGradeo implements Cloneable {
         return false;
     }
 
+    
     @Override
     public String toString() {
         StringBuilder contenidoCarta = new StringBuilder();

@@ -27,6 +27,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextBoundsType;
 import javafx.stage.Stage;
 
 public class ImagenAmpliadaController implements Initializable {
@@ -36,7 +37,7 @@ public class ImagenAmpliadaController implements Initializable {
 	 */
 	private Stage stage;
 
-	public static CartaGradeo cartaInfo;
+	public static CartaGradeo cartaCache;
 
 	@FXML
 	private ImageView imagenAmpliada;
@@ -54,48 +55,41 @@ public class ImagenAmpliadaController implements Initializable {
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		mostrarImagen();
-		String infoCartaString = "";
-		// Crear el menú contextual
-		ContextMenu contextMenu = new ContextMenu();
-		MenuItem guardarItem = new MenuItem("Guardar imagen");
-		guardarItem.setOnAction(event -> guardarImagen(cartaInfo.getDireccionImagenCarta()));
-		contextMenu.getItems().add(guardarItem);
+	    mostrarImagen();
+	    String infoCartaString = getCartaCache().toString(); // Obtener el contenido del TextArea
 
-		// Manejar el evento de clic derecho para mostrar el menú contextual
-		imagenAmpliada.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-			if (event.getButton() == MouseButton.SECONDARY) {
-				contextMenu.show(imagenAmpliada, event.getScreenX(), event.getScreenY());
-			}
-		});
+	    // Crear el menú contextual
+	    ContextMenu contextMenu = new ContextMenu();
+	    MenuItem guardarItem = new MenuItem("Guardar imagen");
+	    guardarItem.setOnAction(event -> guardarImagen(getCartaCache().getDireccionImagenCarta()));
+	    contextMenu.getItems().add(guardarItem);
 
-		
-		infoCarta.setText(infoCartaString);
+	    // Manejar el evento de clic derecho para mostrar el menú contextual
+	    imagenAmpliada.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+	        if (event.getButton() == MouseButton.SECONDARY) {
+	            contextMenu.show(imagenAmpliada, event.getScreenX(), event.getScreenY());
+	        }
+	    });
 
-		// Obtener el ancho del TextArea desde el FXML
-		double textAreaWidth = infoCarta.getPrefWidth();
-		double textAreaHeight = infoCarta.getPrefHeight();
+	    infoCarta.setText(infoCartaString);
 
-		infoCarta.setPrefHeight(computeTextHeight(infoCartaString, infoCarta.getFont(), textAreaWidth, textAreaHeight));
-		Platform.runLater(() -> {
-			FuncionesManejoFront.getStageVentanas().add(estadoStage());
-		});
+	    // Calcular la altura del texto y ajustar el tamaño del TextArea
+	    Platform.runLater(() -> {
+	        double textAreaWidth = infoCarta.getPrefWidth();
+	        double textHeight = computeTextHeight(infoCartaString, infoCarta.getFont(), textAreaWidth);
+	        infoCarta.setPrefHeight(textHeight + 40);
+	        FuncionesManejoFront.getStageVentanas().add(estadoStage());
+	    });
 	}
 
-	// Método para calcular la altura del texto de manera dinámica
-	private double computeTextHeight(String text, Font font, double textAreaWidth, double textAreaHeight) {
-		// Crear un nodo Text para medir el tamaño real del texto
-		Text textNode = new Text(text);
-		textNode.setFont(font);
-
-		// Establecer el ancho del nodo Text para envolver el texto correctamente
-		textNode.setWrappingWidth(textAreaWidth);
-
-		// Calcular la altura necesaria para mostrar todo el texto
-		double totalHeight = textNode.getLayoutBounds().getHeight();
-
-		return totalHeight * 1.1;
-	}
+	// Método para calcular la altura del texto con 4 tabulaciones
+    private double computeTextHeight(String text, Font font, double width) {
+        Text tempText = new Text(text);
+        tempText.setFont(font);
+        tempText.setWrappingWidth(width);
+        tempText.setBoundsType(TextBoundsType.VISUAL);
+        return tempText.getLayoutBounds().getHeight();
+    }
 
 	public Scene miStageVentana() {
 		Node rootNode = imagenAmpliada;
@@ -117,8 +111,8 @@ public class ImagenAmpliadaController implements Initializable {
 
 		String direccionFinalImg = "";
 		Image imagenCargada = null;
-		if (Utilidades.existePortada(cartaInfo.getDireccionImagenCarta())) {
-			direccionFinalImg = cartaInfo.getDireccionImagenCarta();
+		if (Utilidades.existePortada(getCartaCache().getDireccionImagenCarta())) {
+			direccionFinalImg = getCartaCache().getDireccionImagenCarta();
 			imagenCargada = new Image(new File(direccionFinalImg).toURI().toString(), true);
 		} else {
 			InputStream is = getClass().getResourceAsStream("/imagenes/sinPortada.jpg");
@@ -197,6 +191,20 @@ public class ImagenAmpliadaController implements Initializable {
 		this.idCarta = idCarta;
 	}
 
+	/**
+	 * @return the cartaCache
+	 */
+	public static CartaGradeo getCartaCache() {
+		return cartaCache;
+	}
+
+	/**
+	 * @param cartaCache the cartaCache to set
+	 */
+	public static void setCartaCache(CartaGradeo cartaCache) {
+		ImagenAmpliadaController.cartaCache = cartaCache;
+	}
+	
 	/**
 	 * Cierra la ventana asociada a este controlador, si está disponible. Si no se
 	 * ha establecido una instancia de ventana (Stage), este método no realiza

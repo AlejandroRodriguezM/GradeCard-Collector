@@ -1,6 +1,7 @@
 package webScrap;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -12,7 +13,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+
+import cartaManagement.CartaGradeo;
+import funcionesAuxiliares.Utilidades;
+import funcionesManagment.AccionFuncionesComunes;
 import javafx.concurrent.Task;
 
 public class FuncionesScrapeoComunes {
@@ -142,7 +152,7 @@ public class FuncionesScrapeoComunes {
 			return null; // Devolver null en caso de excepción
 		}
 	}
-	
+
 	private static String extractCardName(String url) {
 		// Encontrar el índice de "/Cards/" en la URL
 		int cardsIndex = url.indexOf("/Cards/");
@@ -159,12 +169,13 @@ public class FuncionesScrapeoComunes {
 		}
 		return null; // No se encontró el nombre de la carta
 	}
-	
-	public static List<String> getCartaFromPuppeteer(String url,String scriptPath) {
+
+	public static List<String> getCartaFromPuppeteer(String url, String carpetaDestino, String scriptPath) {
 		List<String> dataArrayList = new ArrayList<>();
 
 		try {
-			String command = "node " + scriptPath + " " + url;
+			String command = "node \"" + scriptPath + "\" \"" + url + "\" \"" + carpetaDestino + "\"";
+			System.out.println("Comando a ejecutar: " + command);
 
 			int attempt = 0;
 			int backoff = 2000; // Tiempo de espera inicial en milisegundos
@@ -184,8 +195,10 @@ public class FuncionesScrapeoComunes {
 
 				// Esperar a que termine el proceso
 				int exitCode = process.waitFor();
+
+				// Verificar si el proceso terminó con éxito (código de salida 0)
 				if (exitCode == 0) {
-					// Proceso terminado exitosamente, obtener el resultado
+					// Proceso terminado exitosamente, obtener la salida del script Node.js
 					String dataString = output.toString().trim();
 					if (!dataString.isEmpty()) {
 						// Dividir los pares clave-valor y añadirlos al List<String>
@@ -193,69 +206,153 @@ public class FuncionesScrapeoComunes {
 						for (String pair : keyValuePairs) {
 							dataArrayList.add(pair.trim());
 						}
-						return dataArrayList;
 					} else {
-						System.err.println("El resultado obtenido está vacío. Volviendo a intentar...");
-						Thread.sleep(backoff); // Esperar antes de intentar nuevamente
-						backoff += 10; // Aumentar el tiempo de espera (backoff exponencial)
+						System.err.println("El resultado obtenido está vacío.");
 					}
-
-					if (attempt >= 5) {
-						// Si se superan los intentos, devolver un List<String> vacío
-						return new ArrayList<>();
-					}
+					break; // Salir del bucle, ya tenemos los datos
 				} else {
-					// Error al ejecutar el script
+					// Error al ejecutar el script Node.js
 					System.err.println("Error al ejecutar el script de Puppeteer. Código de salida: " + exitCode);
 					break; // Salir del bucle si hay un error
 				}
 			}
+
 		} catch (InterruptedException e) {
-			// Restaurar el estado de interrupción
 			Thread.currentThread().interrupt();
 			System.err.println("El hilo fue interrumpido. Terminando la ejecución.");
-			// Opcional: Manejar la interrupción de manera adecuada, por ejemplo, limpiando
-			// recursos
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.err.println("Error de entrada/salida al ejecutar el script de Puppeteer.");
 		}
-		return new ArrayList<>(); // Devolver un List<String> vacío en caso de excepción
+
+		return dataArrayList;
 	}
-	
-    public static String getImagenFromPuppeteer(String url, String scriptPath) {
-        try {
-            String command = "node " + scriptPath + " " + url;
 
-            Process process = Runtime.getRuntime().exec(command);
+	public static String getImagenFromPuppeteer(String url, String scriptPath) {
+		try {
+			String command = "node " + scriptPath + " " + url;
 
-            // Leer la salida del proceso
-            BufferedReader processReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            StringBuilder output = new StringBuilder();
-            String outputLine;
-            while ((outputLine = processReader.readLine()) != null) {
-                output.append(outputLine).append("\n");
-            }
-            processReader.close();
+			Process process = Runtime.getRuntime().exec(command);
 
-            // Esperar a que termine el proceso
-            int exitCode = process.waitFor();
-            if (exitCode == 0) {
-                // Proceso terminado exitosamente, obtener el resultado
-                String dataString = output.toString().trim();
-                return dataString; // Devolver el resultado como un String
-            } else {
-                // Error al ejecutar el script
-                System.err.println("Error al ejecutar el script de Puppeteer. Código de salida: " + exitCode);
-            }
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            System.err.println("El hilo fue interrumpido. Terminando la ejecución.");
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.err.println("Error de entrada/salida al ejecutar el script de Puppeteer.");
-        }
-        return ""; // Devolver una cadena vacía en caso de excepción
-    }
+			// Leer la salida del proceso
+			BufferedReader processReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+			StringBuilder output = new StringBuilder();
+			String outputLine;
+			while ((outputLine = processReader.readLine()) != null) {
+				output.append(outputLine).append("\n");
+			}
+			processReader.close();
+
+			// Esperar a que termine el proceso
+			int exitCode = process.waitFor();
+			if (exitCode == 0) {
+				// Proceso terminado exitosamente, obtener el resultado
+				String dataString = output.toString().trim();
+				return dataString; // Devolver el resultado como un String
+			} else {
+				// Error al ejecutar el script
+				System.err.println("Error al ejecutar el script de Puppeteer. Código de salida: " + exitCode);
+			}
+		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
+			System.err.println("El hilo fue interrumpido. Terminando la ejecución.");
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.err.println("Error de entrada/salida al ejecutar el script de Puppeteer.");
+		}
+		return ""; // Devolver una cadena vacía en caso de excepción
+	}
+
+	public static String searchWebImagen(String query) {
+		String googleSearchUrl = "https://www.google.com/search?q=";
+		String charset = "UTF-8";
+		String userAgent = "Mozilla/5.0";
+
+		String url;
+		try {
+			url = googleSearchUrl + URLEncoder.encode(query, charset);
+			HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+			connection.setRequestProperty("User-Agent", userAgent);
+
+			try (BufferedReader reader = new BufferedReader(
+					new InputStreamReader(connection.getInputStream(), charset))) {
+				String line;
+				StringBuilder response = new StringBuilder();
+				while ((line = reader.readLine()) != null) {
+					response.append(line);
+				}
+
+				// Buscar enlaces que comiencen con "/url?q="
+				Pattern pattern = Pattern.compile("<a href=\"/url\\?q=(https://www.cardtrader.com/[^\"]+)\"");
+				Matcher matcher = pattern.matcher(response.toString());
+
+				while (matcher.find()) {
+					String urlFound = matcher.group(1);
+					urlFound = cleanGoogleUrl(urlFound);
+					if (!urlFound.contains("/versions")) {
+						return urlFound;
+					}
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return ""; // No se encontró un enlace adecuado
+	}
+
+	private static String cleanGoogleUrl(String url) {
+		// Eliminar fragmentos adicionales de la URL de Google
+		int index = url.indexOf("&");
+		if (index != -1) {
+			return url.substring(0, index);
+		}
+		return url;
+	}
+
+	public static String extraerImagen(CartaGradeo carta) {
+		String argument = "cardtrader+" + carta.getNomCarta().replace(" ", "+") + "+" + carta.getNumCarta() + "+"
+				+ carta.getColeccionCarta().replace(" ", "+");
+		String urlCarta = searchWebImagen(argument);
+		if (urlCarta.contains("/cards/")) {
+			System.out.println(urlCarta);
+			return extraerDatosImagen(urlCarta);
+		}
+		return "";
+	}
+
+	public static String extraerDatosImagen(String url) {
+		Document doc;
+		try {
+			doc = Jsoup.connect(url).get();
+
+			// Adjust selector according to actual HTML structure of the target page
+			Element imagenElemento = doc.selectFirst(
+					"div.image-flipper.border-radius-10 img[src*='/uploads/'][src$='.jpg'], div.image-flipper.border-radius-10 img[src*='/uploads/'][src$='.png']");
+
+			if (imagenElemento != null) {
+				return "https://www.cardtrader.com/" + imagenElemento.attr("src");
+			}
+		} catch (IOException e) {
+			// Log the error or handle it appropriately
+			System.err.println("Error fetching image: " + e.getMessage());
+		}
+
+		return "";
+	}
+
+	public static String carpetaDescarga() {
+		String nombreDB = Utilidades.nombreDB();
+		String carpetaPortada = AccionFuncionesComunes.carpetaPortadas(nombreDB);
+		String codigoImagen = Utilidades.generarCodigoUnico(carpetaPortada);
+
+		String rutaArchivo = carpetaPortada + File.separator + codigoImagen + ".jpg";
+
+		// Reemplaza las barras invertidas con barras normales para compatibilidad con
+		// JavaScript
+		rutaArchivo = rutaArchivo.replace(File.separator, "/");
+
+		return rutaArchivo;
+	}
 
 }

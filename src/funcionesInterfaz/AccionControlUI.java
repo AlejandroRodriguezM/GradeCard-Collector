@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import Controladores.ImagenAmpliadaController;
 import Controladores.VentanaAccionController;
 import alarmas.AlarmaList;
 import cartaManagement.CartaGradeo;
@@ -265,19 +266,17 @@ public class AccionControlUI {
 	public boolean camposCartaSonValidos() {
 		List<Control> camposUi = Arrays.asList(referenciaVentana.getNombreCartaTextField(),
 				referenciaVentana.getEdicionCartaTextField(), referenciaVentana.getColeccionCartaTextField(),
-				referenciaVentana.getGradeoCartaTextField(), referenciaVentana.getNumeroCartaCombobox());
+				referenciaVentana.getGradeoCartaTextField(), referenciaVentana.getNumeroCartaTextField());
 
 		for (Control campoUi : camposUi) {
-			if (campoUi instanceof TextField) {
-				String datoCarta = ((TextField) campoUi).getText();
+			String datoCarta = ((TextField) campoUi).getText();
 
-				// Verificar si el campo está vacío, es nulo o tiene el valor "Vacio"
-				if (datoCarta == null || datoCarta.isEmpty() || datoCarta.equalsIgnoreCase("vacio")) {
-					campoUi.setStyle("-fx-background-color: #FF0000;");
-					return false; // Devolver false si al menos un campo no es válido
-				} else {
-					campoUi.setStyle("");
-				}
+			// Verificar si el campo está vacío, es nulo o tiene el valor "Vacio"
+			if (datoCarta == null || datoCarta.isEmpty() || datoCarta.equalsIgnoreCase("vacio")) {
+				campoUi.setStyle("-fx-background-color: #FF0000;");
+				return false; // Devolver false si al menos un campo no es válido
+			} else {
+				campoUi.setStyle("");
 			}
 		}
 
@@ -378,13 +377,14 @@ public class AccionControlUI {
 			referenciaVentana.getProntInfoTextArea().setOpacity(0);
 			referenciaVentana.getTablaBBDD().getItems().clear();
 			referenciaVentana.getTablaBBDD().setOpacity(0.6);
-			;
 			referenciaVentana.getTablaBBDD().refresh();
 			referenciaVentana.getImagenCarta().setImage(null);
 			referenciaVentana.getImagenCarta().setOpacity(0);
 			return;
 		}
 
+		referenciaVentana.getImagenCarta().setImage(null);
+		referenciaVentana.getImagenCarta().setOpacity(0);
 		referenciaVentana.getNombreCartaTextField().setText("");
 		referenciaVentana.getNumeroCartaTextField().setText("");
 		referenciaVentana.getAnioCartaTextField().setText("");
@@ -404,6 +404,9 @@ public class AccionControlUI {
 			referenciaVentana.getIdCartaTratarTextField().setDisable(false);
 			referenciaVentana.getIdCartaTratarTextField().setText("");
 			referenciaVentana.getIdCartaTratarTextField().setDisable(true);
+		}else {
+			referenciaVentana.getTablaBBDD().getItems().clear();
+			referenciaVentana.getTablaBBDD().refresh();
 		}
 
 		if ("modificar".equals(AccionFuncionesComunes.TIPO_ACCION)) {
@@ -497,8 +500,7 @@ public class AccionControlUI {
 				// Cambiar la apariencia del cursor y la opacidad cuando la imagen se ha cargado
 				referenciaVentana.getImagenCarta().setOnMouseEntered(e -> {
 					if (referenciaVentana.getImagenCarta() != null) {
-						referenciaVentana.getImagenCarta().setOpacity(0.7); // Cambiar la opacidad para indicar que es
-						// clickable
+						referenciaVentana.getImagenCarta().setOpacity(0.7);
 						referenciaVentana.getImagenCarta().setCursor(Cursor.HAND);
 					}
 				});
@@ -515,9 +517,8 @@ public class AccionControlUI {
 				});
 			} else {
 				// Restaurar el cursor y la opacidad al salir del ImageView
-				referenciaVentana.getImagenCarta().setOnMouseEntered(e -> {
-					referenciaVentana.getImagenCarta().setCursor(Cursor.DEFAULT);
-				});
+				referenciaVentana.getImagenCarta()
+						.setOnMouseEntered(e -> referenciaVentana.getImagenCarta().setCursor(Cursor.DEFAULT));
 			}
 		});
 
@@ -530,6 +531,25 @@ public class AccionControlUI {
 		referenciaVentana.getIdCartaTratarTextField().textProperty().addListener((observable, oldValue, newValue) -> {
 			// Verificar que newValue no sea null antes de usarlo
 			AccionSeleccionar.mostrarCarta(newValue, false);
+
+			if (newValue != null && !newValue.isEmpty()) {
+
+				if ("modificar".equals(AccionFuncionesComunes.TIPO_ACCION)) {
+
+					AccionSeleccionar.verBasedeDatos(true, true, null);
+					CartaGradeo carta = CartaManagerDAO.cartaDatos(newValue);
+
+					referenciaVentana.getBotonEliminar().setVisible(true);
+					referenciaVentana.getBotonModificarCarta().setVisible(true);
+
+					referenciaVentana.getBotonEliminar().setDisable(false);
+					referenciaVentana.getBotonModificarCarta().setDisable(false);
+
+					referenciaVentana.getTablaBBDD().getSelectionModel().select(carta);
+					referenciaVentana.getTablaBBDD().scrollTo(carta); // Esto hará scroll hasta el elemento seleccionado
+				}
+
+			}
 		});
 
 		List<Node> elementos = Arrays.asList(referenciaVentana.getBotonGuardarCarta(),

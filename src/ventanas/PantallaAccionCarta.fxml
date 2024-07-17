@@ -76,7 +76,7 @@
          <font>
             <Font size="13.0" />
          </font></Button>
-      <Button fx:id="botonEliminar" layoutX="623.0" layoutY="260.0" mnemonicParsing="false" onAction="#eliminarDatos" prefHeight="73.0" prefWidth="90.0" stylesheets="@../style/genericos_style.css" text="Eliminar Carta" visible="false" />
+      <Button fx:id="botonEliminar" layoutX="623.0" layoutY="260.0" mnemonicParsing="false" onAction="#eliminarDatos" prefHeight="73.0" prefWidth="90.0" stylesheets="@../style/genericos_style.css" text="Eliminar Carta" textAlignment="CENTER" visible="false" />
       <Button fx:id="botonbbdd" disable="true" layoutX="248.0" layoutY="29.0" mnemonicParsing="false" onAction="#verTodabbdd" prefHeight="35.0" prefWidth="57.0" stylesheets="@../style/genericos_style.css" text="Ver todo" visible="false" />
       <TextField fx:id="textFieldIdCarta" layoutX="56.0" layoutY="29.0" prefHeight="21.0" prefWidth="125.0" promptText="ID carta">
          <font>
