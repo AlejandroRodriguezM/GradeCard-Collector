@@ -52,8 +52,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
 
@@ -1795,7 +1793,7 @@ public class Utilidades {
 		Task<Void> task = new Task<Void>() {
 			@Override
 			protected Void call() throws Exception {
-				String urlDescarga = "https://github.com/AlejandroRodriguezM/Libreria-Cartas/releases/latest/download/Album.exe";
+				String urlDescarga = "https://github.com/AlejandroRodriguezM/GradeCard-Collector/releases/latest/download/Album.exe";
 				URI uri = new URI(urlDescarga);
 
 				HttpURLConnection httpConn = (HttpURLConnection) uri.toURL().openConnection();
@@ -1929,70 +1927,6 @@ public class Utilidades {
 		texto = texto.trim().replaceAll("\\s+", " ");
 
 		return texto;
-	}
-
-	public static String devolverPalabrasClave(String texto) {
-		// Definir las palabras clave y sus correspondientes tipos de edición
-		String[] palabrasClave = { "absolute", "omnibus hc", "hc omnibus", "tp omnibus", "omnibus tp", "hc omni",
-				"omni hc", "tp omni", "omni tp", "omnibus", "omni", "tp", "deluxe", "dlx", "treasury edition", "hc",
-				"#", "cvr", "TBD" };
-
-		// Escapar los caracteres especiales en las palabras clave
-		StringBuilder regexBuilder = new StringBuilder();
-		for (String palabra : palabrasClave) {
-			regexBuilder.append(Pattern.quote(palabra)).append("|");
-		}
-		String regex = regexBuilder.substring(0, regexBuilder.length() - 1); // Eliminar el último "|"
-
-		// Compilar la expresión regular
-		Pattern pattern = Pattern.compile(regex);
-
-		// Crear un Matcher para buscar las coincidencias en el texto
-		Matcher matcher = pattern.matcher(texto.toLowerCase());
-
-		// Determinar el tipo de edición correspondiente a la palabra clave encontrada
-		StringBuilder resultado = new StringBuilder();
-		if (matcher.find()) {
-			switch (matcher.group()) {
-			case "absolute":
-				resultado.append("Edición absolute (Absolute Edition)");
-				break;
-			case "omnibus hc":
-			case "hc omnibus":
-			case "tp omnibus":
-			case "omnibus tp":
-			case "hc omni":
-			case "omni hc":
-			case "tp omni":
-			case "omni tp":
-			case "omnibus":
-			case "omni":
-				resultado.append("Edición omnibus (Omnibus)");
-				break;
-			case "tp":
-			case "TBD":
-				resultado.append("Tapa blanda (Paperback)");
-				break;
-			case "deluxe":
-			case "dlx":
-			case "treasury edition":
-				resultado.append("Edición de lujo (Deluxe Edition)");
-				break;
-			case "hc":
-				resultado.append("Tapa dura (Hardcover)");
-				break;
-			case "#":
-			case "cvr":
-				resultado.append("Grapa (Issue individual)");
-				break;
-			default:
-				resultado.append("Grapa (Issue individual)");
-				break;
-			}
-		} else {
-			resultado.append("Grapa (Issue individual)");
-		}
-		return resultado.toString();
 	}
 
 	public static void copiarDirectorio(String directorioNuevo, String directorioOriginal) {
@@ -2226,7 +2160,7 @@ public class Utilidades {
 		String nombreCompletoDB = FuncionesFicheros.datosEnvioFichero();
 		
 		if (nombreCompletoDB != null && !nombreCompletoDB.isEmpty()) {
-			String nombreCortado[] = nombreCompletoDB.split("\\.");
+			String[] nombreCortado = nombreCompletoDB.split("\\.");
 			String nombredb = nombreCortado[0];
 			return nombredb;
 		}
@@ -2447,6 +2381,22 @@ public class Utilidades {
 		// Redondear el resultado a dos decimales
 		return Math.round(suma * 100.0) / 100.0;
 	}
+	
+    public static boolean isValidURL(String urlString) {
+        try {
+            URL url = new URL(urlString);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setConnectTimeout(100); // 5 segundos de tiempo de espera
+            connection.setReadTimeout(100);
+            int responseCode = connection.getResponseCode();
+
+            // Si el código de respuesta es 200-299, la URL es válida
+            return (200 <= responseCode && responseCode <= 299);
+        } catch (IOException e) {
+            return false; // Si ocurre una excepción, la URL no es válida
+        }
+    }
 
 	public static AccionReferencias getReferenciaVentana() {
 		return referenciaVentana;

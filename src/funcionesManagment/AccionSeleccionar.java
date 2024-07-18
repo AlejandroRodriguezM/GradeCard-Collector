@@ -55,7 +55,6 @@ public class AccionSeleccionar {
 			scene.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
 				getReferenciaVentana().getImagenCarta().setVisible(true);
 				if (!getReferenciaVentana().getTablaBBDD().isHover()) {
-
 					if (esPrincipal) {
 						getReferenciaVentana().getTablaBBDD().getSelectionModel().clearSelection();
 					} else {

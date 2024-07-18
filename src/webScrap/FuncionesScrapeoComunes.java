@@ -175,7 +175,6 @@ public class FuncionesScrapeoComunes {
 
 		try {
 			String command = "node " + scriptPath + " " + url ;
-			System.out.println("Comando a ejecutar: " + command);
 
 			int attempt = 0;
 			int backoff = 2000; // Tiempo de espera inicial en milisegundos

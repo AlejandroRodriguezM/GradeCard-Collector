@@ -16,7 +16,7 @@ public class SelectManager {
 	public static final String TAMANIO_DATABASE = "SELECT COUNT(*) FROM albumbbdd;";
 	private static final String SENTENCIA_BUSQUEDA_INDIVIDUAL = "SELECT * FROM albumbbdd WHERE idCarta = ?;";
 	private static final String SENTENCIA_CONTAR_CARTAS_POR_ID = "SELECT 1 FROM albumbbdd WHERE idCarta = ? LIMIT 1;";
-	private static final String SENTENCIA_BUSCAR_PORTADA = "SELECT portada FROM albumbbdd WHERE idCarta = ?;";
+	private static final String SENTENCIA_BUSCAR_PORTADA = "SELECT direccionImagenCarta FROM albumbbdd WHERE idCarta = ?;";
 	public static final String SENTENCIA_BUSQUEDA_COMPLETA = "SELECT * FROM albumbbdd";
 	public static final String SENTENCIA_TOTAL_BUSQUEDA = "SELECT COUNT(*) FROM albumbbdd WHERE 1=1;";
 
