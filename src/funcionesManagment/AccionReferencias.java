@@ -75,7 +75,6 @@ public class AccionReferencias {
 	private Button botonDescargarSQL;
 	private Button botonGuardarListaCartas;
 	private Button botonEliminarImportadoListaCarta;
-	private Button botonActualizarPrecio;
 
 	private Rectangle barraCambioAltura;
 
@@ -458,13 +457,6 @@ public class AccionReferencias {
 	 */
 	public Button getBotonEliminarImportadoListaCarta() {
 		return botonEliminarImportadoListaCarta;
-	}
-
-	/**
-	 * @return the botonActualizarPrecio
-	 */
-	public Button getBotonActualizarPrecio() {
-		return botonActualizarPrecio;
 	}
 
 	/**
@@ -1243,13 +1235,6 @@ public class AccionReferencias {
 	 */
 	public void setBotonEliminarImportadoListaCarta(Button botonEliminarImportadoListaCarta) {
 		this.botonEliminarImportadoListaCarta = botonEliminarImportadoListaCarta;
-	}
-
-	/**
-	 * @param botonActualizarPrecio the botonActualizarPrecio to set
-	 */
-	public void setBotonActualizarPrecio(Button botonActualizarPrecio) {
-		this.botonActualizarPrecio = botonActualizarPrecio;
 	}
 
 	/**

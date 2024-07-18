@@ -443,7 +443,6 @@ public class FuncionesManejoFront {
 			deshabilitarSiNoNulo(referenciaVentana.getCheckFirmas(), estadoAccion);
 			deshabilitarSiNoNulo(referenciaVentana.getBotonEliminarImportadoListaCarta(), estadoAccion);
 			deshabilitarSiNoNulo(referenciaVentana.getBotonGuardarListaCartas(), estadoAccion);
-			deshabilitarSiNoNulo(referenciaVentana.getBotonActualizarPrecio(), estadoAccion);
 		}
 	}
 

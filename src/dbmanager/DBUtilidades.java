@@ -224,7 +224,7 @@ public class DBUtilidades {
 	 */
 	public static List<String> obtenerValoresColumna(String columna) {
 		String sentenciaSQL = "SELECT " + columna + " FROM albumbbdd ORDER BY " + columna + " ASC;";
-
+		
 		ListasCartasDAO.listaCartas.clear();
 		return ListasCartasDAO.guardarDatosAutoCompletado(sentenciaSQL, columna);
 	}

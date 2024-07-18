@@ -9,9 +9,9 @@ import funcionesAuxiliares.Utilidades;
 
 public class UpdateManager {
 
-	private static final String UPDATE_CARTA = "UPDATE albumbbdd SET " + "nomCarta = ?, " + "numCarta = ?, "
-			+ "editorialCarta = ?, " + "coleccionCarta = ?, " + "rarezaCarta = ?, " + "precioCartaNormal = ?, "
-			+ "precioCartaFoil = ?, " + "urlReferenciaCarta = ?, " + "direccionImagenCarta = ?, " + "normasCarta = ? "
+	private static final String UPDATE_CARTA = "UPDATE albumbbdd SET " + "nomCarta = ?, " + "codCarta = ?, "
+			+ "numCarta = ?, " + "anioCarta = ?, " + "coleccionCarta = ?, " + "edicionCarta = ?, "
+			+ "empresaCarta = ?, " + "gradeoCarta = ?, " + "urlReferenciaCarta = ?, " + "direccionImagenCarta = ? "
 			+ "WHERE idCarta = ?";
 
 	/**

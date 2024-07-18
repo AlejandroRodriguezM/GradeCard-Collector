@@ -296,7 +296,7 @@ public class MenuPrincipalController implements Initializable {
 
 		// ComboBox List
 		AccionReferencias.setListaComboboxes(Arrays.asList(comboboxNombreCarta, comboboxNumeroCarta,
-				comboboxEdicionCarta, comboboxColeccionCarta, comboboxGradeoCarta));
+				comboboxEdicionCarta, comboboxColeccionCarta, comboboxGradeoCarta, comboboxEmpresaCarta));
 
 		// FXCollections Lists
 		AccionReferencias.setListaElementosFondo(FXCollections.observableArrayList(backgroundImage, menuNavegacion));

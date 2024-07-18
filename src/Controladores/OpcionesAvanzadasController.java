@@ -83,9 +83,6 @@ public class OpcionesAvanzadasController implements Initializable {
 	private Button botonRecomponerPortadas;
 
 	@FXML
-	private Button botonActualizarPrecio;
-
-	@FXML
 	private Label labelComprobar;
 
 	@FXML
@@ -144,7 +141,6 @@ public class OpcionesAvanzadasController implements Initializable {
 		referenciaVentana.setProntInfoLabel(prontInfo);
 		referenciaVentana.setProntInfoEspecial(prontInfoEspecial);
 		referenciaVentana.setProntInfoPortadas(prontInfoPortadas);
-		referenciaVentana.setBotonActualizarPrecio(botonActualizarPrecio);
 		referenciaVentana.setStageVentana(estadoStage());
 
 		referenciaVentana.setBotonComprimirPortadas(botonComprimirPortadas);
@@ -193,11 +189,9 @@ public class OpcionesAvanzadasController implements Initializable {
 
 	@FXML
 	void descargarSQL(ActionEvent event) {
-
 		AlarmaList.detenerAnimacionEspera();
 		DatabaseManagerDAO.makeSQL(prontInfo);
 		Utilidades.borrarArchivosNoEnLista(ListasCartasDAO.listaImagenes);
-
 	}
 
 	@FXML
@@ -246,7 +240,6 @@ public class OpcionesAvanzadasController implements Initializable {
 		AccionModificar.setReferenciaVentana(guardarReferencia());
 		AccionFuncionesComunes.setReferenciaVentana(guardarReferencia());
 		AccionModificar.actualizarDatabase("modificar", estadoStage());
-
 	}
 
 	@FXML
@@ -254,13 +247,6 @@ public class OpcionesAvanzadasController implements Initializable {
 		AccionModificar.setReferenciaVentana(guardarReferencia());
 		AccionFuncionesComunes.setReferenciaVentana(guardarReferencia());
 		AccionModificar.actualizarDatabase("actualizar datos", estadoStage());
-	}
-
-	@FXML
-	void actualizarPreciosCarta(ActionEvent event) {
-		AccionModificar.setReferenciaVentana(guardarReferencia());
-		AccionFuncionesComunes.setReferenciaVentana(guardarReferencia());
-		AccionModificar.actualizarDatabase("actualizar precios", estadoStage());
 	}
 
 	@FXML
@@ -509,12 +495,12 @@ public class OpcionesAvanzadasController implements Initializable {
 					for (String idCarta : listaID) {
 						CartaGradeo comicNuevo = CartaManagerDAO.cartaDatos(idCarta);
 
-						String nombre_portada = Utilidades.obtenerNombrePortada(false,
+						String nombrePortada = Utilidades.obtenerNombrePortada(false,
 								comicNuevo.getDireccionImagenCarta());
-						String nombre_modificado = Utilidades.convertirNombreArchivo(nombre_portada);
-						if (!Utilidades.existeArchivo(FuncionesExcel.DEFAULT_PORTADA_IMAGE_PATH, nombre_portada)) {
+						String nombreModificado = Utilidades.convertirNombreArchivo(nombrePortada);
+						if (!Utilidades.existeArchivo(FuncionesExcel.DEFAULT_PORTADA_IMAGE_PATH, nombrePortada)) {
 							FuncionesExcel.copiarPortadaPredeterminada(selectedDirectory.getAbsolutePath(),
-									nombre_modificado);
+									nombreModificado);
 						}
 					}
 
