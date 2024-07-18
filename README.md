@@ -32,7 +32,7 @@ Requiere la librería Puppeteer para realizar el scrapeo web.
 Card Market: Toma todos los datos de esta página reconocida por su gran uso en las diferentes cartas de colección.
 Card Trader: Las imágenes de las cartas son tomadas de esta página.
 🛠️ Hecho por y para Coleccionistas: Cada detalle de la aplicación ha sido pensado para satisfacer las necesidades de los coleccionistas más exigentes.
-📜 Full Changelog: [Consulta todos los cambios en el repositorio de GitHub.](https://github.com/AlejandroRodriguezM/Album-Cartas/compare/main...V1.0)
+📜 Full Changelog: [Consulta todos los cambios en el repositorio de GitHub.](https://github.com/AlejandroRodriguezM/GradeCard-Collector/compare/main...V1.0)
 
 ![image](https://github.com/AlejandroRodriguezM/Album-Cartas/assets/104910719/676bfa60-399c-4dde-80c3-5082a92e755a)
 ![image](https://github.com/AlejandroRodriguezM/Album-Cartas/assets/104910719/df1461ec-0f0c-4846-8711-12d6f7471c5a)
