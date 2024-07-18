@@ -55,17 +55,17 @@
             <Font size="10.0" />
          </font>
       </TextField>
-      <Label fx:id="labelNombre" layoutX="5.0" layoutY="54.0" prefHeight="21.0" prefWidth="45.0" style="-fx-background-color: white;" stylesheets="@../style/genericos_style.css" text="Nombre" />
+      <Label fx:id="labelNombre" layoutX="5.0" layoutY="54.0" prefHeight="21.0" prefWidth="45.0" style="-fx-background-color: white; -fx-background-radius: 5;" stylesheets="@../style/genericos_style.css" text="Nombre" />
       <Label layoutX="5.0" layoutY="77.0" style="-fx-background-color: white;" stylesheets="@../style/genericos_style.css" text="Numero" />
-      <Label fx:id="labelEdicion" layoutX="5.0" layoutY="101.0" prefHeight="12.0" prefWidth="46.0" style="-fx-background-color: white;" stylesheets="@../style/genericos_style.css" text="Edicion" />
-      <Label fx:id="labelcoleccion" layoutX="5.0" layoutY="126.0" prefHeight="21.0" prefWidth="47.0" style="-fx-background-color: white; -fx-font-size: 9;" stylesheets="@../style/genericos_style.css" text="Coleccion">
+      <Label fx:id="labelEdicion" layoutX="5.0" layoutY="101.0" prefHeight="12.0" prefWidth="46.0" style="-fx-background-color: white; -fx-background-radius: 5;" stylesheets="@../style/genericos_style.css" text="Edicion" />
+      <Label fx:id="labelcoleccion" layoutX="5.0" layoutY="126.0" prefHeight="21.0" prefWidth="47.0" style="-fx-background-color: white; -fx-font-size: 9; -fx-background-radius: 5;" stylesheets="@../style/genericos_style.css" text="Coleccion">
          <font>
             <Font size="10.0" />
          </font></Label>
       <Label fx:id="labelGradeo" layoutX="188.0" layoutY="100.0" style="-fx-background-color: white;" stylesheets="@../style/genericos_style.css" text="Grado" />
       <Label fx:id="labelReferencia" layoutX="5.0" layoutY="174.0" prefHeight="21.0" prefWidth="29.0" style="-fx-background-color: white;" stylesheets="@../style/genericos_style.css" text="URL" />
-      <Label fx:id="labelPortada" focusTraversable="false" layoutX="4.0" layoutY="198.0" style="-fx-background-color: white;" stylesheets="@../style/genericos_style.css" text="Portada" />
-      <Label fx:id="labelId" focusTraversable="false" layoutX="5.0" layoutY="29.0" prefHeight="21.0" prefWidth="45.0" style="-fx-background-color: white;" stylesheets="@../style/genericos_style.css" text="Carta ID" />
+      <Label fx:id="labelPortada" focusTraversable="false" layoutX="4.0" layoutY="198.0" style="-fx-background-color: white; -fx-background-radius: 5;" stylesheets="@../style/genericos_style.css" text="Portada" />
+      <Label fx:id="labelId" focusTraversable="false" layoutX="5.0" layoutY="29.0" prefHeight="21.0" prefWidth="45.0" style="-fx-background-color: white; -fx-background-radius: 5;" stylesheets="@../style/genericos_style.css" text="Carta ID" />
       <Button fx:id="botonLimpiar" layoutX="187.0" layoutY="29.0" mnemonicParsing="false" onAction="#limpiarDatos" prefHeight="21.0" prefWidth="57.0" stylesheets="@../style/genericos_style.css" text="Limpiar" />
       <Button fx:id="botonBusquedaAvanzada" layoutX="5.0" layoutY="227.0" mnemonicParsing="false" onAction="#busquedaAvanzada" prefHeight="25.0" prefWidth="90.0" stylesheets="@../style/genericos_style.css" text="Opciones avanzada" visible="false" />
       <Button fx:id="botonClonarCarta" layoutX="98.0" layoutY="226.0" mnemonicParsing="false" onAction="#clonarCartaSeleccionada" prefHeight="29.0" prefWidth="81.0" stylesheets="@../style/genericos_style.css" text="Clonar carta" visible="false" wrapText="true" />
@@ -161,7 +161,7 @@
             <Font size="10.0" />
          </font>
       </TextField>
-      <Label fx:id="labelAnio" layoutX="5.0" layoutY="150.0" style="-fx-background-color: white;" stylesheets="@../style/genericos_style.css" text="Año" />
+      <Label fx:id="labelAnio" layoutX="5.0" layoutY="150.0" style="-fx-background-color: white; -fx-background-radius: 5;" stylesheets="@../style/genericos_style.css" text="Año" />
       <TextField fx:id="textFieldCodigoCarta" layoutX="239.0" layoutY="125.0" prefHeight="21.0" prefWidth="125.0" promptText="Introduce codigo carta">
          <font>
             <Font size="10.0" />

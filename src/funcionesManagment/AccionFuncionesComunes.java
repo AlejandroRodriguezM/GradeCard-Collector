@@ -910,7 +910,7 @@ public class AccionFuncionesComunes {
 
 					cargarCompletado();
 				} else {
-					getReferenciaVentana().getTablaBBDD().setDisable(false);
+
 					AlarmaList.mostrarMensajePront("Datos cargados correctamente", true,
 							getReferenciaVentanaPrincipal().getProntInfoTextArea());
 
