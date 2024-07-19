@@ -210,7 +210,7 @@ public class OpcionesDatosController implements Initializable {
 	void abrirUbicacion(ActionEvent event) {
 		String userHome = System.getProperty("user.home");
 		String ubicacion = userHome + File.separator + "AppData" + File.separator + "Roaming" + File.separator
-				+ "libreria";
+				+ "gradeo";
 
 		File carpeta = new File(ubicacion);
 
@@ -345,7 +345,7 @@ public class OpcionesDatosController implements Initializable {
 		if (nav.borrarContenidoConfiguracion()) {
 			String userHome = System.getProperty("user.home");
 			String ubicacion = userHome + File.separator + "AppData" + File.separator + "Roaming";
-			String ficheroLocal = ubicacion + File.separator + "libreria" + File.separator + "configuracion_local.conf";
+			String ficheroLocal = ubicacion + File.separator + "gradeo" + File.separator + "configuracion_local.conf";
 
 			// Verificar y eliminar los archivos dentro de la carpeta "libreria"
 			File ficheroConfiguracionLocal = new File(ficheroLocal);
