@@ -706,8 +706,8 @@ public class AccionFuncionesComunes {
 
 								processCarta(carta, "");
 							}
-							getReferenciaVentana().getTablaBBDD().setOpacity(1);
-							getReferenciaVentana().getTablaBBDD().setDisable(false);
+//							getReferenciaVentana().getTablaBBDD().setOpacity(1);
+//							getReferenciaVentana().getTablaBBDD().setDisable(false);
 						});
 
 					} catch (IOException e) {
@@ -719,6 +719,7 @@ public class AccionFuncionesComunes {
 							ListasCartasDAO.eliminarUltimaCartaImportada(); // Eliminar la última carta importada
 							return; // Salir del forEach si el Task está cancelado
 						}
+						carta.sustituirCaracteres(carta);
 						mensajesCargaCartas(carta, tipoUpdate);
 						processCarta(carta, tipoUpdate);
 					});

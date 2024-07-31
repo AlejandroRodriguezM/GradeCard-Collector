@@ -11,7 +11,7 @@ public class WebScrapACE {
 	public static CartaGradeo extraerDatosMTG(String codigoCarta) {
 		String scriptPath = FuncionesFicheros.rutaDestinoRecursos + File.separator + "scrapACE.js";
 		List<String> data = FuncionesScrapeoComunes.getCartaFromPuppeteer(codigoCarta, scriptPath);
-		
+
 		String nombre = "";
 		String codigo = "";
 		String numero = "";
@@ -20,45 +20,31 @@ public class WebScrapACE {
 		String empresa = "";
 		String gradeo = "";
 		String referencia = "";
-		
 
 		for (String line : data) {
 			if (line.startsWith("Nombre: ")) {
 				nombre = line.substring("Nombre: ".length()).trim().replaceAll("\\(.*\\)", "").trim();
-			}
-			else if (line.startsWith("Codigo: ")) {
+			} else if (line.startsWith("Codigo: ")) {
 				codigo = line.substring("Codigo: ".length()).trim();
-			}
-			else if (line.startsWith("Numero: ")) {
+			} else if (line.startsWith("Numero: ")) {
 				numero = line.substring("Numero: ".length()).trim();
-			}
-			else if (line.startsWith("Anio: ")) {
+			} else if (line.startsWith("Anio: ")) {
 				anio = line.substring("Anio: ".length()).trim();
-			}
-			else if (line.startsWith("Edicion: ")) {
+			} else if (line.startsWith("Edicion: ")) {
 				edicion = line.substring("Edicion: ".length()).trim();
-			}
-			else if (line.startsWith("Empresa: ")) {
+			} else if (line.startsWith("Empresa: ")) {
 				empresa = line.substring("Empresa: ".length()).trim();
-			}
-			else if (line.startsWith("Gradeo: ")) {
+			} else if (line.startsWith("Gradeo: ")) {
 				gradeo = line.substring("Gradeo: ".length()).trim();
-			}
-			else if (line.startsWith("Referencia: ")) {
+			} else if (line.startsWith("Referencia: ")) {
 				referencia = line.substring("Referencia: ".length()).trim();
 			}
 		}
-        return new CartaGradeo.CartaGradeoBuilder("", nombre)
-                .codCarta(codigo)
-                .numCarta(numero)
-                .anioCarta(anio)
-                .coleccionCarta("")
-                .edicionCarta(edicion)
-                .empresaCarta(empresa)
-                .gradeoCarta(gradeo)
-                .urlReferenciaCarta(referencia)
-                .direccionImagenCarta("")
-                .build();
+		CartaGradeo carta = new CartaGradeo.CartaGradeoBuilder("", nombre).codCarta(codigo).numCarta(numero)
+				.anioCarta(anio).coleccionCarta("").edicionCarta(edicion).empresaCarta(empresa).gradeoCarta(gradeo)
+				.urlReferenciaCarta(referencia).direccionImagenCarta("").build();
+		carta.sustituirCaracteres(carta);
+		return carta;
 	}
 
 	public static CartaGradeo devolverCartaBuscada(String urlCarta) {
