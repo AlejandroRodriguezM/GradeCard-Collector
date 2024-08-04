@@ -103,24 +103,25 @@ public class ListasCartasDAO {
 	 */
 	public static List<String> numeroCartaList = new ArrayList<>();
 
-	public static List<String> nombrePrecioNormalList = new ArrayList<>();
-
-	public static List<String> nombrePrecioFoilList = new ArrayList<>();
-
 	/**
 	 * Lista de nombres de procedencia.
 	 */
 	public static List<String> nombreColeccionList = new ArrayList<>();
 
 	/**
-	 * Lista de nombres de formato.
+	 * Lista de nombres de procedencia.
 	 */
-	public static List<String> nombreRarezaList = new ArrayList<>();
+	public static List<String> nombreEmpresaList = new ArrayList<>();
 
 	/**
 	 * Lista de nombres de editorial.
 	 */
 	public static List<String> nombreEditorialList = new ArrayList<>();
+
+	/**
+	 * Lista de nombres de editorial.
+	 */
+	public static List<String> nombreGradeolList = new ArrayList<>();
 
 	/**
 	 * Lista de nombres de dibujantes.
@@ -144,13 +145,13 @@ public class ListasCartasDAO {
 	 * Lista ordenada que contiene todas las listas anteriores.
 	 */
 	public static List<List<String>> listaOrdenada = Arrays.asList(nombreCartaList, numeroCartaList,
-			nombreEditorialList, nombreColeccionList, nombreRarezaList, nombrePrecioNormalList, nombrePrecioFoilList);
+			nombreEditorialList, nombreColeccionList, nombreGradeolList, nombreEmpresaList);
 
 	/**
 	 * Lista de listas de elementos.
 	 */
 	public static List<List<String>> itemsList = Arrays.asList(listaNombre, listaNumeroCarta, listaEdicion,
-			listaColeccion, listaGradeo, nombrePrecioNormalList, nombrePrecioFoilList);
+			listaColeccion, listaGradeo, listaEmpresa);
 
 	public static void eliminarUltimaCartaImportada() {
 		ObservableList<CartaGradeo> cartasImportados = ListasCartasDAO.cartasImportados;
@@ -225,6 +226,7 @@ public class ListasCartasDAO {
 				List<String> nombreEdicionSet = new ArrayList<>(); // Cambia el tipo aquí
 				List<String> nombreColeccionSet = new ArrayList<>(); // Cambia el tipo aquí
 				List<String> gradeoCartaSet = new ArrayList<>(); // Cambia el tipo aquí
+				List<String> empresaCartaSet = new ArrayList<>();
 
 				do {
 					String nomCarta = rs.getString("nomCarta").trim();
@@ -242,6 +244,9 @@ public class ListasCartasDAO {
 					String gradeoCarta = rs.getString("gradeoCarta").trim();
 					gradeoCartaSet.add(gradeoCarta);
 
+					String empresaCarta = rs.getString("empresaCarta").trim();
+					empresaCartaSet.add(empresaCarta);
+
 				} while (rs.next());
 
 				procesarDatosAutocompletado(nombreColeccionSet);
@@ -253,6 +258,7 @@ public class ListasCartasDAO {
 				nombreColeccionSet = listaArregladaAutoComplete(nombreColeccionSet);
 				gradeoCartaSet = listaArregladaAutoComplete(gradeoCartaSet);
 				nombreEdicionSet = listaArregladaAutoComplete(nombreEdicionSet);
+				empresaCartaSet = listaArregladaAutoComplete(empresaCartaSet);
 
 				Collections.sort(numeroCartaSet, Comparable::compareTo);
 
@@ -261,6 +267,7 @@ public class ListasCartasDAO {
 				listaOrdenada.add(nombreEdicionSet);
 				listaOrdenada.add(nombreColeccionSet);
 				listaOrdenada.add(gradeoCartaSet);
+				listaOrdenada.add(empresaCartaSet);
 
 				ListasCartasDAO.listaOrdenada = listaOrdenada;
 			}
@@ -316,10 +323,8 @@ public class ListasCartasDAO {
 		nombreCartaList.clear();
 		numeroCartaList.clear();
 		nombreColeccionList.clear();
-		nombreRarezaList.clear();
+		nombreGradeolList.clear();
 		nombreEditorialList.clear();
-		nombrePrecioNormalList.clear();
-		nombrePrecioFoilList.clear();
 	}
 
 	/**
@@ -353,10 +358,8 @@ public class ListasCartasDAO {
 		listaColeccion.clear();
 		nombreCartaList.clear();
 		numeroCartaList.clear();
-		nombrePrecioNormalList.clear();
-		nombrePrecioFoilList.clear();
+		nombreGradeolList.clear();
 		nombreColeccionList.clear();
-		nombreRarezaList.clear();
 		nombreEditorialList.clear();
 		listaReferencia.clear();
 		listaImagenes.clear();
@@ -537,10 +540,7 @@ public class ListasCartasDAO {
 		System.out.println("Tamaño de listaColeccion: " + listaColeccion.size());
 		System.out.println("Tamaño de nombreCartaList: " + nombreCartaList.size());
 		System.out.println("Tamaño de numeroCartaList: " + numeroCartaList.size());
-		System.out.println("Tamaño de nombrePrecioListNormal: " + nombrePrecioNormalList.size());
-		System.out.println("Tamaño de nombrePrecioListFoil: " + nombrePrecioFoilList.size());
 		System.out.println("Tamaño de nombreColeccionList: " + nombreColeccionList.size());
-		System.out.println("Tamaño de nombreRarezaList: " + nombreRarezaList.size());
 		System.out.println("Tamaño de nombreEditorialList: " + nombreEditorialList.size());
 		System.out.println("Tamaño de listaImagenes: " + listaImagenes.size());
 		System.out.println("Tamaño de listaLimpia: " + listaLimpia.size());

@@ -206,13 +206,10 @@ public class SelectManager {
 	 * @throws SQLException
 	 */
 	public static List<CartaGradeo> libreriaSeleccionado(String datoSeleccionado) {
-		String sentenciaSQL = "SELECT * FROM albumbbdd WHERE " + "numCarta = '" + datoSeleccionado + "' OR "
-				+ "coleccionCarta LIKE '%" + datoSeleccionado + "%' OR " + "gradeoCarta LIKE '%" + datoSeleccionado
-				+ "%' OR " + "urlReferenciaCarta LIKE '%" + datoSeleccionado + "%' OR " + "direccionImagenCarta LIKE '%"
-				+ datoSeleccionado + "%' OR " + "codCarta = '" + datoSeleccionado + "' OR " + "anioCarta = '"
-				+ datoSeleccionado + "' OR " + "edicionCarta = '" + datoSeleccionado + "' OR " + "empresaCarta = '"
-				+ datoSeleccionado + "' OR " + "estadoCarta LIKE '%" + datoSeleccionado + "%' OR " + "precioCarta = '"
-				+ datoSeleccionado + "' " + "ORDER BY nomCarta ASC, numCarta ASC";
+		String sentenciaSQL = "SELECT * FROM albumbbdd WHERE " + "nomCarta = '" + datoSeleccionado + "' OR "
+				+ "numCarta = '" + datoSeleccionado + "' OR " + "edicionCarta = '" + datoSeleccionado + "' OR "
+				+ "coleccionCarta = '" + datoSeleccionado + "' OR " + "empresaCarta = '" + datoSeleccionado + "' OR "
+				+ "gradeoCarta = '" + datoSeleccionado + "'" + " ORDER BY nomCarta ASC, numCarta ASC, gradeoCarta ASC";
 
 		return verLibreria(sentenciaSQL, false);
 	}

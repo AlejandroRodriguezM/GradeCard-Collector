@@ -14,10 +14,9 @@ import dbmanager.ListasCartasDAO;
 import dbmanager.SelectManager;
 import funcionesAuxiliares.Utilidades;
 import funcionesManagment.AccionReferencias;
-import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.Scene;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
@@ -44,60 +43,65 @@ public class FuncionesTableView {
 	 * Fuente utilizada para los tooltips en la interfaz gráfica.
 	 */
 	private static final Font TOOLTIP_FONT = Font.font("Carta Sans MS", FontWeight.NORMAL, FontPosture.REGULAR, 13);
-	private static Tooltip currentTooltip;
+	private static Tooltip currentTooltip = null; // Mantiene el tooltip actual
+	private static TableRow<CartaGradeo> highlightedRow = null; // Mantiene la fila resaltada
 
 	private static AccionReferencias referenciaVentana = getReferenciaVentana();
 
 	public static void busquedaHyperLink(TableColumn<CartaGradeo, String> columna) {
-		columna.setCellFactory(column -> new TableCell<CartaGradeo, String>() {
-			private VBox vbox = new VBox();
-			private String lastItem = null;
+	    columna.setCellFactory(column -> new TableCell<CartaGradeo, String>() {
+	        private VBox vbox = new VBox();
+	        private String lastItem = null;
 
-			@Override
-			protected void updateItem(String item, boolean empty) {
-				if (empty || item == null) {
-					setGraphic(null);
-				} else {
-					if (!item.equals(lastItem)) {
-						lastItem = item;
-						vbox.getChildren().clear();
-						createContent(item);
-						setGraphic(vbox);
-					}
-				}
-			}
+	        @Override
+	        protected void updateItem(String item, boolean empty) {
+	            super.updateItem(item, empty);
+	            if (empty || item == null) {
+	                setGraphic(null);
+	                lastItem = null;
+	            } else {
+	                if (!item.equals(lastItem)) {
+	                    lastItem = item;
+	                    vbox.getChildren().clear();
+	                    createContent(item);
+	                    setGraphic(vbox);
+	                }
+	            }
+	        }
 
-			private void createContent(String item) {
-				if (isValidUrl(item)) {
-					addHyperlink(item);
-				} else {
-					addText("Sin Referencia");
-				}
-			}
+	        private void createContent(String item) {
+	            if (isValidUrl(item)) {
+	                addHyperlink(item);
+	            } else {
+	                addText("Sin Referencia");
+	            }
+	        }
 
-			private void addHyperlink(String url) {
-				ReferenciaHyperlink referenciaHyperlink = new ReferenciaHyperlink("Referencia", url);
-				Hyperlink hyperlink = createHyperlink(referenciaHyperlink);
+	        private void addHyperlink(String url) {
+	            ReferenciaHyperlink referenciaHyperlink = new ReferenciaHyperlink("Referencia", url);
+	            Hyperlink hyperlink = createHyperlink(referenciaHyperlink);
+	            vbox.getChildren().add(hyperlink);
+	        }
 
-				vbox.getChildren().add(hyperlink);
-			}
+	        private Hyperlink createHyperlink(ReferenciaHyperlink referenciaHyperlink) {
+	            Hyperlink hyperlink = new Hyperlink(referenciaHyperlink.getDisplayText());
+	            hyperlink.setOnAction(event -> Utilidades.accesoWebWindows(referenciaHyperlink.getUrl()));
+	            hyperlink.getStyleClass().add("hyperlink");
+	            return hyperlink;
+	        }
 
-			private Hyperlink createHyperlink(ReferenciaHyperlink referenciaHyperlink) {
-				Hyperlink hyperlink = new Hyperlink(referenciaHyperlink.getDisplayText());
-				hyperlink.setOnAction(event -> Utilidades.accesoWebWindows(referenciaHyperlink.getUrl()));
-				hyperlink.getStyleClass().add("hyperlink");
+	        private void addText(String text) {
+	            Text txt = new Text(text);
+	            vbox.getChildren().add(txt);
+	        }
 
-				return hyperlink;
-			}
-
-			private void addText(String text) {
-				Text txt = new Text(text);
-
-				vbox.getChildren().add(txt);
-
-			}
-		});
+	        private boolean isValidUrl(String url) {
+	            // Implementar validación de URL según tus necesidades
+	            return url != null && url.startsWith("http");
+	        }
+	    });
 	}
+
 
 	/**
 	 * Comprueba si una cadena dada representa una URL válida.
@@ -122,22 +126,35 @@ public class FuncionesTableView {
 		Tooltip tooltip = createTooltip();
 
 		row.setOnMouseMoved(event -> showTooltip(event, row, tooltip));
-		row.setOnMouseExited(event -> hideTooltipIfOutside(event, row, tooltip));
+		row.setOnMouseExited(event -> hideTooltipIfOutside(row, tooltip));
+
+		// Asegúrate de que solo una fila esté seleccionada a la vez
+		row.setOnMouseClicked(event -> {
+			if (!row.isEmpty()) {
+				// Deseleccionar la fila actual si se hace clic en otra
+				if (row.getTableView().getSelectionModel().getSelectedItem() != row.getItem()) {
+					row.getTableView().getSelectionModel().select(row.getItem());
+				}
+				// Eliminar el estilo de la fila resaltada anterior
+				if (highlightedRow != null && highlightedRow != row) {
+					highlightedRow.setStyle(""); // Restaurar el estilo por defecto
+				}
+				// Aplicar el estilo a la fila actual
+				row.setStyle("-fx-background-color: #BFEFFF;");
+				highlightedRow = row; // Actualizar la fila resaltada actual
+			}
+		});
 
 		return row;
 	}
 
-	private static Tooltip createTooltip() {
-		Tooltip tooltip = new Tooltip();
-		tooltip.setShowDelay(Duration.ZERO);
-		tooltip.setHideDelay(Duration.ZERO);
-		tooltip.setFont(TOOLTIP_FONT);
-		return tooltip;
-	}
-
 	private static void showTooltip(MouseEvent event, TableRow<CartaGradeo> row, Tooltip tooltip) {
 		if (!row.isEmpty()) {
-			row.setStyle("-fx-background-color: #BFEFFF;");
+			// Restaurar el estilo de la fila resaltada anterior si existe
+			if (highlightedRow != null && highlightedRow != row) {
+				highlightedRow.setStyle(""); // Restaurar el estilo por defecto
+			}
+			row.setStyle("-fx-background-color: #BFEFFF;"); // Aplicar el estilo a la fila activa
 			CartaGradeo comic = row.getItem();
 			if (comic != null) {
 				String mensaje = generateTooltipMessage(comic);
@@ -148,14 +165,29 @@ public class FuncionesTableView {
 				}
 				currentTooltip = tooltip;
 				tooltip.show(row, event.getScreenX() + 10, event.getScreenY() - 20);
+				highlightedRow = row; // Actualizar la fila resaltada actual
 			}
 		}
-		// Cerrar el tooltip cuando se hace clic en una fila
-		row.setOnMouseClicked(e -> {
-			if (currentTooltip != null && currentTooltip.isShowing()) {
-				currentTooltip.hide();
-			}
-		});
+	}
+
+	private static void hideTooltipIfOutside(TableRow<CartaGradeo> row, Tooltip tooltip) {
+		// Eliminar el tooltip si el ratón sale de la fila
+		if (currentTooltip != null && currentTooltip.isShowing()) {
+			currentTooltip.hide();
+		}
+		// Restaurar el estilo de la fila si no está bajo el ratón
+		if (highlightedRow == row) {
+			row.setStyle(""); // Restaurar el estilo por defecto
+			highlightedRow = null; // Limpiar la fila resaltada actual
+		}
+	}
+
+	private static Tooltip createTooltip() {
+		Tooltip tooltip = new Tooltip();
+		tooltip.setShowDelay(Duration.ZERO);
+		tooltip.setHideDelay(Duration.ZERO);
+		tooltip.setFont(TOOLTIP_FONT);
+		return tooltip;
 	}
 
 	private static String generateTooltipMessage(CartaGradeo carta) {
@@ -182,37 +214,31 @@ public class FuncionesTableView {
 		tooltip.setY(posY);
 	}
 
-	private static void hideTooltipIfOutside(MouseEvent event, TableRow<CartaGradeo> row, Tooltip tooltip) {
-		if (!row.isEmpty() && !row.getBoundsInLocal().contains(event.getSceneX(), event.getSceneY())) {
-			row.setStyle("");
-			tooltip.hide();
-		}
-	}
-
 	private static void disableFocusTraversal() {
 		getReferenciaVentana().getTablaBBDD().setFocusTraversable(false);
 	}
 
 	public static void actualizarBusquedaRaw() {
-		getReferenciaVentana();
 		AccionReferencias.getListaColumnasTabla()
 				.forEach(columna -> columna.setCellFactory(column -> new TableCell<CartaGradeo, String>() {
+					
 					private VBox vbox = new VBox();
 					private String lastItem = null;
-
+					
 					@Override
 					protected void updateItem(String item, boolean empty) {
 						super.updateItem(item, empty);
-
 						if (empty || item == null) {
 							setGraphic(null);
 						} else {
 							if (!item.equals(lastItem)) { // Verificar si el contenido ha cambiado
+								
 								lastItem = item;
+								
 								vbox.getChildren().clear();
 								createLabels(columna, item, vbox);
-
 							}
+							
 							setGraphic(vbox);
 						}
 					}
@@ -252,6 +278,7 @@ public class FuncionesTableView {
 	private static Text createTextForColumn(TableColumn<CartaGradeo, String> columna, String nombre) {
 		Text text = new Text(nombre);
 		text.setFont(Font.font("System", FontWeight.NORMAL, 13));
+
 		if (columna.getText().equalsIgnoreCase("referencia")) {
 			busquedaHyperLink(columna); // No estoy seguro de qué hace esta función, por lo que la he dejado aquí
 		}
@@ -269,6 +296,7 @@ public class FuncionesTableView {
 	 * @param listaCarta
 	 */
 	public static void tablaBBDD(List<CartaGradeo> listaCarta) {
+		
 		getReferenciaVentana().getTablaBBDD().getColumns().setAll(AccionReferencias.getListaColumnasTabla());
 		getReferenciaVentana().getTablaBBDD().getItems().setAll(listaCarta);
 		getReferenciaVentana().getImagenCarta().setVisible(true);
@@ -287,9 +315,7 @@ public class FuncionesTableView {
 		nombreColumnas();
 
 		tablaBBDD(SelectManager.libreriaSeleccionado(rawSelecionado));
-
-		// Deseleccionar la fila seleccionada
-		tablaBBDD.getSelectionModel().clearSelection();
+		
 		getReferenciaVentana().getImagenCarta().setVisible(true);
 	}
 
@@ -303,7 +329,7 @@ public class FuncionesTableView {
 	public static void nombreColumnas() {
 		for (TableColumn<CartaGradeo, String> column : AccionReferencias.getListaColumnasTabla()) {
 			String columnName = column.getText(); // Obtiene el nombre de la columna
-//
+
 			configureColumn(column, columnName);
 		}
 	}
@@ -321,9 +347,6 @@ public class FuncionesTableView {
 		case "Edicion":
 			property = "edicionCarta";
 			break;
-		case "Referencia":
-			property = "urlReferenciaCarta";
-			break;
 		case "Coleccion":
 			property = "coleccionCarta";
 			break;
@@ -335,6 +358,9 @@ public class FuncionesTableView {
 			break;
 		case "Certificacion":
 			property = "gradeoCarta";
+			break;
+		case "Referencia":
+			property = "urlReferenciaCarta";
 			break;
 		}
 		column.setCellValueFactory(new PropertyValueFactory<>(property));

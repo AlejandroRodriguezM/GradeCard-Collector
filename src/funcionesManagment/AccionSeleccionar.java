@@ -4,6 +4,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.controlsfx.control.PropertySheet.Item;
+
 import Controladores.ImagenAmpliadaController;
 import alarmas.AlarmaList;
 import cartaManagement.CartaGradeo;
@@ -16,6 +18,8 @@ import funcionesAuxiliares.Utilidades;
 import funcionesAuxiliares.Ventanas;
 import funcionesInterfaz.AccionControlUI;
 import funcionesInterfaz.FuncionesTableView;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -53,6 +57,7 @@ public class AccionSeleccionar {
 
 		if (scene != null) {
 			scene.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
+
 				getReferenciaVentana().getImagenCarta().setVisible(true);
 				if (!getReferenciaVentana().getTablaBBDD().isHover()) {
 					if (esPrincipal) {
@@ -78,6 +83,7 @@ public class AccionSeleccionar {
 					}
 				}
 			});
+
 		}
 
 		// Verificar si idRow es nulo antes de intentar acceder a sus métodos
@@ -104,6 +110,8 @@ public class AccionSeleccionar {
 			scene.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
 				setReferenciaVentana(referenciaFXML);
 			});
+
+
 		}
 	}
 
