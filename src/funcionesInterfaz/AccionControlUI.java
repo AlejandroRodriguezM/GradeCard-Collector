@@ -28,10 +28,16 @@ import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Control;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 public class AccionControlUI {
 
@@ -284,21 +290,13 @@ public class AccionControlUI {
 	}
 
 	public static boolean comprobarListaValidacion(CartaGradeo c) {
-		String numCartaStr = c.getNumCarta();
 
 		// Validar campos requeridos y "vacio"
 		if (c.getNomCarta() == null || c.getNomCarta().isEmpty() || c.getNomCarta().equalsIgnoreCase("vacio")
-				|| numCartaStr == null || numCartaStr.isEmpty() || c.getEmpresaCarta() == null
 				|| c.getEmpresaCarta().isEmpty() || c.getEmpresaCarta().equalsIgnoreCase("vacio")
 				|| c.getColeccionCarta() == null || c.getColeccionCarta().isEmpty()
 				|| c.getColeccionCarta().equalsIgnoreCase("vacio") || c.getGradeoCarta() == null
-				|| c.getGradeoCarta().isEmpty() || c.getGradeoCarta().equalsIgnoreCase("vacio")
-				|| c.getUrlReferenciaCarta() == null || c.getUrlReferenciaCarta().isEmpty()
-				|| c.getUrlReferenciaCarta().equalsIgnoreCase("vacio") || c.getEdicionCarta() == null
-				|| c.getEdicionCarta().isEmpty() || c.getEdicionCarta().equalsIgnoreCase("vacio")
-				|| c.getAnioCarta() == null || c.getAnioCarta().isEmpty() || c.getAnioCarta().equalsIgnoreCase("vacio")
-				|| c.getDireccionImagenCarta() == null || c.getDireccionImagenCarta().isEmpty()
-				|| c.getDireccionImagenCarta().equalsIgnoreCase("vacio")) {
+				|| c.getGradeoCarta().isEmpty()) {
 
 			String mensajePront = "Revisa la lista, algunos campos están mal rellenados.";
 			AlarmaList.mostrarMensajePront(mensajePront, false, referenciaVentana.getProntInfoTextArea());
@@ -404,7 +402,7 @@ public class AccionControlUI {
 			referenciaVentana.getIdCartaTratarTextField().setDisable(false);
 			referenciaVentana.getIdCartaTratarTextField().setText("");
 			referenciaVentana.getIdCartaTratarTextField().setDisable(true);
-		}else {
+		} else {
 			referenciaVentana.getTablaBBDD().getItems().clear();
 			referenciaVentana.getTablaBBDD().refresh();
 		}

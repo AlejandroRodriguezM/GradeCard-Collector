@@ -326,6 +326,7 @@ public class FuncionesExcel {
 			AtomicReference<CargaCartasController> cargaCartasControllerRef, File directorioImagenes) {
 		int indiceFinal = 1; // Comenzar desde 1 para omitir la fila de encabezado
 		for (CartaGradeo comic : listaCartas) {
+			comic.sustituirCaracteres(comic);
 			Row fila = hoja.createRow(indiceFinal);
 			llenarFilaConDatos(comic, fila);
 
@@ -450,7 +451,7 @@ public class FuncionesExcel {
 					}
 
 					CartaGradeo comicNuevo = CartaGradeoFichero.datosCartaFichero(lineText);
-
+					comicNuevo.sustituirCaracteres(comicNuevo);
 					if (comicNuevo != null) {
 						InsertManager.insertarDatos(comicNuevo, true);
 					}
@@ -506,7 +507,7 @@ public class FuncionesExcel {
 
 		// Construir información del cómic
 		String comicInfo = buildCartaInfo(comicNuevo);
-
+		comicNuevo.sustituirCaracteres(comicNuevo);
 		// Añadir información del cómic a la lista mensajesUnicos
 		mensajesUnicos.add(mensajeId + ": " + comicInfo);
 

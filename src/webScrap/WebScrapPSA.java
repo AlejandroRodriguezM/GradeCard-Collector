@@ -46,10 +46,12 @@ public class WebScrapPSA {
 				referencia = line.substring("Referencia: ".length()).trim();
 			}
 		}
-		
-		return new CartaGradeo.CartaGradeoBuilder("", nombre).codCarta(codigo).numCarta(numero).anioCarta(anio)
+
+		CartaGradeo carta = new CartaGradeo.CartaGradeoBuilder("", nombre).codCarta(codigo).numCarta(numero).anioCarta(anio)
 				.coleccionCarta(coleccion).edicionCarta(edicion).empresaCarta(empresa).gradeoCarta(gradeo)
 				.urlReferenciaCarta(referencia).direccionImagenCarta(imagen).build();
+		carta.sustituirCaracteres(carta);
+		return carta;
 	}
 
 	public static CartaGradeo devolverCartaBuscada(String urlCarta, String carpetaDestino) {

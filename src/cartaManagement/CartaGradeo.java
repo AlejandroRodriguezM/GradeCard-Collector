@@ -338,6 +338,20 @@ public class CartaGradeo implements Cloneable {
         return false;
     }
 
+ // Método para sustituir comillas dobles, comillas simples y punto y coma por una cadena vacía
+    public void sustituirCaracteres(CartaGradeo carta) {
+        carta.setIdCarta(carta.getIdCarta().replaceAll("[\"';]", ""));
+        carta.setNomCarta(carta.getNomCarta().replaceAll("[\"';]", ""));
+        carta.setCodCarta(carta.getCodCarta().replaceAll("[\"';]", ""));
+        carta.setNumCarta(carta.getNumCarta().replaceAll("[\"';]", ""));
+        carta.setAnioCarta(carta.getAnioCarta().replaceAll("[\"';]", ""));
+        carta.setColeccionCarta(carta.getColeccionCarta().replaceAll("[\"';]", ""));
+        carta.setEdicionCarta(carta.getEdicionCarta().replaceAll("[\"';]", ""));
+        carta.setEmpresaCarta(carta.getEmpresaCarta().replaceAll("[\"';]", ""));
+        carta.setGradeoCarta(carta.getGradeoCarta().replaceAll("[\"';]", ""));
+        carta.setDireccionImagenCarta(carta.getDireccionImagenCarta().replaceAll("[\"';]", ""));
+        carta.setUrlReferenciaCarta(carta.getUrlReferenciaCarta().replaceAll("[\"';]", ""));
+    }
     
     @Override
     public String toString() {

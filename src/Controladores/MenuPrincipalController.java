@@ -304,7 +304,7 @@ public class MenuPrincipalController implements Initializable {
 				FXCollections.observableArrayList(botonLimpiar, botonMostrarParametro, botonbbdd, botonCancelarSubida));
 
 		AccionReferencias.setListaColumnasTabla(Arrays.asList(columnaNombre, columnaNumero, columnaEdicion,
-				columnaColeccion, columnaEmpresa, columnaId, columnaCertificacion, columnaReferencia));
+				columnaColeccion, columnaEmpresa, columnaCertificacion, columnaReferencia));
 
 		return referenciaVentana;
 	}
@@ -363,14 +363,13 @@ public class MenuPrincipalController implements Initializable {
 
 			FuncionesTableView.ajustarAnchoVBox();
 			FuncionesTableView.seleccionarRaw();
-
+			
 			FuncionesTableView.modificarColumnas(true);
 			AccionControlUI.controlarEventosInterfazPrincipal(guardarReferencia());
 			FuncionesManejoFront.getStageVentanas().add(estadoStage());
 			cargarDatosDataBase();
 			AccionSeleccionar.actualizarRefrenciaClick(guardarReferencia());
 		});
-
 		AccionControlUI.establecerTooltips();
 
 		formatearTextField();
@@ -390,6 +389,8 @@ public class MenuPrincipalController implements Initializable {
 		}
 	}
 
+
+	
 	@FXML
 	public void cambiarTamanioTable() {
 
@@ -753,7 +754,6 @@ public class MenuPrincipalController implements Initializable {
 	void clickRaton(MouseEvent event) {
 		enviarReferencias();
 		if (!tablaBBDD.isDisabled()) {
-
 			CartaGradeo carta = guardarReferencia().getTablaBBDD().getSelectionModel().getSelectedItem();
 			ImagenAmpliadaController.setCartaCache(carta);
 			AccionSeleccionar.seleccionarCartas(true);

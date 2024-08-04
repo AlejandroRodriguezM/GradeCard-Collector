@@ -26,38 +26,31 @@ public class WebScrapOG {
 		for (String line : data) {
 			if (line.startsWith("Nombre: ")) {
 				nombre = line.substring("Nombre: ".length()).trim().replaceAll("\\(.*\\)", "").trim();
-			} 
-			else if (line.startsWith("Codigo: ")) {
+			} else if (line.startsWith("Codigo: ")) {
 				codigo = line.substring("Codigo: ".length()).trim();
-			}
-			else if (line.startsWith("Numero: ")) {
+			} else if (line.startsWith("Numero: ")) {
 				numero = line.substring("Numero: ".length()).trim();
-			}
-			else if (line.startsWith("Anio: ")) {
+			} else if (line.startsWith("Anio: ")) {
 				anio = line.substring("Anio: ".length()).trim();
-			}
-			else if (line.startsWith("Coleccion: ")) {
+			} else if (line.startsWith("Coleccion: ")) {
 				coleccion = line.substring("Coleccion: ".length()).trim();
-			}
-			else if (line.startsWith("Edicion: ")) {
+			} else if (line.startsWith("Edicion: ")) {
 				edicion = line.substring("Normas: ".length()).trim();
-			}
-			else if (line.startsWith("Empresa: ")) {
+			} else if (line.startsWith("Empresa: ")) {
 				empresa = line.substring("Empresa: ".length()).trim();
-			}
-			else if (line.startsWith("Gradeo: ")) {
+			} else if (line.startsWith("Gradeo: ")) {
 				gradeo = line.substring("Gradeo: ".length()).trim();
-			}
-			else if (line.startsWith("Imagen: ")) {
+			} else if (line.startsWith("Imagen: ")) {
 				imagen = line.substring("Imagen: ".length()).trim();
-			}
-			else if (line.startsWith("Referencia: ")) {
+			} else if (line.startsWith("Referencia: ")) {
 				referencia = line.substring("Referencia: ".length()).trim();
 			}
 		}
-		return new CartaGradeo.CartaGradeoBuilder("", nombre).codCarta(codigo).numCarta(numero).anioCarta(anio)
-				.coleccionCarta(coleccion).edicionCarta(edicion).empresaCarta(empresa).gradeoCarta(gradeo)
-				.urlReferenciaCarta(referencia).direccionImagenCarta(imagen).build();
+		CartaGradeo carta = new CartaGradeo.CartaGradeoBuilder("", nombre).codCarta(codigo).numCarta(numero)
+				.anioCarta(anio).coleccionCarta(coleccion).edicionCarta(edicion).empresaCarta(empresa)
+				.gradeoCarta(gradeo).urlReferenciaCarta(referencia).direccionImagenCarta(imagen).build();
+		carta.sustituirCaracteres(carta);
+		return carta;
 	}
 
 	public static CartaGradeo devolverCartaBuscada(String urlCarta) {

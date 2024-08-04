@@ -27,7 +27,7 @@ public class CartaGradeoFichero {
             String coleccionCarta = data[5];
             String edicionCarta = data[6];
             String empresaCarta = data[7];
-            String gradeoCarta = comprobarGradeo(data[8]);
+            String gradeoCarta = data[8];
             String urlReferenciaCarta = data[9];
             String direccionImagenCarta = data[10];
 
